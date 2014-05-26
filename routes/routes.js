@@ -14,27 +14,57 @@ router.get('/list', function(req, res) {
 
 router.post('/player', function(req, res) {
   'use strict';
-  var playerName = req.body.name;
-  ranky.newPlayer(playerName);
+  ranky.newPlayer(req.body.name);
   res.send(200);
 });
 
 router.post('/match', function(req, res) {
   'use strict';
-  var player1 = req.body.player1,
-      player2 = req.body.player2,
-      score1  = req.body.score1,
-      score2  = req.body.score2;
-  ranky.addMatch(player1, score1, player2, score2);
+  ranky.addMatch(
+    req.body.player1,
+    req.body.score1,
+    req.body.player2,
+    req.body.score2);
   res.send(200);
 });
 
 module.exports = router;
 
-ranky.newPlayer('Flemming');
-ranky.newPlayer('Jens');
-ranky.newPlayer('Hans');
-ranky.addMatch(1, 10, 3, 8);
-ranky.addMatch(1, 19, 2, 10);
-ranky.addMatch(1,13,2,9);
-ranky.addMatch(1,13,2,10);
+// for testing only.. remove when datbase has been added
+
+var names = [
+  'Knuspar',
+  'Olfie',
+  'Muhammed',
+  'Gunter',
+  'Ingeborg',
+  'Egon',
+  'Sweinhund',
+  'Johanes',
+  'Ib',
+  'Lulu',
+  'Rose',
+  'Bolcheface',
+  'Bomberman',
+  'NicerDicer',
+  'Numseman'
+];
+
+names.map(function(name) {
+  'use strict';
+  ranky.newPlayer(name);
+});
+
+var numMatches = 1000;
+var genId = function() {
+  'use strict';
+  return Math.floor((Math.random() * names.length)+1);
+};
+var genScore = function() {
+  'use strict';
+  return Math.floor((Math.random() * 11) );
+};
+do {
+  ranky.addMatch(genId(), genScore(), genId(), genScore());
+  numMatches--;
+} while(numMatches > 0);

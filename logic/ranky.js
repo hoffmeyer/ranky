@@ -40,13 +40,12 @@ module.exports = (function(){
           player1.addPoints(points);
           player2.subtractPoints(points);
         } else {
-          console.log('Player ' + player2Id + ' wins');
           player1.subtractPoints(points);
           player2.addPoints(points);
         }
       } else {
         throw {
-          message: 'Unknown player received',
+          message: 'Unknown player received player1Id; ' + player1Id + ' player2Id: ' + player2Id,
           name: 'InvalidPlayerIdException'
         };
       }
