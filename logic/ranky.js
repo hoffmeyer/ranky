@@ -1,59 +1,29 @@
+var _ = require('underscore')._;
+var model = require('../models/model.js');
+
 module.exports = (function(){
   'use strict';
 
-  var nextPlayerId  = 1,
-      players       = {};
-
-  // TODO: should be moved to model module
-  var player = (function() {
-    var points = 1000;
-
-    return {
-      id: 0,
-      name: '',
-      addPoints: function(newPoints) {
-        if(!isNaN(newPoints) && newPoints > 0) {
-          points += newPoints;
-        }
-        else{
-          throw {
-            message: 'invalid points, must be a positive number',
-            name: 'InvalidParameterException'
-          };
-        }
-      },
-      subtractPoints: function(newPoints) {
-        if(!isNaN(newPoints) && newPoints > 0) {
-          points -= newPoints;
-        }
-        else{
-          throw {
-            message: 'invalid points, must be a positive number',
-            name: 'InvalidParameterException'
-          };
-        }
-      },
-      getPoints: function(){
-        return points;
-      }
-    };
-  })();
+  var players = {};
 
   return {
     newPlayer: function(name) {
-      var newPlayer = Object.create(player);
-      newPlayer.name = name;
-      newPlayer.id = nextPlayerId++;
+      var newPlayer = model.createPlayer({name: name, initialScore: 1000});
       players[newPlayer.id] = newPlayer;
       return newPlayer;
     },
     getPlayers: function() {
-      // TODO: sort by score
-      return players;
-    },
-    initDummyData: function() {
-      this.newPlayer('Flemming');
-      this.newPlayer('Jens');
+      var convert = function(val) {
+        return {
+          id: val.id,
+          name: val.name,
+          points: val.getPoints()
+        };
+      };
+      var sort = function(val) {
+        return - val.points;
+      };
+      return _.chain(players).map(convert).sortBy(sort).value();
     },
     addMatch: function(player1Id, score1, player2Id, score2) {
       if(isNaN(score1) || isNaN(score2)) {
@@ -70,6 +40,7 @@ module.exports = (function(){
           player1.addPoints(points);
           player2.subtractPoints(points);
         } else {
+          console.log('Player ' + player2Id + ' wins');
           player1.subtractPoints(points);
           player2.addPoints(points);
         }

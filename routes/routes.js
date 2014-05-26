@@ -31,10 +31,10 @@ router.post('/match', function(req, res) {
 
 module.exports = router;
 
-var initDummyData = function() {
-  'use strict';
-  ranky.newPlayer('Flemming');
-  ranky.newPlayer('Jens');
-};
-
-initDummyData();
+ranky.newPlayer('Flemming');
+ranky.newPlayer('Jens');
+ranky.newPlayer('Hans');
+ranky.addMatch(1, 10, 3, 8);
+ranky.addMatch(1, 19, 2, 10);
+ranky.addMatch(1,13,2,9);
+ranky.addMatch(1,13,2,10);

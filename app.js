@@ -1,6 +1,3 @@
-// initialize helper stuff
-if (typeof Object.create !== 'function') { Object.create = function (o) { var F = function () {}; F.prototype = o; return new F(); }; }
-
 // initialize app
 var express = require('express'),
     bodyParser = require('body-parser'),
