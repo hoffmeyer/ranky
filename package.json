@@ -1,0 +1,11 @@
+{
+  "name": "Ranky",
+  "description": "The best ranking engine in the world",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.3.1",
+    "body-parser": "1.2.0",
+    "underscore": "1.6.0"
+  }
+}
