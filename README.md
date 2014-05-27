@@ -1,8 +1,7 @@
 # Ranky
 
 Ranky is a quick prototype of a ranking engine created in javascript, nodejs, and express.
-
-Currently there is no persitent storage, however, the application creates dummy players on startup, and plays a 1000 random matches.
+For testing purposes there are som code in there to create 15 players and simulate 1000 random matches, it is currently uncommented. 
 
 ## Changelog
 - v0.0.1 Simple api implemented, no storage
