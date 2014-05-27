@@ -1,6 +1,21 @@
 var express = require('express'),
+    router = express.Router(),
     ranky = require('../logic/ranky.js'),
-    router = express.Router();
+    db = require('monk')('localhost/ranky'),
+    dbEvent = db.get('events'),
+    events = require('../events/events.js'),
+    _ = require('underscore')._;
+
+
+// TODO: nasty shit, this function should not just be dumped here to import events from database
+(function() {
+  dbEvent.find({},{sort: {id: 1}}, function(err, docs){
+    _.map(docs, function(event){
+      ranky.handleEvent(event);
+      events.setNextId(event.id+1);
+    });
+  });
+})();
 
 router.get('/', function(req, res) {
   'use strict';
@@ -14,24 +29,36 @@ router.get('/list', function(req, res) {
 
 router.post('/player', function(req, res) {
   'use strict';
-  ranky.newPlayer(req.body.name);
-  res.send(200);
+  var event = events.createPlayer(req.body.name);
+  if(ranky.validateEvent(event)) {
+    ranky.handleEvent(event);
+    res.send(201);
+  } else {
+    res.send(400);
+  }
 });
 
 router.post('/match', function(req, res) {
   'use strict';
-  ranky.addMatch(
-    req.body.player1,
+  var event = events.registerMatch(
+    req.body.player1Id,
     req.body.score1,
-    req.body.player2,
+    req.body.player2Id,
     req.body.score2);
-  res.send(200);
+
+  if(ranky.validateEvent(event)) {
+    ranky.handleEvent(event);
+    res.send(200);
+  } else {
+    res.send(400);
+  }
+
 });
 
 module.exports = router;
 
 // for testing only.. remove when datbase has been added
-
+/*
 var names = [
   'Knuspar',
   'Olfie',
@@ -52,7 +79,7 @@ var names = [
 
 names.map(function(name) {
   'use strict';
-  ranky.newPlayer(name);
+  ranky.handleEvent(events.createPlayer(name));
 });
 
 var numMatches = 1000;
@@ -65,6 +92,7 @@ var genScore = function() {
   return Math.floor((Math.random() * 11) );
 };
 do {
-  ranky.addMatch(genId(), genScore(), genId(), genScore());
+  ranky.handleEvent(events.registerMatch(genId(), genScore(), genId(), genScore()));
   numMatches--;
 } while(numMatches > 0);
+*/
