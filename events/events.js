@@ -20,7 +20,6 @@ module.exports = (function(){
       }
     },
     registerMatch: function(player1Id, score1, player2Id, score2){
-      console.log(player1Id + ' : ' + player2Id);
       return {
         id: nextId++,
         type: 'registerMatchEvent',
