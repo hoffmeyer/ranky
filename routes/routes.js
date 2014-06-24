@@ -41,10 +41,10 @@ router.post('/player', function(req, res) {
 router.post('/match', function(req, res) {
   'use strict';
   var event = events.registerMatch(
-    req.body.player1Id,
-    req.body.score1,
-    req.body.player2Id,
-    req.body.score2);
+    req.body.team1.players,
+    req.body.team1.score,
+    req.body.team2.players,
+    req.body.team2.score);
 
   if(ranky.validateEvent(event)) {
     ranky.handleEvent(event);
@@ -82,7 +82,7 @@ names.map(function(name) {
   ranky.handleEvent(events.createPlayer(name));
 });
 
-var numMatches = 1000;
+var numMatches = 100;
 var genId = function() {
   'use strict';
   return Math.floor((Math.random() * names.length)+1);
@@ -92,7 +92,7 @@ var genScore = function() {
   return Math.floor((Math.random() * 11) );
 };
 do {
-  ranky.handleEvent(events.registerMatch(genId(), genScore(), genId(), genScore()));
+  ranky.handleEvent(events.registerMatch([genId(), genId()], genScore(), [genId(),genId()], genScore()));
   numMatches--;
 } while(numMatches > 0);
 */
