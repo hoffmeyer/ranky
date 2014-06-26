@@ -5,8 +5,9 @@ Ranky is a quick prototype of a ranking engine created in javascript, nodejs, an
 Currently there is no persitent storage, however, the application creates dummy players on startup, and plays a 1000 random matches.
 
 ## Changelog
-- v0.0.1 Simple api implemented, no storage
+- v0.0.3 Automatic test data generation when database is empty, now handling teams with arbitrary many players
 - v0.0.2 Mongodb storage added. All changes are converted to events which are stored. On server startup all the events are loaded from the databse, and state rebuild
+- v0.0.1 Simple api implemented, no storage
 
 ## Database
 The application expects a mongodb running on localhost, and will create a database named ranky with no credentials;
