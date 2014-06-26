@@ -28,20 +28,16 @@ module.exports = (function(){
         name: 'InvalidParameterException'
       };
     }
-    var team1players = _.map(event.team1.players, function(elem) {return players[elem]});
-    var team2players = _.map(event.team2.players, function(elem) {return players[elem]});
+    var team1players = _.map(event.team1.players, function(elem) {return players[elem];});
+    var team2players = _.map(event.team2.players, function(elem) {return players[elem];});
     if(team1players.length > 0 && team2players.length > 0) {
       var points = 25;
       if(event.team1.score > event.team2.score) {
-        console.log('team1 players gets ' + points/team1players.length + ' points');
-        console.log('team2 players loses ' + points/team2players.length + ' points');
-        _.map(team1players, function(elem) { return elem.addPoints(points/team1players.length)});
-        _.map(team2players, function(elem) { return elem.subtractPoints(points/team2players.length)});
+        _.map(team1players, function(elem) { return elem.addPoints(points/team1players.length);});
+        _.map(team2players, function(elem) { return elem.subtractPoints(points/team2players.length);});
       } else {
-        console.log('team1 players loses ' + points/team1players.length + ' points');
-        console.log('team2 players gets ' + points/team2players.length + ' points');
-        _.map(team1players, function(elem) { return elem.subtractPoints(points/team1players.length)});
-        _.map(team2players, function(elem) { return elem.addPoints(points/team2players.length)});
+        _.map(team1players, function(elem) { return elem.subtractPoints(points/team1players.length);});
+        _.map(team2players, function(elem) { return elem.addPoints(points/team2players.length);});
       }
     } else {
       throw {

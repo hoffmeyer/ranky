@@ -2,7 +2,7 @@
 
 Ranky is a quick prototype of a ranking engine created in javascript, nodejs, and express.
 
-Currently there is no persitent storage, however, the application creates dummy players on startup, and plays a 1000 random matches.
+If the database is empty, 15 players are created and 100 matches are randomly played
 
 ## Changelog
 - v0.0.3 Automatic test data generation when database is empty, now handling teams with arbitrary many players
@@ -43,13 +43,17 @@ Post at POST request to /player containing a JSON body in the following form:
 ```
 
 ### Register match
-Post at POST request to /match containing a JSON body in the following form:
+Post at POST request to /match containing a JSON body in the following form, players arrays can contain arbitrary many playerids:
 
 ```javascript
 {
-  "player1Id": 1,
-  "score1": 10,
-  "player2Id": 4,
-  "score2": 5
+  "team1": {
+    "players": [3,5],
+    "score": 10
+  },
+  "team2": {
+    "players": [1,5],
+    "score": 3 
+  }
 }
 ```

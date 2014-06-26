@@ -1,30 +1,29 @@
 module.exports = (function(){
   'use strict';
 
-  var nextId = 1;
-  // TODO: make genereal function that creates a basic event with id and datetime
+  var event = {
+    nextId: 1,
+    // common functions of events go here
+  };
 
   return {
     setNextId: function(newId){
-      if(newId > nextId) {
-        console.log('New id set: ' + newId);
-        nextId = newId;
+      if(newId > event.nextId) {
+        event.nextId = newId;
       } else {
-        console.log('newId(' + newId + ') for events must be greater than old id(' + nextId + ')');
+        console.log('newId(' + newId + ') for events must be greater than old id(' + event.nextId + ')');
       }
     },
     createPlayer: function(name) {
-      console.log('New id set: ' + nextId);
       return {
-        id: nextId++,
+        id: event.nextId++,
         type: 'createPlayerEvent',
         playerName: name
-      }
+      };
     },
     registerMatch: function(team1ids, score1, team2ids, score2){
-      console.log('New id set: ' + nextId);
       return {
-        id: nextId++,
+        id: event.nextId++,
         type: 'registerMatchEvent',
         team1: {
           players: team1ids,
