@@ -1,5 +1,4 @@
 var _ = require('underscore')._,
-    mongo = require('mongodb'),
     db = require('monk')('localhost/ranky'),
     dbEvent = db.get('events'),
     model = require('../models/model.js');
@@ -49,6 +48,16 @@ module.exports = (function(){
 
   return {
     validateEvent: function(event) {
+      switch(event.type){
+        case 'createPlayerEvent':
+          // do some validation
+          break;
+        case 'registerMatchEvent':
+          // do some validation
+          break;
+        default:
+          console.log('Unknown event received in validateEvent: ' + JSON.stringify(event));
+      }
       return true; // TODO: implement
     },
     handleEvent: function(event) {
