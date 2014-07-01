@@ -13,6 +13,11 @@ router.get('/list', function(req, res) {
   res.send(ranky.getPlayers());
 });
 
+router.get('/player/:id(\\d+)/', function(req, res) {
+  'use strict';
+  res.send(ranky.getPlayer(req.params.id));
+});
+
 router.post('/player', function(req, res) {
   'use strict';
   var event = events.createPlayer(req.body.name);

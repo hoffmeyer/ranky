@@ -1,8 +1,8 @@
 var _ = require('underscore')._,
+    validator = require('../logic/validator.js'),
     db = require('monk')('localhost/ranky'),
     dbEvent = db.get('events'),
     model = require('../models/model.js');
-    _ = require('underscore')._;
 
 module.exports = (function(){
   'use strict';
@@ -13,6 +13,7 @@ module.exports = (function(){
     dbEvent.insert(event);
     return true;
   };
+
 
   var newPlayer = function(event) {
     var newPlayer = model.createPlayer({name: event.playerName, initialScore: 1000});
@@ -48,17 +49,7 @@ module.exports = (function(){
 
   return {
     validateEvent: function(event) {
-      switch(event.type){
-        case 'createPlayerEvent':
-          // do some validation
-          break;
-        case 'registerMatchEvent':
-          // do some validation
-          break;
-        default:
-          console.log('Unknown event received in validateEvent: ' + JSON.stringify(event));
-      }
-      return true; // TODO: implement
+      return validator.validateEvent(event);
     },
     handleEvent: function(event) {
       if(storeEvent(event)) {
@@ -76,16 +67,22 @@ module.exports = (function(){
     },
     getPlayers: function() {
       var convert = function(val) {
-        return {
-          id: val.id,
-          name: val.name,
-          points: val.getPoints()
-        };
+        return val.toJSON();
       };
       var sort = function(val) {
         return - val.points;
       };
       return _.chain(players).map(convert).sortBy(sort).value();
+    },
+    getPlayer: function(id) {
+      if(players.hasOwnProperty(id)){
+        return players[id].toJSON();
+      } else {
+        throw {
+          message: 'Unknown player id',
+          name: 'InvalidPlayerIdException'
+        };
+      }
     }
   };
 })();
