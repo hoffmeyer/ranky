@@ -2,7 +2,8 @@ var _ = require('underscore')._,
     validator = require('../logic/validator.js'),
     db = require('monk')('localhost/ranky'),
     dbEvent = db.get('events'),
-    model = require('../models/model.js');
+    model = require('../models/model.js'),
+    rankingEngine = require('../logic/rankingEngine.js');
 
 module.exports = (function(){
   'use strict';
@@ -21,30 +22,26 @@ module.exports = (function(){
     return newPlayer;
   };
 
-  var addMatch = function(event) {
-    if(isNaN(event.team1.score) || isNaN(event.team2.score)) {
-      throw {
-        message: 'scores must be a number',
-        name: 'InvalidParameterException'
-      };
-    }
-    var team1players = _.map(event.team1.players, function(elem) {return players[elem];});
-    var team2players = _.map(event.team2.players, function(elem) {return players[elem];});
-    if(team1players.length > 0 && team2players.length > 0) {
-      var points = 25;
-      if(event.team1.score > event.team2.score) {
-        _.map(team1players, function(elem) { return elem.addPoints(points/team1players.length);});
-        _.map(team2players, function(elem) { return elem.subtractPoints(points/team2players.length);});
+  var populateTeamWithPlayers = function(team) {
+    team.players = _.map(team.players, function(elem) { return players[elem];});
+    return team;
+  };
+
+  var setScoresOnPlayers = function(scores) {
+    _.each(scores, function(val, key) {
+      if(val > 0) {
+        players[key].addPoints(val);
       } else {
-        _.map(team1players, function(elem) { return elem.subtractPoints(points/team1players.length);});
-        _.map(team2players, function(elem) { return elem.addPoints(points/team2players.length);});
+        players[key].subtractPoints(-val);
       }
-    } else {
-      throw {
-        message: 'Unknown player received player1Id; ' + event.player1Id + ' player2Id: ' + event.player2Id,
-        name: 'InvalidPlayerIdException'
-      };
-    }
+    });
+  };
+
+  var addMatch = function(event) {
+    var team1 = populateTeamWithPlayers(event.team1);
+    var team2 = populateTeamWithPlayers(event.team2);
+    var scores = rankingEngine.score(team1, team2);
+    setScoresOnPlayers(scores);
   };
 
   return {
@@ -76,7 +73,7 @@ module.exports = (function(){
     },
     getPlayer: function(id) {
       if(players.hasOwnProperty(id)){
-        return players[id].toJSON();
+        return players[id];
       } else {
         throw {
           message: 'Unknown player id',

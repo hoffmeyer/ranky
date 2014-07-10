@@ -15,7 +15,7 @@ router.get('/list', function(req, res) {
 
 router.get('/player/:id(\\d+)/', function(req, res) {
   'use strict';
-  res.send(ranky.getPlayer(req.params.id));
+  res.send(ranky.getPlayer(req.params.id).toJSON());
 });
 
 router.post('/player', function(req, res) {
