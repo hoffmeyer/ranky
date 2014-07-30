@@ -35,47 +35,6 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-// generate test dummy data
-var generateTestData = function() {
-  var names = [
-    'Knuspar',
-    'Olfie',
-    'Muhammed',
-    'Gunter',
-    'Ingeborg',
-    'Egon',
-    'Sweinhund',
-    'Johanes',
-    'Ib',
-    'Lulu',
-    'Rose',
-    'Bolcheface',
-    'Bomberman',
-    'NicerDicer',
-    'Numseman'
-  ];
-
-  names.map(function(name) {
-    console.log('Generating test player ' + name);
-    ranky.handleEvent(events.createPlayer(name));
-  });
-
-  var numMatches = 100,
-      remainingMatches = 100;
-
-  var genId = function() {
-    return Math.floor((Math.random() * names.length)+1);
-  };
-  var genScore = function() {
-    return Math.floor((Math.random() * 11) );
-  };
-  do {
-    console.log('Generating test match ' + (numMatches-remainingMatches+1) + '/' + numMatches);
-    ranky.handleEvent(events.registerMatch([genId(), genId()], genScore(), [genId(),genId()], genScore()));
-    remainingMatches--;
-  } while(remainingMatches> 0);
-};
-
 // load data from database
 var loadEventsFromDB = function() {
   dbEvent.find({},{sort: {id: 1}}, function(err, docs){
@@ -83,10 +42,6 @@ var loadEventsFromDB = function() {
       ranky.handleEvent(event);
       events.setNextId(event.id+1);
     });
-
-    if(!docs.length){
-      generateTestData();
-    }
   });
 };
 
@@ -94,4 +49,5 @@ loadEventsFromDB();
 
 // start server
 var server = http.listen(3000, function() {
+  console.log('Listening on port %d', server.address().port);
 });

@@ -1,12 +1,15 @@
+'use strict';
 var _ = require('underscore')._,
     validator = require('../logic/validator.js'),
     db = require('monk')('localhost/ranky'),
     dbEvent = db.get('events'),
-    model = require('../models/model.js'),
-    rankingEngine = require('../logic/rankingEngine.js');
+    models = require('../models/models.js'),
+    rankingEngine = require('../logic/rankingEngine.js'),
+    eventBus = require('../logic/eventBus.js'),
+    rankListModule = require('../modules/RankList.js'),
+    scoringEngineModule = require('../modules/ScoringEngine.js');
 
 module.exports = (function(){
-  'use strict';
 
   var players = {};
 
@@ -17,7 +20,7 @@ module.exports = (function(){
 
 
   var newPlayer = function(event) {
-    var newPlayer = model.createPlayer({name: event.playerName, initialScore: 1000});
+    var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
     players[newPlayer.id] = newPlayer;
     return newPlayer;
   };
@@ -44,12 +47,16 @@ module.exports = (function(){
     setScoresOnPlayers(scores);
   };
 
+  eventBus.register(rankListModule);
+  eventBus.register(scoringEngineModule);
+
   return {
     validateEvent: function(event) {
       return validator.validateEvent(event);
     },
     handleEvent: function(event) {
       if(storeEvent(event)) {
+        eventBus.post(event);
         switch(event.type) {
           case 'createPlayerEvent':
             newPlayer(event);

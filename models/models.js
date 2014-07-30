@@ -1,6 +1,5 @@
-
+'use strict';
 module.exports = (function(){
-  'use strict';
 
   var InvalidParameterException = {
     message: 'invalid points, must be a positive number',
