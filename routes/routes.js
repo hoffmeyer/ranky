@@ -3,11 +3,6 @@ var express = require('express'),
     ranky = require('../logic/ranky.js'),
     events = require('../events/events.js');
 
-router.get('/', function(req, res) {
-  'use strict';
-  res.send('Ranky is here');
-});
-
 router.get('/list', function(req, res) {
   'use strict';
   res.send(ranky.getPlayers());
