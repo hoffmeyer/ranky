@@ -6,7 +6,7 @@ module.exports = (function(){
   var createEvent = function() {
     return {
       id: nextId++,
-      eventTime: new Date()
+      eventTime: new Date(),
     };
   };
 
@@ -29,7 +29,7 @@ module.exports = (function(){
       event.type = 'registerMatchEvent';
       event.team1 = {
         players: team1ids,
-        score: score1
+        score: score2
       };
       event.team2 = {
         players: team2ids,

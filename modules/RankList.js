@@ -1,54 +1,70 @@
 'use strict';
 var _ = require('underscore')._,
-    models = require('../models/models.js'),
-    rankingEngine = require('../logic/rankingEngine.js');
-    
+    models = require('../models/models.js');
 
 module.exports = (function(){
-  var players = [];
+    var players = [],
+    eventBus;
 
-  var newPlayer = function(event) {
-    var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
-    players[newPlayer.id] = newPlayer;
-    return newPlayer;
-  };
+    var newPlayer = function(event) {
+        var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
+        players[newPlayer.id] = newPlayer;
+        return newPlayer;
+    };
 
-  var populateTeamWithPlayers = function(team) {
-    team.players = _.map(team.players, function(elem) { return players[elem];});
-    return team;
-  };
+    var setScoresOnPlayers = function(scores) {
+        _.each(scores, function(val, key) {
+            if(val > 0) {
+                players[key].addPoints(val);
+            } else {
+                players[key].subtractPoints(-val);
+            }
+        });
+    };
 
-  var setScoresOnPlayers = function(scores) {
-    _.each(scores, function(val, key) {
-      if(val > 0) {
-        players[key].addPoints(val);
-      } else {
-        players[key].subtractPoints(-val);
-      }
-    });
-  };
+    var idsToPlayers = function(ids) {
+        return _.map(ids, function(playerId) {
+            return players[playerId];
+        });
+    };
 
-  var addMatch = function(event) {
-    var team1 = populateTeamWithPlayers(event.team1);
-    var team2 = populateTeamWithPlayers(event.team2);
-    var scores = rankingEngine.score(team1, team2);
-    setScoresOnPlayers(scores);
-  };
+    var addMatch = function(event) {
+        var team1Players = idsToPlayers(event.team1.players),
+            team2Players = idsToPlayers(event.team2.players),
+        scoringEvent = {
+            type: 'scoreMatchEvent',
+            team1: {
+                players: team1Players,
+                score: event.team1.score
+            },
+            team2: {
+                players: team2Players,
+                score: event.team2.score
+            },
+            callback: function(scores) {
+                setScoresOnPlayers(scores);
+                event.callback(scores);
+            }
+        };
+        eventBus.post(scoringEvent);
+    };
 
-  return {
-    handle: function(event) {
-      switch(event.type) {
-        case 'createPlayerEvent':
-          var res = newPlayer(event);
-          if(event.callback){
-            event.callback(res);
-          }
-          break;
-        case 'registerMatchEvent':
-          addMatch(event);
-          break;
-      }
-    }
-  };
+    return {
+        setBus: function(bus) {
+            eventBus = bus;
+        },
+        handle: function(event) {
+            switch(event.type) {
+                case 'createPlayerEvent':
+                    event.callback(newPlayer(event));
+                break;
+                case 'registerMatchEvent':
+                    event.callback(addMatch(event));
+                break;
+                case 'getListEvent':
+                    event.callback(_.map( players, function(player){ return player.toJSON(); }));
+            }
+        }
+    };
 
 })();

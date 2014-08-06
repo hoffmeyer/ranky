@@ -13,6 +13,7 @@ module.exports = (function() {
     },
     register: function(module) {
       modules.push(module);
+      module.setBus(this);
     }
   };
 })();

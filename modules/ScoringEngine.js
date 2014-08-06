@@ -1,14 +1,32 @@
 'use strict';
+var _ = require('underscore')._;
 module.exports = (function(){
+    var eventBus;
 
-  return {
-    handle: function(event) {
-      switch(event.type) {
-        case 'createPlayerEvent':
-          console.log('handling createPlayerEvent from RanList module');
-          break;
-      }
-    }
-  };
+    var scoreMatch = function(event) {
+        var scores = {};
+        var points = 25;
+        if(event.team1.score > event.team2.score) {
+            _.each(event.team1.players, function(elem) {scores[elem.id] = points;});
+            _.each(event.team2.players, function(elem) {scores[elem.id] = -points;});
+        } else {
+            _.each(event.team1.players, function(elem) {scores[elem.id] = -points;});
+            _.each(event.team2.players, function(elem) {scores[elem.id] = points;});
+        }
+        event.callback(scores);
+    };
+
+    return {
+        setBus: function(bus) {
+            eventBus = bus;
+        },
+        handle: function(event) {
+            switch(event.type) {
+                case 'scoreMatchEvent':
+                    scoreMatch(event);
+                break;
+            }
+        }
+    };
 
 })();
