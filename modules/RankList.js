@@ -3,7 +3,7 @@ var _ = require('underscore')._,
     models = require('../models/models.js');
 
 module.exports = (function(){
-    var players = [],
+    var players = {},
     eventBus;
 
     var newPlayer = function(event) {
@@ -62,7 +62,9 @@ module.exports = (function(){
                     event.callback(addMatch(event));
                 break;
                 case 'getListEvent':
+                    console.log('players: ' + players.length);
                     event.callback(_.map( players, function(player){ return player.toJSON(); }));
+                break;
             }
         }
     };
