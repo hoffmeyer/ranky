@@ -62,8 +62,10 @@ module.exports = (function(){
                     event.callback(addMatch(event));
                 break;
                 case 'getListEvent':
-                    console.log('players: ' + players.length);
-                    event.callback(_.map( players, function(player){ return player.toJSON(); }));
+                    event.callback(players);
+                break;
+                case 'getPlayerEvent':
+                    event.callback(players[event.playerId]);
                 break;
             }
         }
