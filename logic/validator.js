@@ -19,7 +19,7 @@ module.exports = (function() {
   };
 
   var validatePlayerEvent = function(event) {
-    if(event.name){
+    if(event.playerName){
       return true;
     }
     return false;
