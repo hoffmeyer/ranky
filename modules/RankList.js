@@ -43,6 +43,10 @@ module.exports = (function(){
             },
             callback: function(scores) {
                 setScoresOnPlayers(scores);
+                eventBus.post({
+                    type: 'playersUpdatedEvent',
+                    players: _.map(scores, function(val, key){ return players[key] })
+                });
                 event.callback(scores);
             }
         };

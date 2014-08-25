@@ -4,7 +4,8 @@ var validator = require('../logic/validator.js'),
     dbEvent = db.get('events'),
     eventBus = require('../logic/eventBus.js'),
     rankListModule = require('../modules/RankList.js'),
-    scoringEngineModule = require('../modules/ScoringEngine.js');
+    scoringEngineModule = require('../modules/ScoringEngine.js'),
+    broadcasModule = require('../modules/broadcaster.js');
 
 module.exports = (function(){
 
@@ -15,6 +16,7 @@ module.exports = (function(){
 
     eventBus.register(rankListModule);
     eventBus.register(scoringEngineModule);
+    eventBus.register(broadcasModule);
 
     return {
         validateEvent: function(event) {
