@@ -45,7 +45,8 @@ module.exports = (function(){
                 setScoresOnPlayers(scores);
                 eventBus.post({
                     type: 'playersUpdatedEvent',
-                    players: _.map(scores, function(val, key){ return players[key] })
+                    noBroadcast: event.noBroadcast,
+                    players: _.map(scores, function(val, key){ return players[key];})
                 });
                 event.callback(scores);
             }

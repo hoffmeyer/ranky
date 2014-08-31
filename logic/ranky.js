@@ -5,18 +5,21 @@ var validator = require('../logic/validator.js'),
     eventBus = require('../logic/eventBus.js'),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
-    broadcasModule = require('../modules/broadcaster.js');
+    broadcastModule = require('../modules/broadcaster.js');
 
-module.exports = (function(){
+module.exports = function(io){
+    console.log('ranky module function calls');
 
     var storeEvent = function(event) {
         dbEvent.insert(event);
         return true;
     };
 
+
     eventBus.register(rankListModule);
     eventBus.register(scoringEngineModule);
-    eventBus.register(broadcasModule);
+    broadcastModule.setWebsocket(io);
+    eventBus.register(broadcastModule);
 
     return {
         validateEvent: function(event) {
@@ -32,4 +35,4 @@ module.exports = (function(){
             eventBus.post(event);
         }
     };
-})();
+};

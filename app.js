@@ -1,17 +1,22 @@
 'use strict';
 // initialize app
 var express = require('express'),
+    app = express(),
+    http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    app = express(),
     db = require('monk')('localhost/ranky'),
-    dbEvent = db.get('events'),
-    ranky = require('./logic/ranky.js'),
-    events = require('./events/events.js'),
+    io = require('socket.io')(http),
     _ = require('underscore')._,
-    http = require('http').Server(app);
+    dbEvent = db.get('events'),
+    ranky = require('./logic/ranky.js')(io),
+    events = require('./events/events.js');
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(function(req, res, next){
+    req.ranky = ranky;
+    next();
+});
 app.use('/', routes);
 
 app.set('views', __dirname + '/tpl');
