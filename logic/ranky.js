@@ -18,7 +18,7 @@ module.exports = function(io){
 
     eventBus.register(rankListModule);
     eventBus.register(scoringEngineModule);
-    broadcastModule.setWebsocket(io);
+    broadcastModule.setWebsocket(io); // TODO: this must be done in a nicer way
     eventBus.register(broadcastModule);
 
     return {

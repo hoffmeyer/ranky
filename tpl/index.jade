@@ -1,10 +1,25 @@
 doctype
 html
   head
+    script(src='http://code.jquery.com/jquery-2.1.1.min.js')
     script(src='/ranky.js')
     script(src='/socket.io/socket.io.js')
-
+    
     title= "Ranky - for ranking the important stuff"
   body
     #content
-      h1 This is the stuff!
+        h1 Ranky - Scoring the elite
+
+        table.match
+            tr
+                td: input.player1(placeholder="Player1 id")
+                td: input.score1(placeholder="Score1")
+            tr
+                td: input.player2(placeholder="Player2 id")
+                td: input.score2(placeholder="Score2")
+        button.addMatchBtn Add match
+
+        table.ranklist
+            tr
+                th Player
+                th Score

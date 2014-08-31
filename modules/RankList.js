@@ -54,6 +54,13 @@ module.exports = (function(){
         eventBus.post(scoringEvent);
     };
 
+    var getSortedList = function() {
+        // convert to array
+        var playerArray = Object.keys(players).map(function(id){return players[id];}); 
+        // sort descending
+        return _.sortBy(playerArray, function(player){return -player.getPoints();});
+    };
+
     return {
         setBus: function(bus) {
             eventBus = bus;
@@ -67,7 +74,7 @@ module.exports = (function(){
                     event.callback(addMatch(event));
                 break;
                 case 'getListEvent':
-                    event.callback(players);
+                    event.callback(getSortedList());
                 break;
                 case 'getPlayerEvent':
                     event.callback(players[event.playerId]);

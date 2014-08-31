@@ -1,20 +1,20 @@
 'use strict';
 var _ = require('underscore')._;
 
-module.exports = (function(){
+module.exports = (function(io){
     var eventBus,
         io;
 
     var broadcast = function(message) {
-        io.emit(message);
+        io.emit('playerUpdated', message);
     };
 
     return {
         setBus: function(bus){
             eventBus = bus;
         },
-        setWebsocket: function(io) {
-            this.io = io;
+        setWebsocket: function(newIo) {
+            io = newIo;
         },
         handle: function(event){
             switch(event.type){
