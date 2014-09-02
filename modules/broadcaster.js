@@ -5,8 +5,8 @@ module.exports = (function(io){
     var eventBus,
         io;
 
-    var broadcast = function(message) {
-        io.emit('playerUpdated', message);
+    var broadcast = function(type, message) {
+        io.emit(type, message);
     };
 
     return {
@@ -21,6 +21,7 @@ module.exports = (function(io){
                 case 'playersUpdatedEvent':
                     if(!event.noBroadcast) {
                         broadcast(
+                            'playerUpdated',
                             _.map(event.players, 
                             function(player) { 
                                 return player.toJSON(); 
@@ -28,6 +29,10 @@ module.exports = (function(io){
                         ));
                     }
                 break;
+                case 'playerCreatedEvent':
+                    if(!event.noBroadcast) {
+                        broadcast('playerCreated', event.player.toJSON());
+                    }
             }
         }
     };

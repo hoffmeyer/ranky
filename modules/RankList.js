@@ -9,6 +9,11 @@ module.exports = (function(){
     var newPlayer = function(event) {
         var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
         players[newPlayer.id] = newPlayer;
+        eventBus.post({
+            type: 'playerCreatedEvent',
+            noBroadcast: event.noBroadcast,
+            player: newPlayer
+        });
         return newPlayer;
     };
 

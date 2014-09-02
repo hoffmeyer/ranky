@@ -41,8 +41,6 @@ router.post('/match', function(req, res) {
         validTeam1 = req.body.team1 && req.body.team1.players && req.body.team1.score,
         validTeam2 = req.body.team2 && req.body.team2.players && req.body.team2.score;
 
-    console.log(req.body);
-
     if(validTeam1 && validTeam2) { 
         event = events.registerMatch(
             req.body.team1.players,
