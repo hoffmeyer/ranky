@@ -45,7 +45,7 @@ module.exports = (function(){
           id: nextId++,
           name: spec.name,
           addPoints: function(gainedPoints) {
-            if(!isNaN(gainedPoints) && gainedPoints > 0) {
+            if(!isNaN(gainedPoints) && gainedPoints >= 0) {
               updateRunningScore(true);
               points += gainedPoints;
             }

@@ -29,7 +29,7 @@ module.exports = (function(){
       event.type = 'registerMatchEvent';
       event.team1 = {
         players: team1ids,
-        score: score2
+        score: score1
       };
       event.team2 = {
         players: team2ids,

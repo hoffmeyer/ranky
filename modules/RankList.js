@@ -19,10 +19,10 @@ module.exports = (function(){
 
     var setScoresOnPlayers = function(scores) {
         _.each(scores, function(val, key) {
-            if(val > 0) {
-                players[key].addPoints(val);
-            } else {
+            if(val < 0) {
                 players[key].subtractPoints(-val);
+            } else {
+                players[key].addPoints(val);
             }
         });
     };

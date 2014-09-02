@@ -67,7 +67,6 @@ window.onload = function() {
             type: 'POST',
             url: '/match',
             data: JSON.stringify(match),
-            success: function(data) {console.log(data);},
             contentType: 'application/json'
         });
     };
@@ -83,7 +82,6 @@ window.onload = function() {
             url: '/player',
             data: JSON.stringify(player),
             success: function(data) {
-                console.log(data);
                 updatePlayer(player);
                 updateList();
             },
@@ -93,6 +91,7 @@ window.onload = function() {
 
     $('.addMatchBtn').click(function(){
         addMatch();
+        $('.match input').val('').eq(0).focus();
     });
 
     $('.createPlayerBtn').click(function(){
