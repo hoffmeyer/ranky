@@ -1,13 +1,15 @@
 {
   "name": "Ranky",
   "description": "The best ranking engine in the world",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "dependencies": {
-    "express": "4.3.1",
     "body-parser": "1.2.0",
+    "express": "4.3.1",
+    "jade": "^1.5.0",
     "mongodb": "1.4.5",
     "monk": "0.9.0",
+    "socket.io": "^1.0.6",
     "underscore": "1.6.0"
   }
 }

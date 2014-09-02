@@ -2,9 +2,9 @@
 
 Ranky is a quick prototype of a ranking engine created in javascript, nodejs, and express.
 
-If the database is empty, 15 players are created and 100 matches are randomly played
 
 ## Changelog
+- V0.0.4 Basic ui on / and websocket implementation for broadcasting changes
 - v0.0.3 Automatic test data generation when database is empty, now handling teams with arbitrary many players
 - v0.0.2 Mongodb storage added. All changes are converted to events which are stored. On server startup all the events are loaded from the databse, and state rebuild
 - v0.0.1 Simple api implemented, no storage
@@ -26,6 +26,11 @@ After you have checked out the code and installed node and npm. Just run the fol
 `$npm install`
 
 `$node app.js`
+
+## UI
+
+### Rudimentary UI showing off the API and websocket interface
+Point your browser to the root /
 
 ## API
 There are 3 active endpoints, get the current ranking, create a new player, and register a match.
@@ -57,3 +62,11 @@ Post at POST request to /match containing a JSON body in the following form, pla
   }
 }
 ```
+## Websocket
+Connect to the server on the same port as for the api, and receive broadcasts on changes to the list. The possible messages are:
+
+###  playersUpdated
+Gets a list of updated players back.
+
+### playerCrated
+Gets the new player that has been created.
