@@ -35,7 +35,7 @@ window.onload = function() {
         });
     }
 
-    socket.on('playerUpdated', function(msg){
+    socket.on('playersUpdated', function(msg){
         $.each(msg, function(index, player){
             updatePlayer(player);
         });

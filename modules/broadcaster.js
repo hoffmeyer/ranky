@@ -21,7 +21,7 @@ module.exports = (function(io){
                 case 'playersUpdatedEvent':
                     if(!event.noBroadcast) {
                         broadcast(
-                            'playerUpdated',
+                            'playersUpdated',
                             _.map(event.players, 
                             function(player) { 
                                 return player.toJSON(); 
