@@ -1,12 +1,11 @@
 'use strict';
 var express = require('express'),
     router = express.Router(),
-    ranky = require('../logic/ranky.js'),
     events = require('../events/events.js'),
     _ = require('underscore')._;
 
 router.get('/list', function(req, res) {
-    ranky.handleEvent({
+    req.ranky.handleEvent({
         type: 'getListEvent',
         callback: function(list) {
             res.send(_.map( list, function(player){ return player.toJSON(); }));
@@ -15,14 +14,14 @@ router.get('/list', function(req, res) {
 });
 
 router.get('/player/:id(\\d+)/', function(req, res) {
-    ranky.handleEvent({
+    req.ranky.handleEvent({
         type: 'getPlayerEvent',
         playerId: req.params.id,
         callback: function(player) {
             res.send(player.toJSON());
         }
     });
-    res.send(ranky.getPlayer(req.params.id).toJSON());
+    res.send(req.ranky.getPlayer(req.params.id).toJSON());
 });
 
 router.post('/player', function(req, res) {
@@ -30,8 +29,8 @@ router.post('/player', function(req, res) {
     event.callback = function(player){
         res.send(player.toJSON());
     };
-    if(ranky.validateEvent(event)){
-        ranky.handleEvent(event, true);
+    if(req.ranky.validateEvent(event)){
+        req.ranky.handleEvent(event, true);
     } else {
         res.send(400);
     }
@@ -53,8 +52,8 @@ router.post('/match', function(req, res) {
             res.send(scores);
         };
         
-        if(ranky.validateEvent(event)) {
-            ranky.handleEvent(event, true);
+        if(req.ranky.validateEvent(event)) {
+            req.ranky.handleEvent(event, true);
         } else {
             res.send(400);
         }

@@ -9,6 +9,11 @@ module.exports = (function(){
     var newPlayer = function(event) {
         var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
         players[newPlayer.id] = newPlayer;
+        eventBus.post({
+            type: 'playerCreatedEvent',
+            noBroadcast: event.noBroadcast,
+            player: newPlayer
+        });
         return newPlayer;
     };
 
@@ -43,10 +48,22 @@ module.exports = (function(){
             },
             callback: function(scores) {
                 setScoresOnPlayers(scores);
+                eventBus.post({
+                    type: 'playersUpdatedEvent',
+                    noBroadcast: event.noBroadcast,
+                    players: _.map(scores, function(val, key){ return players[key];})
+                });
                 event.callback(scores);
             }
         };
         eventBus.post(scoringEvent);
+    };
+
+    var getSortedList = function() {
+        // convert to array
+        var playerArray = Object.keys(players).map(function(id){return players[id];}); 
+        // sort descending
+        return _.sortBy(playerArray, function(player){return -player.getPoints();});
     };
 
     return {
@@ -62,7 +79,7 @@ module.exports = (function(){
                     event.callback(addMatch(event));
                 break;
                 case 'getListEvent':
-                    event.callback(players);
+                    event.callback(getSortedList());
                 break;
                 case 'getPlayerEvent':
                     event.callback(players[event.playerId]);
