@@ -12,6 +12,9 @@
     "socket.io": "^1.0.6",
     "underscore": "1.6.0"
   },
+  "devDependencies": {
+    "mocha": "1.21.4"
+  },
   "scripts": {
       "test": "mocha"
   }
