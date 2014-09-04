@@ -1,6 +1,7 @@
-'use strict';
 var _ = require('underscore')._;
+
 module.exports = (function(){
+'use strict';
     var eventBus;
 
     var scoreMatch = function(event) {

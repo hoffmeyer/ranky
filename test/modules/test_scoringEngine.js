@@ -1,9 +1,9 @@
-'use strict';
 var should = require('should'),
     bus = require('../../logic/eventBus.js'),
     scoringEngine = require('../../modules/ScoringEngine.js');
 
 describe('scoringEngine', function() {
+'use strict';
 
     bus.register(scoringEngine);
 
@@ -26,7 +26,7 @@ describe('scoringEngine', function() {
                 }
             });
 
-            it('should give player1 25 points and player2 -25 points', function(){
+            it('give player1 25 points and player2 -25 points', function(){
                 scores.should.eql({1: 25, 2: -25});
             });
         });
@@ -48,7 +48,7 @@ describe('scoringEngine', function() {
                 }
             });
 
-            it('should give player1 -25 points and player2 25 points', function(){
+            it('give player1 -25 points and player2 25 points', function(){
                 scores.should.eql({1: -25, 2: 25});
             });
         });
@@ -70,7 +70,7 @@ describe('scoringEngine', function() {
                 }
             });
 
-            it('should give all players zero points if the match is tied', function(){
+            it('give all players zero points if the match is tied', function(){
                 scores.should.eql({1: 0, 2: 0});
             });
         });
@@ -86,9 +86,9 @@ describe('scoringEngine', function() {
             }
         });
 
-        it('should ignore an unknown event', function() {
+        it('ignore an unknown event', function() {
             (test === undefined).should.be.true;
         });
-    })
+    });
 });
 
