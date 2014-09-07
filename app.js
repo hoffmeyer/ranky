@@ -1,4 +1,3 @@
-'use strict';
 // initialize app
 var express = require('express'),
     app = express(),
