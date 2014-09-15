@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/hoffmeyer/ranky.svg?branch=feature%2Ftesting)](https://travis-ci.org/hoffmeyer/ranky)
 # Ranky
 
 Ranky is a quick prototype of a ranking engine created in javascript, nodejs, and express.

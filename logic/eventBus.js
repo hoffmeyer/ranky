@@ -1,7 +1,7 @@
-'use strict';
 var _ = require('underscore')._;
 
 module.exports = (function() {
+'use strict';
 
   var modules = [];
 

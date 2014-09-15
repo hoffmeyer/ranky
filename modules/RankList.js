@@ -1,8 +1,8 @@
-'use strict';
 var _ = require('underscore')._,
     models = require('../models/models.js');
 
 module.exports = (function(){
+'use strict';
     var players = {},
     eventBus;
 

@@ -11,5 +11,15 @@
     "monk": "0.9.0",
     "socket.io": "^1.0.6",
     "underscore": "1.6.0"
+  },
+  "devDependencies": {
+    "mocha": "1.21.4",
+    "should": "^4.0.4",
+    "istanbul": "0.3.1",
+    "supervisor": "~0.5.2"
+  },
+  "scripts": {
+    "autotest": "./node_modules/.bin/supervisor -q -n exit -x ./node_modules/.bin/mocha -- -b",
+    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec"
   }
 }
