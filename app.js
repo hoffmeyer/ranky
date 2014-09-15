@@ -40,6 +40,6 @@ var loadEventsFromDB = function() {
 loadEventsFromDB();
 
 // start server
-var server = http.listen(3000, function() {
+var server = http.listen(process.env.PORT || 3000, function() { // process.env.PORT supplied by Heroku
     console.log('Listening on port %d', server.address().port);
 });
