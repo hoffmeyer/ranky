@@ -1,6 +1,5 @@
-'use strict';
 var validator = require('../logic/validator.js'),
-    db = require('monk')('localhost/ranky'),
+    db = require('monk')(process.env.MONGOLAB_URI || 'localhost/ranky'), // process.env.MONGOHQ_URL supplied by Heroku
     dbEvent = db.get('events'),
     eventBus = require('../logic/eventBus.js'),
     rankListModule = require('../modules/RankList.js'),
@@ -8,6 +7,7 @@ var validator = require('../logic/validator.js'),
     broadcastModule = require('../modules/broadcaster.js');
 
 module.exports = function(io){
+    'use strict';
     console.log('ranky module function calls');
 
     var storeEvent = function(event) {
