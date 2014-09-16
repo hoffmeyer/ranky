@@ -11,6 +11,11 @@ var express = require('express'),
     ranky = require('./logic/ranky.js')(io),
     events = require('./events/events.js');
 
+console.log('process.env.MONGOHQ_URL:');
+console.log(process.env.MONGOHQ_URL);
+console.log('db:');
+console.log(db);
+
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(function(req, res, next){
     req.ranky = ranky;
