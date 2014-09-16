@@ -4,15 +4,15 @@ var express = require('express'),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    db = require('monk')(process.env.MONGOHQ_URL || 'localhost/ranky'), // process.env.MONGOHQ_URL supplied by Heroku
+    db = require('monk')(process.env.MONGOLAB_URI || 'localhost/ranky'), // process.env.MONGOHQ_URL supplied by Heroku
     io = require('socket.io')(http),
     _ = require('underscore')._,
     dbEvent = db.get('events'),
     ranky = require('./logic/ranky.js')(io),
     events = require('./events/events.js');
 
-console.log('process.env.MONGOHQ_URL:');
-console.log(process.env.MONGOHQ_URL);
+console.log('process.env.MONGOLAB_URI:');
+console.log(process.env.MONGOLAB_URI);
 console.log('db:');
 console.log(db);
 
