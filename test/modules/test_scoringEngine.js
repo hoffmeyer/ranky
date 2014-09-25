@@ -1,5 +1,5 @@
 var should = require('should'),
-    bus = require('../../logic/eventBus.js'),
+    bus = require('../../logic/eventBus.js')(),
     scoringEngine = require('../../modules/ScoringEngine.js');
 
 describe('scoringEngine', function() {

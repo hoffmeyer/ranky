@@ -1,6 +1,6 @@
 var _ = require('underscore')._;
 
-module.exports = (function() {
+module.exports = function() {
 'use strict';
 
   var modules = [];
@@ -16,4 +16,4 @@ module.exports = (function() {
       module.setBus(this);
     }
   };
-})();
+};

@@ -1,20 +1,17 @@
+'use strict';
 var validator = require('../logic/validator.js'),
-    db = require('monk')(process.env.MONGOLAB_URI || 'localhost/ranky'), // process.env.MONGOHQ_URL supplied by Heroku
+    db = require('monk')('localhost/ranky'),
     dbEvent = db.get('events'),
-    eventBus = require('../logic/eventBus.js'),
-    rankListModule = require('../modules/RankList.js'),
+    eventBus = require('../logic/eventBus.js')(),
+    rankListModule = require('../modules/RankList.js')(),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
     broadcastModule = require('../modules/broadcaster.js');
 
 module.exports = function(io){
-    'use strict';
-    console.log('ranky module function calls');
-
     var storeEvent = function(event) {
         dbEvent.insert(event);
         return true;
     };
-
 
     eventBus.register(rankListModule);
     eventBus.register(scoringEngineModule);

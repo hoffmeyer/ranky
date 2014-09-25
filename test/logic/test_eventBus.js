@@ -1,5 +1,5 @@
 var should = require('should'),
-    bus = require('../../logic/eventBus.js');
+    bus = require('../../logic/eventBus.js')();
 
 describe('eventBus', function() {
     'use strict';

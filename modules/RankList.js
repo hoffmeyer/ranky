@@ -1,7 +1,7 @@
 var _ = require('underscore')._,
     models = require('../models/models.js');
 
-module.exports = (function(){
+module.exports = function(){
 'use strict';
     var players = {},
     eventBus;
@@ -76,7 +76,7 @@ module.exports = (function(){
                     event.callback(newPlayer(event));
                 break;
                 case 'registerMatchEvent':
-                    event.callback(addMatch(event));
+                    addMatch(event);
                 break;
                 case 'getListEvent':
                     event.callback(getSortedList());
@@ -87,5 +87,4 @@ module.exports = (function(){
             }
         }
     };
-
-})();
+};
