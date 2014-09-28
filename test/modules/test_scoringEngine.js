@@ -5,7 +5,7 @@ var should = require('should'),
 describe('scoringEngine', function() {
 'use strict';
 
-    bus.register(scoringEngine);
+    scoringEngine(bus);
 
     describe('scoreMatchEvent', function(){
 
@@ -21,14 +21,14 @@ describe('scoringEngine', function() {
                     players: [{id: 2}],
                     score: 5
                 },
-                callback: function(s) {
-                    scores = s;
+                callback: function(scores) {
+                    it('give player1 25 points and player2 -25 points', function(done){
+                        scores.should.eql({1: 25, 2: -25});
+                        done();
+                    });
                 }
             });
 
-            it('give player1 25 points and player2 -25 points', function(){
-                scores.should.eql({1: 25, 2: -25});
-            });
         });
 
         describe('team2 wins', function() {
@@ -43,14 +43,14 @@ describe('scoringEngine', function() {
                     players: [{id: 2}],
                     score: 10
                 },
-                callback: function(s) {
-                    scores = s;
+                callback: function(scores) {
+                    it('give player1 -25 points and player2 25 points', function(done){
+                        scores.should.eql({1: -25, 2: 25});
+                        done();
+                    });
                 }
             });
 
-            it('give player1 -25 points and player2 25 points', function(){
-                scores.should.eql({1: -25, 2: 25});
-            });
         });
 
         describe('tied match', function(){
@@ -65,13 +65,12 @@ describe('scoringEngine', function() {
                     players: [{id: 2}],
                     score: 10
                 },
-                callback: function(s) {
-                    scores = s;
+                callback: function(scores) {
+                    it('give all players zero points if the match is tied', function(done){
+                        scores.should.eql({1: 0, 2: 0});
+                        done();
+                    });
                 }
-            });
-
-            it('give all players zero points if the match is tied', function(){
-                scores.should.eql({1: 0, 2: 0});
             });
         });
     });

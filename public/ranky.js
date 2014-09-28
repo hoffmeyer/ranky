@@ -10,7 +10,7 @@ window.onload = function() {
         list.sort(function(a,b){
             return b.points - a.points;
         });
-    }
+    };
 
     var updateList = function() {
         var $table = $('.ranklist'),
@@ -33,7 +33,7 @@ window.onload = function() {
                     list[index] = newPlayer;
             }
         });
-    }
+    };
 
     socket.on('playersUpdated', function(msg){
         $.each(msg, function(index, player){
@@ -75,7 +75,7 @@ window.onload = function() {
         var playerName = $('.playername').val(),
             player = {
                 name: playerName
-            }
+            };
 
         $.ajax({
             type: 'POST',

@@ -6,7 +6,7 @@ var express = require('express'),
 
 router.get('/list', function(req, res) {
     req.ranky.handleEvent({
-        type: 'getListEvent',
+        type: 'getList',
         callback: function(list) {
             res.send(_.map( list, function(player){ return player.toJSON(); }));
         } 
@@ -15,7 +15,7 @@ router.get('/list', function(req, res) {
 
 router.get('/player/:id(\\d+)/', function(req, res) {
     req.ranky.handleEvent({
-        type: 'getPlayerEvent',
+        type: 'getPlayer',
         playerId: req.params.id,
         callback: function(player) {
             res.send(player.toJSON());

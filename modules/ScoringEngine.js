@@ -1,8 +1,7 @@
 var _ = require('underscore')._;
 
-module.exports = (function(){
+module.exports = function(bus){
 'use strict';
-    var eventBus;
 
     var scoreMatch = function(event) {
         var scores = {};
@@ -17,20 +16,10 @@ module.exports = (function(){
             _.each(event.team1.players, function(elem) {scores[elem.id] = 0;});
             _.each(event.team2.players, function(elem) {scores[elem.id] = 0;});
         }
-        event.callback(scores);
+        return scores;
     };
 
-    return {
-        setBus: function(bus) {
-            eventBus = bus;
-        },
-        handle: function(event) {
-            switch(event.type) {
-                case 'scoreMatchEvent':
-                    scoreMatch(event);
-                break;
-            }
-        }
-    };
-
-})();
+    bus.listen('scoreMatch', function(event){
+        event.callback(scoreMatch(event));
+    });
+};

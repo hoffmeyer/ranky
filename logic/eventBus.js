@@ -1,19 +1,21 @@
 var _ = require('underscore')._;
 
 module.exports = function() {
-'use strict';
+    'use strict';
 
-  var modules = [];
+    var listeners = {};
 
-  return {
-    post: function(event) {
-      _.each(modules, function(module) {
-        module.handle(event);
-      });
-    },
-    register: function(module) {
-      modules.push(module);
-      module.setBus(this);
-    }
-  };
+    return {
+        listen: function(eventType, listener){
+            if(!listeners[eventType]) {
+                listeners[eventType] = [];
+            }
+            listeners[eventType].push(listener);
+        },
+        post: function(eventType, event) {
+            _.each(listeners[eventType], function(listener) {
+                listener(event);
+            });
+        },
+    };
 };
