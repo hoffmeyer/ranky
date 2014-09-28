@@ -44,23 +44,9 @@ module.exports = (function(){
         return {
           id: nextId++,
           name: spec.name,
-          addPoints: function(gainedPoints) {
-            if(!isNaN(gainedPoints) && gainedPoints >= 0) {
-              updateRunningScore(true);
-              points += gainedPoints;
-            }
-            else{
-              throw InvalidParameterException;
-            }
-          },
-          subtractPoints: function(lostPoints) {
-            if(!isNaN(lostPoints) && lostPoints > 0) {
-              updateRunningScore(false);
-              points -= lostPoints;
-            }
-            else{
-              throw InvalidParameterException;
-            }
+          addPoints: function(newPoints) {
+              updateRunningScore(newPoints > 0);
+              points += newPoints;
           },
           getPoints: function(){
             return points;

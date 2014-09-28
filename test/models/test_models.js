@@ -30,16 +30,6 @@ describe('models', function() {
         });
     });
 
-    describe('removing Points', function() {
-        it('points are removed correctly from the player', function() {
-            var pointsToSubtract = 10,
-                orgPoints = player1.getPoints();
-
-            player1.subtractPoints(10);
-            player1.getPoints().should.eql(orgPoints - pointsToSubtract);
-        });
-    });
-
     describe('JSON conversion is correct', function() {
         var json = player1.toJSON();
         it('correctly convert the player to JSON', function() {

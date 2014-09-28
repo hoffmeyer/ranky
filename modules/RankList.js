@@ -17,11 +17,7 @@ module.exports = function(bus){
 
     var setScoresOnPlayers = function(scores) {
         _.each(scores, function(val, key) {
-            if(val < 0) {
-                players[key].subtractPoints(-val);
-            } else {
-                players[key].addPoints(val);
-            }
+            players[key].addPoints(val);
         });
     };
 
