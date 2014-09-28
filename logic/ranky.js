@@ -26,10 +26,7 @@ module.exports = function(io){
             if(isStorable){
                 storeEvent(event);
             }
-            if(!event.callback){
-                event.callback = function() {}; // add default callback if not defined
-            }
-            eventBus.post(event.type, event);
+            return eventBus.post(event.type, event);
         }
     };
 };

@@ -1,36 +1,30 @@
-'use strict';
 var express = require('express'),
     router = express.Router(),
     events = require('../events/events.js'),
     _ = require('underscore')._;
 
 router.get('/list', function(req, res) {
-    req.ranky.handleEvent({
-        type: 'getList',
-        callback: function(list) {
+    req.ranky.handleEvent({ type: 'getList'})
+        .then(function(list){
             res.send(_.map( list, function(player){ return player.toJSON(); }));
-        } 
-    });
+        });
 });
 
 router.get('/player/:id(\\d+)/', function(req, res) {
     req.ranky.handleEvent({
         type: 'getPlayer',
         playerId: req.params.id,
-        callback: function(player) {
-            res.send(player.toJSON());
-        }
+    }).then(function(player){
+        res.send(player.toJSON());
     });
-    res.send(req.ranky.getPlayer(req.params.id).toJSON());
 });
 
 router.post('/player', function(req, res) {
     var event = events.createPlayer(req.body.name);
-    event.callback = function(player){
-        res.send(player.toJSON());
-    };
     if(req.ranky.validateEvent(event)){
-        req.ranky.handleEvent(event, true);
+        req.ranky.handleEvent(event, true).then(function(player){
+            res.send(player.toJSON());
+        });
     } else {
         res.send(400);
     }

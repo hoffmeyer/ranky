@@ -1,4 +1,5 @@
-var _ = require('underscore')._;
+var _ = require('underscore')._,
+    Q = require('q');
 
 module.exports = function() {
     'use strict';
@@ -13,9 +14,11 @@ module.exports = function() {
             listeners[eventType].push(listener);
         },
         post: function(eventType, event) {
+            event.deferred = Q.defer();
             _.each(listeners[eventType], function(listener) {
                 listener(event);
             });
+            return event.deferred.promise;
         },
     };
 };

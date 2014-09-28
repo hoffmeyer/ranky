@@ -45,7 +45,7 @@ module.exports = function(bus){
                     noBroadcast: event.noBroadcast,
                     players: _.map(scores, function(val, key){ return players[key];})
                 });
-                event.callback(scores);
+                event.deferred.resolve(scores);
             }
         };
         bus.post('scoreMatch', scoringEvent);
@@ -59,15 +59,15 @@ module.exports = function(bus){
     };
 
     bus.listen('createPlayer', function(event){
-        event.callback(newPlayer(event));
+        event.deferred.resolve(newPlayer(event));
     });
     bus.listen('registerMatch', function(event) {
         addMatch(event);
     });
     bus.listen('getList', function(event) {
-        event.callback(getSortedList());
+        event.deferred.resolve(getSortedList());
     });
     bus.listen('getPlayer', function(event) {
-        event.callback(players[event.playerId]);
+        event.deferred.resolve(players[event.playerId]);
     });
 };

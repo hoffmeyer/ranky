@@ -11,8 +11,7 @@ describe('scoringEngine', function() {
 
         describe('team1 wins', function() {
             var scores;
-            bus.post({
-                type: 'scoreMatchEvent',
+            bus.post('scoreMatch', {
                 team1: {
                     players: [{id: 1}],
                     score: 10
@@ -33,8 +32,7 @@ describe('scoringEngine', function() {
 
         describe('team2 wins', function() {
             var scores;
-            bus.post({
-                type: 'scoreMatchEvent',
+            bus.post('scoreMatch', {
                 team1: {
                     players: [{id: 1}],
                     score: 5 
@@ -55,8 +53,7 @@ describe('scoringEngine', function() {
 
         describe('tied match', function(){
             var scores;
-            bus.post({
-                type: 'scoreMatchEvent',
+            bus.post('scoreMatchEvent', {
                 team1: {
                     players: [{id: 1}],
                     score: 10
@@ -78,8 +75,7 @@ describe('scoringEngine', function() {
 
     describe('unknownEvent', function() {
         var test;
-        bus.post({
-            type: 'unknownEvent',
+        bus.post('unknownEvent', {
             callback: function(){
                 test = 'test';
             }

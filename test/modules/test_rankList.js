@@ -14,12 +14,11 @@ describe('rankList', function() {
         it('should call the callback when creating a new player', function(done) {
             bus.post('createPlayer', {
                 playerName: 'John',
-                callback: function(player) { 
-                    player.should.be.ok;
-                    player.getPoints().should.eql(1000);
-                    player1 = player;
-                    done();
-                }
+            }).then(function(player){
+                player.should.be.ok;
+                player.getPoints().should.eql(1000);
+                player1 = player;
+                done();
             });
         }); 
     });
