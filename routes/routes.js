@@ -42,12 +42,10 @@ router.post('/match', function(req, res) {
             req.body.team2.players,
             req.body.team2.score);
 
-        event.callback = function(scores) {
-            res.send(scores);
-        };
-        
         if(req.ranky.validateEvent(event)) {
-            req.ranky.handleEvent(event, true);
+            req.ranky.handleEvent(event, true).then(function(){
+                res.send(scores);
+            });
         } else {
             res.send(400);
         }

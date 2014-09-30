@@ -38,17 +38,16 @@ module.exports = function(bus){
             team2: {
                 players: team2Players,
                 score: event.team2.score
-            },
-            callback: function(scores) {
-                setScoresOnPlayers(scores);
-                bus.post('playersUpdated', {
-                    noBroadcast: event.noBroadcast,
-                    players: _.map(scores, function(val, key){ return players[key];})
-                });
-                event.deferred.resolve(scores);
             }
         };
-        bus.post('scoreMatch', scoringEvent);
+        bus.post('scoreMatch', scoringEvent).then(function(scores){
+            setScoresOnPlayers(scores);
+            bus.post('playersUpdated', {
+                noBroadcast: event.noBroadcast,
+                players: _.map(scores, function(val, key){ return players[key];})
+            });
+            event.deferred.resolve(scores);
+        });
     };
 
     var getSortedList = function() {

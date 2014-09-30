@@ -5,13 +5,14 @@ var _ = require('underscore')._,
 
 describe('rankList', function() {
 
-    rankList(bus);
 
     describe('create player', function() {
-        var player1,
-            player2;
+        var bus = require('../../logic/eventBus.js')(),
+            rankList = require('../../modules/RankList.js');
 
-        it('should call the callback when creating a new player', function(done) {
+        rankList(bus);
+
+        it('should resolve the promise when creating a player', function(done) {
             bus.post('createPlayer', {
                 playerName: 'John',
             }).then(function(player){
@@ -21,5 +22,38 @@ describe('rankList', function() {
                 done();
             });
         }); 
+    });
+
+    describe('register match', function() {
+        var bus = require('../../logic/eventBus.js')(),
+            rankList = require('../../modules/RankList.js'),
+            scoreCalled = false;
+
+        rankList(bus);
+        
+        bus.post('createPlayer', { playerName: 'John', }).then(function(player1){
+            bus.post('createPlayer', { playerName: 'Aage', }).then(function(player2){
+                it('should emit a scoreMatch event when registering a match', function(done){
+                    bus.listen('scoreMatch', function(event){
+                        console.log(event);
+                        event.team1.players[0].should.eql(player1);
+                        event.team2.players[0].should.eql(player2);
+                        done();
+                    });
+                    var matchEvent = {
+                        team1: {
+                            players: [player1.id],
+                            score: 10
+                        },
+                        team2: {
+                            players: [player2.id],
+                            score: 1
+                        }
+                    };
+                    bus.post('registerMatch', matchEvent);
+                });
+            });
+        });
+
     });
 });
