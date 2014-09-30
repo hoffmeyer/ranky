@@ -35,7 +35,6 @@ describe('rankList', function() {
             bus.post('createPlayer', { playerName: 'Aage', }).then(function(player2){
                 it('should emit a scoreMatch event when registering a match', function(done){
                     bus.listen('scoreMatch', function(event){
-                        console.log(event);
                         event.team1.players[0].should.eql(player1);
                         event.team2.players[0].should.eql(player2);
                         done();
