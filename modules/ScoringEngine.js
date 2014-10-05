@@ -4,7 +4,7 @@ module.exports = function(bus){
     'use strict';
     var getDistribution = function(score1, score2) {
         var scoreDiff = Math.abs(score1 - score2);
-        if(scoreDiff == 0) return 0.50;
+        if(scoreDiff === 0) return 0.50;
         if(scoreDiff <= 25) return 0.51;
         if(scoreDiff <= 50) return 0.53;
         if(scoreDiff <= 75) return 0.54;
@@ -29,12 +29,11 @@ module.exports = function(bus){
         if(scoreDiff <= 1500) return 0.97;
         if(scoreDiff <= 1700) return 0.98;
         return 1;
-    }
+    };
 
     var sumTeamPoints = function(team) {
         return team.players.reduce(
-                function(acc, player){ return player.getPoints()}
-        ,0 );
+                function(acc, player){ return player.getPoints();} ,0 );
     };
 
     var transferPoints = function(toTeam, fromTeam, points) {
@@ -66,13 +65,16 @@ module.exports = function(bus){
        favouriteTeamIsWinner = favouriteTeam.score > underdog.score;
 
         if(itsADraw){
-            return transferPoints(favouriteTeam, underdog, 0)
+            console.log('its a draw');
+            return transferPoints(favouriteTeam, underdog, 0);
         } else if (favouriteTeamIsWinner){
+            console.log('Favourite team wins');
             pointsInPlay = points * (1 - distribution);
-            return transferPoints(favouriteTeam, underdog, pointsInPlay)
+            return transferPoints(favouriteTeam, underdog, pointsInPlay);
         } else {
+            console.log('Underdog team wins');
             pointsInPlay = points * distribution;
-            return transferPoints(underdog, favouriteTeam, pointsInPlay)
+            return transferPoints(underdog, favouriteTeam, pointsInPlay);
         }
     };
 

@@ -11,63 +11,60 @@ describe('scoringEngine', function() {
 
         describe('team1 wins', function() {
             var scores;
-            bus.post('scoreMatch', {
-                team1: {
-                    players: [{id: 1}],
-                    score: 10
-                },
-                team2: {
-                    players: [{id: 2}],
-                    score: 5
-                },
-                callback: function(scores) {
-                    it('give player1 25 points and player2 -25 points', function(done){
+            it('should give player1 25 points and player2 -25 points', function(done){
+                bus.post('scoreMatch', {
+                    team1: {
+                        players: [{id: 1, getPoints: function(){return 1001;}}],
+                        score: 10
+                    },
+                    team2: {
+                        players: [{id: 2, getPoints: function(){return 999;}}],
+                        score: 5
+                    }
+                }).then(function(scores) {
                         scores.should.eql({1: 25, 2: -25});
                         done();
-                    });
-                }
+                });
             });
 
         });
 
         describe('team2 wins', function() {
             var scores;
-            bus.post('scoreMatch', {
-                team1: {
-                    players: [{id: 1}],
-                    score: 5 
-                },
-                team2: {
-                    players: [{id: 2}],
-                    score: 10
-                },
-                callback: function(scores) {
-                    it('give player1 -25 points and player2 25 points', function(done){
-                        scores.should.eql({1: -25, 2: 25});
-                        done();
-                    });
-                }
+            it('should give player1 -25 points and player2 25 points', function(done){
+                bus.post('scoreMatch', {
+                    team1: {
+                        players: [{id: 1, getPoints: function(){return 1000;}}],
+                        score: 5 
+                    },
+                    team2: {
+                        players: [{id: 2, getPoints: function(){return 1000;}}],
+                        score: 10
+                    }
+                }).then(function(scores) {
+                    scores.should.eql({1: -25, 2: 25});
+                    done();
+                });
             });
 
         });
 
         describe('tied match', function(){
             var scores;
-            bus.post('scoreMatchEvent', {
-                team1: {
-                    players: [{id: 1}],
-                    score: 10
-                },
-                team2: {
-                    players: [{id: 2}],
-                    score: 10
-                },
-                callback: function(scores) {
-                    it('give all players zero points if the match is tied', function(done){
-                        scores.should.eql({1: 0, 2: 0});
-                        done();
-                    });
-                }
+            it('should give all players zero points if the match is tied', function(done){
+                bus.post('scoreMatch', {
+                    team1: {
+                        players: [{id: 1, getPoints: function(){return 1000;}}],
+                        score: 10
+                    },
+                    team2: {
+                        players: [{id: 2, getPoints: function(){return 1000;}}],
+                        score: 10
+                    }
+                }).then(function(scores){
+                    scores.should.eql({1: 0, 2: 0});
+                    done();
+                });
             });
         });
     });
