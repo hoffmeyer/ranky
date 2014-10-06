@@ -22,8 +22,10 @@ describe('scoringEngine', function() {
                         score: 5
                     }
                 }).then(function(scores) {
-                        scores.should.eql({1: 25, 2: -25});
-                        done();
+                    scores[1].should.be.greaterThan(scores[2]);
+                    done();
+                }).catch(function(err){
+                    done(err);
                 });
             });
 
@@ -42,8 +44,10 @@ describe('scoringEngine', function() {
                         score: 10
                     }
                 }).then(function(scores) {
-                    scores.should.eql({1: -25, 2: 25});
+                    scores[1].should.be.lessThan(scores[2]);
                     done();
+                }).catch(function(err){
+                    done(err);
                 });
             });
 
