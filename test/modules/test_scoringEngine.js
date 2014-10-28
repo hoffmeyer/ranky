@@ -37,7 +37,7 @@ describe('scoringEngine', function() {
                 bus.post('scoreMatch', {
                     team1: {
                         players: [{id: 1, getPoints: function(){return 1000;}}],
-                        score: 5 
+                        score: 5
                     },
                     team2: {
                         players: [{id: 2, getPoints: function(){return 1000;}}],
@@ -66,6 +66,7 @@ describe('scoringEngine', function() {
                         score: 10
                     }
                 }).then(function(scores){
+                    should.warn = false;
                     scores.should.eql({1: 0, 2: 0});
                     done();
                 });
