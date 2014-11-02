@@ -38,6 +38,9 @@ var loadEventsFromDB = function() {
 };
 
 loadEventsFromDB();
+if(process.argv[2] === 'test'){
+    require('./logic/testDataGenerator.js')(ranky, 50, 1000);
+}
 
 // start server
 var server = http.listen(process.env.PORT || 3000, function() { // process.env.PORT supplied by Heroku
