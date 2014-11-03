@@ -1,0 +1,30 @@
+extends ./layout.jade
+
+block scripts
+    script(src='/testData.js')
+
+block content
+    h1 Generate testdata
+
+    .status
+
+    label(for='numplayers') number of players
+    input.numplayers(id='numplayers')
+
+    br
+    br
+
+    label(for='numMatches') Number of matches
+    input.numMatches(id='numMatches')
+
+    br
+    br
+
+    label(for='persist') Persist in db
+    input.persists(id='persist', type='checkbox')
+
+    br
+    br
+
+    button.createTestData Create data
+

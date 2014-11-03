@@ -104,4 +104,9 @@ window.onload = function() {
         list = data;
         updateList();
     });
+
+    $(window).on('beforeunload', function(){
+        socket.close();
+    });
 };
+

@@ -65,14 +65,11 @@ module.exports = function(bus){
        favouriteTeamIsWinner = favouriteTeam.score > underdog.score;
 
         if(itsADraw){
-            console.log('its a draw');
             return transferPoints(favouriteTeam, underdog, 0);
         } else if (favouriteTeamIsWinner){
-            console.log('Favourite team wins');
             pointsInPlay = points * (1 - distribution);
             return transferPoints(favouriteTeam, underdog, pointsInPlay);
         } else {
-            console.log('Underdog team wins');
             pointsInPlay = points * distribution;
             return transferPoints(underdog, favouriteTeam, pointsInPlay);
         }

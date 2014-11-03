@@ -4,7 +4,9 @@ var validator = require('../logic/validator.js'),
     eventBus = require('../logic/eventBus.js')(),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
-    broadcastModule = require('../modules/broadcaster.js');
+    broadcastModule = require('../modules/broadcaster.js'),
+    testDataGeneratorModule = require('../modules/testDataGenerator.js');
+
 
 module.exports = function(io){
 'use strict';
@@ -17,6 +19,7 @@ module.exports = function(io){
     rankListModule(eventBus);
     scoringEngineModule(eventBus);
     broadcastModule(eventBus, io);
+    testDataGeneratorModule(eventBus)
 
     return {
         validateEvent: function(event) {

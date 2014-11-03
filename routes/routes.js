@@ -54,4 +54,16 @@ router.post('/match', function(req, res) {
     }
 });
 
+router.post('/test/generatePlayers', function(req, res){
+    req.ranky.handleEvent({type: 'generateTestPlayers', numPlayers: req.body.numPlayers}, res.persist).then(function(){
+        res.send(200);
+    });
+});
+
+router.post('/test/generateMatches', function(req, res){
+    req.ranky.handleEvent({type: 'generateTestMatches', numMatches: req.body.numMatches}, res.persist).then(function(){
+        res.send(200);
+    });
+});
+
 module.exports = router;

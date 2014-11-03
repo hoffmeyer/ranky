@@ -24,6 +24,9 @@ app.engine('jade', require('jade').__express);
 app.get('/', function(req, res){
     res.render('index');
 });
+app.get('/test', function(req, res){
+    res.render('testData');
+});
 app.use(express.static(__dirname + '/public'));
 
 // load data from database
