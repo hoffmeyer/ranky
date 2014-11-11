@@ -12,7 +12,7 @@ window.onload = function() {
             $.ajax({
                 type: 'POST',
                 url: '/test/generatePlayers',
-                data: JSON.stringify({numPlayers: numPlayers, persist: persist}),
+                data: JSON.stringify({numPlayers: numPlayers}),
                 success: function(data) {
                     $status.append('<p>' + numPlayers + ' players created</p>');
                 },
@@ -23,7 +23,7 @@ window.onload = function() {
             $.ajax({
                 type: 'POST',
                 url: '/test/generateMatches',
-                data: JSON.stringify({numMatches: numMatches, persist: persist}),
+                data: JSON.stringify({numMatches: numMatches}),
                 success: function(data) {
                     $status.append('<p>' + numMatches+ ' matches played</p>');
                 },
