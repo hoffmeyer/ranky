@@ -5,13 +5,13 @@ var validator = require('../logic/validator.js'),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
     broadcastModule = require('../modules/broadcaster.js'),
-    testDataGeneratorModule = require('../modules/testDataGenerator.js');
+    testDataGeneratorModule = require('../modules/testDataGenerator.js
 
 
 module.exports = function(io){
 'use strict';
-    var storeEvent = function(event) {
-        dbEvent.insert(event);
+    var storeevent = function(event) {
+        dbevent.insert(event);
         return true;
     };
 

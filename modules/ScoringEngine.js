@@ -32,11 +32,14 @@ module.exports = function(bus){
     };
 
     var sumTeamPoints = function(team) {
-        return team.players.reduce(
-                function(acc, player){ return player.getPoints();} ,0 );
+        var sum = 0;
+        team.players.forEach(function(elem, index){
+            sum += elem.getPoints();
+        });
+        return sum / team.players.length;
     };
 
-    var transferPoints = function(toTeam, fromTeam, points) {
+    var transferPoints = function(fromTeam, toTeam, points) {
         var scores = {};
         _.each(toTeam.players, function(elem) {scores[elem.id] = points;});
         _.each(fromTeam.players, function(elem) {scores[elem.id] = -points;});
@@ -68,10 +71,10 @@ module.exports = function(bus){
             return transferPoints(favouriteTeam, underdog, 0);
         } else if (favouriteTeamIsWinner){
             pointsInPlay = points * (1 - distribution);
-            return transferPoints(favouriteTeam, underdog, pointsInPlay);
+            return transferPoints(underdog, favouriteTeam, pointsInPlay);
         } else {
             pointsInPlay = points * distribution;
-            return transferPoints(underdog, favouriteTeam, pointsInPlay);
+            return transferPoints(favouriteTeam, underdog, pointsInPlay);
         }
     };
 
