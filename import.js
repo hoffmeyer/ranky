@@ -42,11 +42,11 @@ lr.on('line', function (line) {
         type: 'registerMatch',
         team1: {
             players : team1Players,
-            score : parts[4]
+            score : parseInt(parts[4], 10)
         },
         team2: {
             players  : team2Players,
-            score : parts[5],
+            score : parseInt(parts[5], 10)
         }
     };
 

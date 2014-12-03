@@ -30,16 +30,16 @@ module.exports = function(bus){
     var addMatch = function(event) {
         var team1Players = idsToPlayers(event.team1.players),
             team2Players = idsToPlayers(event.team2.players),
-        scoringEvent = {
-            team1: {
-                players: team1Players,
-                score: event.team1.score
-            },
-            team2: {
-                players: team2Players,
-                score: event.team2.score
-            }
-        };
+            scoringEvent = {
+                team1: {
+                    players: team1Players,
+                    score: event.team1.score
+                },
+                team2: {
+                    players: team2Players,
+                    score: event.team2.score
+                }
+            };
         bus.post('scoreMatch', scoringEvent).then(function(scores){
             setScoresOnPlayers(scores);
             bus.post('playersUpdated', {

@@ -31,7 +31,7 @@ module.exports = function(bus){
         return 1;
     };
 
-    var sumTeamPoints = function(team) {
+    var getTeamAveragePoints = function(team) {
         var sum = 0;
         team.players.forEach(function(elem, index){
             sum += elem.getPoints();
@@ -49,15 +49,15 @@ module.exports = function(bus){
     var scoreMatch = function(event) {
         var points = 50,
             itsADraw = event.team1.score === event.team2.score,
-            team1TotalPoints = sumTeamPoints(event.team1),
-            team2TotalPoints = sumTeamPoints(event.team2),
-            distribution = getDistribution(team1TotalPoints, team2TotalPoints),
+            team1AveragePoints = getTeamAveragePoints(event.team1),
+            team2AveragePoints = getTeamAveragePoints(event.team2),
+            distribution = getDistribution(team1AveragePoints, team2AveragePoints),
             pointsInPlay,
             favouriteTeam,
             underdog,
             favouriteTeamIsWinner;
 
-        if(team1TotalPoints > team2TotalPoints) {
+        if(team1AveragePoints > team2AveragePoints) {
             favouriteTeam = event.team1;
             underdog = event.team2;
         } else {
