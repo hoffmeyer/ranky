@@ -32,11 +32,17 @@ app.use(express.static(__dirname + '/public'));
 // load data from database
 var loadEventsFromDB = function() {
     dbEvent.find({},{sort: {id: 1}}, function(err, docs){
-        _.map(docs, function(event){
-            event.noBroadcast = true; // replayed events should not be broadcasted to external sources
-            ranky.handleEvent(event);
+        var i = 0;
+        var loadEvent = function(event){
             events.setNextId(event.id+1);
-        });
+            i++;
+            ranky.handleEvent(event).then(function(){
+                if(i < docs.length){
+                    loadEvent(docs[i]);
+                }
+            });
+        };
+        loadEvent(docs[0]);
     });
 };
 
