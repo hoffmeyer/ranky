@@ -93,8 +93,9 @@ describe('scoringEngine', function() {
                         score: 10
                     }
                 }).then(function(scores){
-                    should.warn = false;
-                    scores.should.eql({1: 0, 2: 0});
+                    for(var playerId in scores){
+                        scores[playerId].should.be.exactly(0);
+                    }
                     done();
                 });
             });

@@ -6,33 +6,43 @@ var express = require('express'),
     routes = require('./routes/routes.js'),
     db = require('monk')(process.env.MONGOLAB_URI || 'localhost/ranky'),
     io = require('socket.io')(http),
-    _ = require('underscore')._,
     dbEvent = db.get('events'),
     ranky = require('./logic/ranky.js')(io),
     events = require('./events/events.js');
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
+// to support JSON-encoded bodies
+app.use(bodyParser.json());
+
+// give access to ranky in the router
 app.use(function(req, res, next){
     req.ranky = ranky;
     next();
 });
+
+// set router
 app.use('/', routes);
 
+// setup jade for templating
 app.set('views', __dirname + '/tpl');
 app.set('view engine', 'jade');
 app.engine('jade', require('jade').__express);
+
+// static pages
 app.get('/', function(req, res){
     res.render('index');
 });
 app.get('/test', function(req, res){
     res.render('testData');
 });
+
+// serve resources from public folder eg css an client side js
 app.use(express.static(__dirname + '/public'));
 
 // load data from database
 var loadEventsFromDB = function() {
     dbEvent.find({},{sort: {id: 1}}, function(err, docs){
         var i = 0;
+        // function for chaining the events to roll them on synchronously
         var loadEvent = function(event){
             events.setNextId(event.id+1);
             i++;
@@ -47,9 +57,6 @@ var loadEventsFromDB = function() {
 };
 
 loadEventsFromDB();
-if(process.argv[2] === 'test'){
-    require('./logic/testDataGenerator.js')(ranky, 50, 1000);
-}
 
 // start server
 var server = http.listen(process.env.PORT || 3000, function() { // process.env.PORT supplied by Heroku
