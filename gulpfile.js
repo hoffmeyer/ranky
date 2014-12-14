@@ -18,9 +18,14 @@ gulp.task('browserify', function(){
             debug: true,
             transform: [hbsfy]
         }))
+        .on('error', handleError)
         .pipe(gulp.dest('public/js'))
 });
 
 gulp.task('less', function(){
 
 });
+
+var handleError = function(err){
+    console.log(err.stack);
+}

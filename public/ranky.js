@@ -1,112 +1,12 @@
-/* global $:false */
-/* global io:false */
-window.onload = function() {
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = {
+    players: []
+}
 
-    'use strict';
-    var socket = io(),
-        list;
+},{}],2:[function(require,module,exports){
+model = require('./model.js');
 
-    var sortList = function() {
-        list.sort(function(a,b){
-            return b.points - a.points;
-        });
-    };
+console.log('its working!');
+console.log(players);
 
-    var updateList = function() {
-        var $table = $('.ranklist'),
-        rows = [];
-
-        sortList();
-        $.each(list, function(index, player){
-            rows[index] = '<tr class="playerRow"><td style="text-align: right;">' + 
-                player.id + '</td><td>' + 
-                player.name + '</td><td>' + 
-                player.points + '</td></tr>';
-        });
-        $table.find('.playerRow').remove();
-        $table.append(rows.join(''));
-    };
-
-    var updatePlayer = function(newPlayer){
-        $.each(list, function(index, oldPlayer){
-            if(newPlayer.id == oldPlayer.id){
-                    list[index] = newPlayer;
-            }
-        });
-    };
-
-    socket.on('playersUpdated', function(msg){
-        $.each(msg, function(index, player){
-            updatePlayer(player);
-        });
-        updateList();
-    });
-
-    socket.on('playerCreated', function(player){
-        list.push(player);
-        updateList();
-    });
-
-
-    var addMatch = function() {
-        var player1 = $('.player1').val(),
-            player2 = $('.player2').val(),
-            score1 = $('.score1').val(),
-            score2 = $('.score2').val(),
-            match = {
-                team1: {
-                    players: [player1],
-                    score: score1
-                },
-                team2: {
-                    players: [player2],
-                    score: score2
-                }
-            };
-        $.ajax({
-            type: 'POST',
-            url: '/match',
-            data: JSON.stringify(match),
-            contentType: 'application/json'
-        });
-    };
-
-    var createPlayer = function() {
-        var playerName = $('.playername').val(),
-            player = {
-                name: playerName
-            };
-
-        $.ajax({
-            type: 'POST',
-            url: '/player',
-            data: JSON.stringify(player),
-            success: function(data) {
-                updatePlayer(player);
-                updateList();
-            },
-            contentType: 'application/json'
-        });
-    };
-
-    $('.addMatchBtn').click(function(){
-        addMatch();
-        $('.match input').val('').eq(0).focus();
-    });
-
-    $('.createPlayerBtn').click(function(){
-        createPlayer();
-        $('.playername').val('').focus();
-        
-    });
-
-    $.ajax('list').done(function(data){
-        list = data;
-        updateList();
-    });
-
-    $(window).on('beforeunload', function(){
-        socket.close();
-    });
-};
-
+},{"./model.js":1}]},{},[2]);
