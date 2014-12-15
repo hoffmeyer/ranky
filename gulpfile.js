@@ -15,7 +15,7 @@ gulp.task('browserify', function(){
     gulp.src('websrc/rankyui.js')
         .pipe(browserify({
             insertGlobals: true,
-            debug: true,
+            debug: false, // !gulp.env.production,
             transform: [hbsfy]
         }))
         .on('error', handleError)
