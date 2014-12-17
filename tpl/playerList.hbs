@@ -1,7 +1,16 @@
-<ul>
+<div class="PlayerList">
+  <table class="table">
+    <tr class="PlayerList-item">
+      <th class="PlayerList-item-place">#</th>
+      <th class="PlayerList-item-name">Player name</th>
+      <th class="PlayerList-item-points">Points</th>
+    </tr>
   {{#each this}}
-    <li>
-      {{name}}
-    </li>
+    <tr class="PlayerList-item">
+      <td class="PlayerList-item-place">{{inc @index}}</td>
+      <td class="PlayerList-item-name">{{name}}</td>
+      <td class="PlayerList-item-points">{{points}}</td>
+    </tr>
   {{/each}}
-</ul>
+  </table>
+</div>
