@@ -1,8 +1,9 @@
-var ranky = function(){
+document.addEventListener('DOMContentLoaded', function(){
   var hbsHelpers = require('./hbsHelpers.js'),
       model = require('./model.js'),
       observe = require('observe-js'),
-      playerList = require('./playerList.js');
+      playerList = require('./playerList.js'),
+      newMatch = require('./newMatch.js');
 
   // populate model
   request = new XMLHttpRequest();
@@ -28,12 +29,10 @@ var ranky = function(){
 
   // Listen for changes in model
   var changed = function(changes) {
-      console.log('Change observed!');
-      console.log(changes);
       playerList.update(changes);
   }
 
   var playerObserver = new observe.ArrayObserver(model.players);
   playerObserver.open(changed);
 
-}();
+});

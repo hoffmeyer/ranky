@@ -1,9 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./client/rankyui.js":[function(require,module,exports){
-var ranky = function(){
+document.addEventListener('DOMContentLoaded', function(){
   var hbsHelpers = require('./hbsHelpers.js'),
       model = require('./model.js'),
       observe = require('observe-js'),
-      playerList = require('./playerList.js');
+      playerList = require('./playerList.js'),
+      newMatch = require('./newMatch.js');
 
   // populate model
   request = new XMLHttpRequest();
@@ -29,17 +30,15 @@ var ranky = function(){
 
   // Listen for changes in model
   var changed = function(changes) {
-      console.log('Change observed!');
-      console.log(changes);
       playerList.update(changes);
   }
 
   var playerObserver = new observe.ArrayObserver(model.players);
   playerObserver.open(changed);
 
-}();
+});
 
-},{"./hbsHelpers.js":"/Users/flemminghoffmeyer/Development/ranky/client/hbsHelpers.js","./model.js":"/Users/flemminghoffmeyer/Development/ranky/client/model.js","./playerList.js":"/Users/flemminghoffmeyer/Development/ranky/client/playerList.js","observe-js":"/Users/flemminghoffmeyer/Development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/flemminghoffmeyer/Development/ranky/client/hbsHelpers.js":[function(require,module,exports){
+},{"./hbsHelpers.js":"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","./newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","./playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js":[function(require,module,exports){
 
 module.exports = function(){
     Handlebars = require('hbsfy/runtime');
@@ -50,16 +49,26 @@ module.exports = function(){
 
 }();
 
-},{"hbsfy/runtime":"/Users/flemminghoffmeyer/Development/ranky/node_modules/hbsfy/runtime.js"}],"/Users/flemminghoffmeyer/Development/ranky/client/model.js":[function(require,module,exports){
+},{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}],"/Users/hoffmeyer/development/ranky/client/model.js":[function(require,module,exports){
 module.exports = {
     players: []
 }
 
-},{}],"/Users/flemminghoffmeyer/Development/ranky/client/playerList.js":[function(require,module,exports){
+},{}],"/Users/hoffmeyer/development/ranky/client/newMatch.js":[function(require,module,exports){
+module.exports = function() {
+    var tpl = require('../tpl/newMatch.hbs'),
+        newMatchContainer = document.getElementById('addMatch');
+
+    console.log('adding stuff');
+    newMatchContainer.innerHTML = tpl();
+}();
+
+},{"../tpl/newMatch.hbs":"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs"}],"/Users/hoffmeyer/development/ranky/client/playerList.js":[function(require,module,exports){
 
 module.exports = function(){
     var listTpl = require('../tpl/playerList.hbs'),
         model = require('./model.js');
+        
     return {
         update: function(changes){
             var playerListContainer = document.getElementById('playerList');
@@ -68,7 +77,7 @@ module.exports = function(){
     };
 }();
 
-},{"../tpl/playerList.hbs":"/Users/flemminghoffmeyer/Development/ranky/tpl/playerList.hbs","./model.js":"/Users/flemminghoffmeyer/Development/ranky/client/model.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js":[function(require,module,exports){
+},{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js":[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var base = require("./handlebars/base");
@@ -104,7 +113,7 @@ Handlebars.create = create;
 Handlebars['default'] = Handlebars;
 
 exports["default"] = Handlebars;
-},{"./handlebars/base":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./handlebars/exception":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./handlebars/runtime":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js","./handlebars/safe-string":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js","./handlebars/utils":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js":[function(require,module,exports){
+},{"./handlebars/base":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./handlebars/exception":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./handlebars/runtime":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js","./handlebars/safe-string":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js","./handlebars/utils":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js":[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -336,7 +345,7 @@ var createFrame = function(object) {
   return frame;
 };
 exports.createFrame = createFrame;
-},{"./exception":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js":[function(require,module,exports){
+},{"./exception":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js":[function(require,module,exports){
 "use strict";
 
 var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
@@ -365,7 +374,7 @@ function Exception(message, node) {
 Exception.prototype = new Error();
 
 exports["default"] = Exception;
-},{}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js":[function(require,module,exports){
+},{}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js":[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -559,7 +568,7 @@ exports.noop = noop;function initData(context, data) {
   }
   return data;
 }
-},{"./base":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./exception":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js":[function(require,module,exports){
+},{"./base":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./exception":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js":[function(require,module,exports){
 "use strict";
 // Build out our basic SafeString type
 function SafeString(string) {
@@ -571,7 +580,7 @@ SafeString.prototype.toString = function() {
 };
 
 exports["default"] = SafeString;
-},{}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js":[function(require,module,exports){
+},{}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js":[function(require,module,exports){
 "use strict";
 /*jshint -W004 */
 var SafeString = require("./safe-string")["default"];
@@ -660,15 +669,15 @@ exports.isEmpty = isEmpty;function appendContextPath(contextPath, id) {
 }
 
 exports.appendContextPath = appendContextPath;
-},{"./safe-string":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/runtime.js":[function(require,module,exports){
+},{"./safe-string":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/runtime.js":[function(require,module,exports){
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
 module.exports = require('./dist/cjs/handlebars.runtime');
 
-},{"./dist/cjs/handlebars.runtime":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/hbsfy/runtime.js":[function(require,module,exports){
+},{"./dist/cjs/handlebars.runtime":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js"}],"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js":[function(require,module,exports){
 module.exports = require("handlebars/runtime")["default"];
 
-},{"handlebars/runtime":"/Users/flemminghoffmeyer/Development/ranky/node_modules/handlebars/runtime.js"}],"/Users/flemminghoffmeyer/Development/ranky/node_modules/observe-js/src/observe.js":[function(require,module,exports){
+},{"handlebars/runtime":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/runtime.js"}],"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js":[function(require,module,exports){
 (function (global){
 /*
  * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -2383,7 +2392,14 @@ module.exports = require("handlebars/runtime")["default"];
 })(typeof global !== 'undefined' && global && typeof module !== 'undefined' && module ? global : this || window);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/Users/flemminghoffmeyer/Development/ranky/tpl/playerList.hbs":[function(require,module,exports){
+},{}],"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs":[function(require,module,exports){
+// hbsfy compiled Handlebars template
+var HandlebarsCompiler = require('hbsfy/runtime');
+module.exports = HandlebarsCompiler.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<div class='addMatch'>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"player1-1\">Team 1</label>\n            <div class=\"col-sm-5\">\n                <input id=\"player1-1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-5\">\n                <input id=\"player1-2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"player2-1\">Team 2</label>\n            <div class=\"col-sm-5\">\n                <input id=\"player2-1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-5\">\n                <input id=\"player2-2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-sm-offset-2 col-sm-10\">\n                <button type=\"submit\" class=\"btn btn-primary pull-right\">Register match</button>\n            </div>\n        </div>\n    </form>\n</div>\n";
+  },"useData":true});
+
+},{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}],"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs":[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(depth0,helpers,partials,data) {
@@ -2396,12 +2412,12 @@ module.exports = HandlebarsCompiler.template({"1":function(depth0,helpers,partia
     + escapeExpression(((helper = (helper = helpers.points || (depth0 != null ? depth0.points : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"points","hash":{},"data":data}) : helper)))
     + "</td>\n    </tr>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class=\"PlayerList\">\n  <table class=\"table\">\n    <tr class=\"PlayerList-item\">\n      <th class=\"PlayerList-item-place\">#</th>\n      <th class=\"PlayerList-item-name\">Player name</th>\n      <th class=\"PlayerList-item-points\">Points</th>\n    </tr>\n";
+  var stack1, buffer = "<div class=\"playerList\">\n  <table class=\"table\">\n    <tr class=\"PlayerList-item\">\n      <th class=\"PlayerList-item-place\">#</th>\n      <th class=\"PlayerList-item-name\">Player name</th>\n      <th class=\"PlayerList-item-points\">Points</th>\n    </tr>\n";
   stack1 = helpers.each.call(depth0, depth0, {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "  </table>\n</div>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":"/Users/flemminghoffmeyer/Development/ranky/node_modules/hbsfy/runtime.js"}]},{},["./client/rankyui.js"]);
+},{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}]},{},["./client/rankyui.js"]);
 
 //# sourceMappingURL=bundle.js.map
