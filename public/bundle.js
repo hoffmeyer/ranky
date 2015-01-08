@@ -100,7 +100,6 @@ module.exports = function() {
         };
 
         controller.newMatch(team1, team2);
-
         formUtil.clearInputs(t1p1Input, t1p2Input, t1Score, t2p1Input, t2p2Input, t2Score);
     });
 
@@ -122,11 +121,11 @@ module.exports = function(){
 
 },{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js"}],"/Users/hoffmeyer/development/ranky/client/util/formUtil.js":[function(require,module,exports){
 module.exports = {
-    clearInputs: function(value){
+    clearInputs: function(){
         var args = Array.prototype.slice.call(arguments);
         args.forEach(function(e, i){
-            if(e.tagName === "input"){
-                e.value = value ? value : null;
+            if(e.tagName.toLowerCase() === "input"){
+                e.value = null;
             }
         });
     }

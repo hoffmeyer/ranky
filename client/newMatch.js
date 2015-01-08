@@ -36,7 +36,6 @@ module.exports = function() {
         };
 
         controller.newMatch(team1, team2);
-
         formUtil.clearInputs(t1p1Input, t1p2Input, t1Score, t2p1Input, t2p2Input, t2Score);
     });
 
