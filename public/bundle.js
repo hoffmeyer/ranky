@@ -38,7 +38,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
 });
 
-},{"./hbsHelpers.js":"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","./newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","./playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js":[function(require,module,exports){
+},{"./hbsHelpers.js":"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","./newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","./playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/controller.js":[function(require,module,exports){
+module.exports = {
+    newMatch : function(team1, team2){
+        console.log(team1, team2);
+    }
+}
+
+},{}],"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js":[function(require,module,exports){
 
 module.exports = function(){
     Handlebars = require('hbsfy/runtime');
@@ -55,15 +62,51 @@ module.exports = {
 }
 
 },{}],"/Users/hoffmeyer/development/ranky/client/newMatch.js":[function(require,module,exports){
+var formUtil = require('./util/formUtil'),
+    controller = require('./controller.js');
+
 module.exports = function() {
     var tpl = require('../tpl/newMatch.hbs'),
         newMatchContainer = document.getElementById('addMatch');
 
-    console.log('adding stuff');
     newMatchContainer.innerHTML = tpl();
+
+    var t1p1Input = document.getElementById('newMatch-team1-player1'),
+        t1p2Input = document.getElementById('newMatch-team1-player2'),
+        t1Score  = document.getElementById('newMatch-team1-score'),
+        t2p1Input = document.getElementById('newMatch-team2-player1'),
+        t2p2Input = document.getElementById('newMatch-team2-player2');
+        t2Score  = document.getElementById('newMatch-team2-score'),
+
+    document.getElementById('newMatch-btn').addEventListener('click', function(e){
+        var team1, team2;
+
+        e.preventDefault();
+
+        team1 = {
+            players: [
+                +t1p1Input.value,
+                +t1p2Input.value
+            ],
+            score: +t1Score.value
+        };
+
+        team2 = {
+            players: [
+                +t2p1Input.value,
+                +t2p2Input.value
+            ],
+            score: +t2Score.value
+        };
+
+        controller.newMatch(team1, team2);
+
+        formUtil.clearInputs(t1p1Input, t1p2Input, t1Score, t2p1Input, t2p2Input, t2Score);
+    });
+
 }();
 
-},{"../tpl/newMatch.hbs":"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs"}],"/Users/hoffmeyer/development/ranky/client/playerList.js":[function(require,module,exports){
+},{"../tpl/newMatch.hbs":"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs","./controller.js":"/Users/hoffmeyer/development/ranky/client/controller.js","./util/formUtil":"/Users/hoffmeyer/development/ranky/client/util/formUtil.js"}],"/Users/hoffmeyer/development/ranky/client/playerList.js":[function(require,module,exports){
 
 module.exports = function(){
     var listTpl = require('../tpl/playerList.hbs'),
@@ -77,7 +120,19 @@ module.exports = function(){
     };
 }();
 
-},{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js":[function(require,module,exports){
+},{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js"}],"/Users/hoffmeyer/development/ranky/client/util/formUtil.js":[function(require,module,exports){
+module.exports = {
+    clearInputs: function(value){
+        var args = Array.prototype.slice.call(arguments);
+        args.forEach(function(e, i){
+            if(e.tagName === "input"){
+                e.value = value ? value : null;
+            }
+        });
+    }
+};
+
+},{}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js":[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var base = require("./handlebars/base");
@@ -2396,7 +2451,7 @@ module.exports = require("handlebars/runtime")["default"];
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class='addMatch'>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"player1-1\">Team 1</label>\n            <div class=\"col-sm-5\">\n                <input id=\"player1-1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-5\">\n                <input id=\"player1-2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"player2-1\">Team 2</label>\n            <div class=\"col-sm-5\">\n                <input id=\"player2-1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-5\">\n                <input id=\"player2-2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-sm-offset-2 col-sm-10\">\n                <button type=\"submit\" class=\"btn btn-primary pull-right\">Register match</button>\n            </div>\n        </div>\n    </form>\n</div>\n";
+  return "<div class='addMatch'>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team1-player1\">Team 1</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team1-player1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team1-player2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n            <div class=\"col-sm-2\">\n                <input id=\"newMatch-team1-score\" class=\"form-control\" placeholder=\"Score\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team2-player1\">Team 2</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team2-player1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team2-player2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n            <div class=\"col-sm-2\">\n                <input id=\"newMatch-team2-score\" class=\"form-control\" placeholder=\"Score\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-sm-offset-2 col-sm-10\">\n                <button id=\"newMatch-btn\" type=\"submit\" class=\"btn btn-primary pull-right\">Register match</button>\n            </div>\n        </div>\n    </form>\n</div>\n";
   },"useData":true});
 
 },{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}],"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs":[function(require,module,exports){
