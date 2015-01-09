@@ -1,11 +1,10 @@
 var formUtil = require('./util/formUtil'),
     controller = require('./controller.js');
 
-module.exports = function() {
-    var tpl = require('../tpl/newMatch.hbs'),
-        newMatchContainer = document.getElementById('addMatch');
+module.exports = function(element) {
+    var tpl = require('../tpl/newMatch.hbs');
 
-    newMatchContainer.innerHTML = tpl();
+    element.innerHTML = tpl();
 
     var t1p1Input = document.getElementById('newMatch-team1-player1'),
         t1p2Input = document.getElementById('newMatch-team1-player2'),
@@ -39,4 +38,4 @@ module.exports = function() {
         formUtil.clearInputs(t1p1Input, t1p2Input, t1Score, t2p1Input, t2p2Input, t2Score);
     });
 
-}();
+};

@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var hbsHelpers = require('./hbsHelpers.js'),
       model = require('./model.js'),
       observe = require('observe-js'),
-      playerList = require('./playerList.js'),
-      newMatch = require('./newMatch.js');
+      routes = require('./routes/routes.js');
+
+  routes(document.getElementById('appContent'));
+
 
   // populate model
   request = new XMLHttpRequest();
@@ -25,20 +27,9 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 
   request.send();
-
-  // Initialize views
-
-  // Listen for changes in model
-  var changed = function(changes) {
-      playerList.update(changes);
-  }
-
-  var playerObserver = new observe.ArrayObserver(model.players);
-  playerObserver.open(changed);
-
 });
 
-},{"./hbsHelpers.js":"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","./newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","./playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/controller.js":[function(require,module,exports){
+},{"./hbsHelpers.js":"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","./routes/routes.js":"/Users/hoffmeyer/development/ranky/client/routes/routes.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/controller.js":[function(require,module,exports){
 module.exports = {
     newMatch : function(team1, team2){
         console.log(team1, team2);
@@ -65,11 +56,10 @@ module.exports = {
 var formUtil = require('./util/formUtil'),
     controller = require('./controller.js');
 
-module.exports = function() {
-    var tpl = require('../tpl/newMatch.hbs'),
-        newMatchContainer = document.getElementById('addMatch');
+module.exports = function(element) {
+    var tpl = require('../tpl/newMatch.hbs');
 
-    newMatchContainer.innerHTML = tpl();
+    element.innerHTML = tpl();
 
     var t1p1Input = document.getElementById('newMatch-team1-player1'),
         t1p2Input = document.getElementById('newMatch-team1-player2'),
@@ -103,23 +93,48 @@ module.exports = function() {
         formUtil.clearInputs(t1p1Input, t1p2Input, t1Score, t2p1Input, t2p2Input, t2Score);
     });
 
-}();
+};
 
 },{"../tpl/newMatch.hbs":"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs","./controller.js":"/Users/hoffmeyer/development/ranky/client/controller.js","./util/formUtil":"/Users/hoffmeyer/development/ranky/client/util/formUtil.js"}],"/Users/hoffmeyer/development/ranky/client/playerList.js":[function(require,module,exports){
+var model = require('./model.js'),
+    observe = require('observe-js');
 
-module.exports = function(){
+module.exports = function(element){
     var listTpl = require('../tpl/playerList.hbs'),
-        model = require('./model.js');
-        
-    return {
-        update: function(changes){
-            var playerListContainer = document.getElementById('playerList');
-            playerListContainer.innerHTML = listTpl(model.players);
-        }
-    };
-}();
+        playerObserver = new observe.ArrayObserver(model.players);
 
-},{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js"}],"/Users/hoffmeyer/development/ranky/client/util/formUtil.js":[function(require,module,exports){
+    var update = function(){
+        element.innerHTML = listTpl(model.players);
+    }
+    update()
+    playerObserver.open(update);
+};
+
+},{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/routes/routes.js":[function(require,module,exports){
+var playerList = require('../playerList.js'),
+    newMatch = require('../newMatch.js');
+
+module.exports = function(element){
+    playerList(element);
+    window.onpopstate = function(){
+        var url = window.location.hash.substr(1),
+            view;
+
+        switch(url){
+            case 'newMatch':
+                view = newMatch;
+                console.log('newMatch');
+                break;
+            default:
+                view = playerList;
+                console.log('playerList');
+                break;
+        }
+        view(element);
+    };
+};
+
+},{"../newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","../playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js"}],"/Users/hoffmeyer/development/ranky/client/util/formUtil.js":[function(require,module,exports){
 module.exports = {
     clearInputs: function(){
         var args = Array.prototype.slice.call(arguments);

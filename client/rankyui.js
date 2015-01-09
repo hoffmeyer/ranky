@@ -2,8 +2,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var hbsHelpers = require('./hbsHelpers.js'),
       model = require('./model.js'),
       observe = require('observe-js'),
-      playerList = require('./playerList.js'),
-      newMatch = require('./newMatch.js');
+      routes = require('./routes/routes.js');
+
+  routes(document.getElementById('appContent'));
+
 
   // populate model
   request = new XMLHttpRequest();
@@ -24,15 +26,4 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 
   request.send();
-
-  // Initialize views
-
-  // Listen for changes in model
-  var changed = function(changes) {
-      playerList.update(changes);
-  }
-
-  var playerObserver = new observe.ArrayObserver(model.players);
-  playerObserver.open(changed);
-
 });
