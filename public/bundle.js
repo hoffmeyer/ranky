@@ -115,23 +115,27 @@ var playerList = require('../playerList.js'),
     newMatch = require('../newMatch.js');
 
 module.exports = function(element){
-    playerList(element);
-    window.onpopstate = function(){
+
+    var updateContent = function() {
         var url = window.location.hash.substr(1),
             view;
 
         switch(url){
             case 'newMatch':
                 view = newMatch;
-                console.log('newMatch');
                 break;
             default:
                 view = playerList;
-                console.log('playerList');
                 break;
         }
         view(element);
     };
+
+    window.onpopstate = function(){
+        updateContent();
+    };
+
+    updateContent();
 };
 
 },{"../newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","../playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js"}],"/Users/hoffmeyer/development/ranky/client/util/formUtil.js":[function(require,module,exports){
