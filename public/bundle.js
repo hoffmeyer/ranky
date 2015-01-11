@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function(){
   request.send();
 });
 
-},{"./hbsHelpers.js":"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","./routes/routes.js":"/Users/hoffmeyer/development/ranky/client/routes/routes.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/controller.js":[function(require,module,exports){
+},{"./hbsHelpers.js":"/home/flemming/Development/ranky/client/hbsHelpers.js","./model.js":"/home/flemming/Development/ranky/client/model.js","./routes/routes.js":"/home/flemming/Development/ranky/client/routes/routes.js","observe-js":"/home/flemming/Development/ranky/node_modules/observe-js/src/observe.js"}],"/home/flemming/Development/ranky/client/controller.js":[function(require,module,exports){
 module.exports = {
     newMatch : function(team1, team2){
         console.log(team1, team2);
     }
 }
 
-},{}],"/Users/hoffmeyer/development/ranky/client/hbsHelpers.js":[function(require,module,exports){
+},{}],"/home/flemming/Development/ranky/client/hbsHelpers.js":[function(require,module,exports){
 
 module.exports = function(){
     Handlebars = require('hbsfy/runtime');
@@ -47,12 +47,12 @@ module.exports = function(){
 
 }();
 
-},{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}],"/Users/hoffmeyer/development/ranky/client/model.js":[function(require,module,exports){
+},{"hbsfy/runtime":"/home/flemming/Development/ranky/node_modules/hbsfy/runtime.js"}],"/home/flemming/Development/ranky/client/model.js":[function(require,module,exports){
 module.exports = {
     players: []
 }
 
-},{}],"/Users/hoffmeyer/development/ranky/client/newMatch.js":[function(require,module,exports){
+},{}],"/home/flemming/Development/ranky/client/newMatch.js":[function(require,module,exports){
 var formUtil = require('./util/formUtil'),
     controller = require('./controller.js');
 
@@ -95,7 +95,7 @@ module.exports = function(element) {
 
 };
 
-},{"../tpl/newMatch.hbs":"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs","./controller.js":"/Users/hoffmeyer/development/ranky/client/controller.js","./util/formUtil":"/Users/hoffmeyer/development/ranky/client/util/formUtil.js"}],"/Users/hoffmeyer/development/ranky/client/playerList.js":[function(require,module,exports){
+},{"../tpl/newMatch.hbs":"/home/flemming/Development/ranky/tpl/newMatch.hbs","./controller.js":"/home/flemming/Development/ranky/client/controller.js","./util/formUtil":"/home/flemming/Development/ranky/client/util/formUtil.js"}],"/home/flemming/Development/ranky/client/playerList.js":[function(require,module,exports){
 var model = require('./model.js'),
     observe = require('observe-js');
 
@@ -110,7 +110,7 @@ module.exports = function(element){
     playerObserver.open(update);
 };
 
-},{"../tpl/playerList.hbs":"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs","./model.js":"/Users/hoffmeyer/development/ranky/client/model.js","observe-js":"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js"}],"/Users/hoffmeyer/development/ranky/client/routes/routes.js":[function(require,module,exports){
+},{"../tpl/playerList.hbs":"/home/flemming/Development/ranky/tpl/playerList.hbs","./model.js":"/home/flemming/Development/ranky/client/model.js","observe-js":"/home/flemming/Development/ranky/node_modules/observe-js/src/observe.js"}],"/home/flemming/Development/ranky/client/routes/routes.js":[function(require,module,exports){
 var playerList = require('../playerList.js'),
     newMatch = require('../newMatch.js');
 
@@ -138,7 +138,7 @@ module.exports = function(element){
     updateContent();
 };
 
-},{"../newMatch.js":"/Users/hoffmeyer/development/ranky/client/newMatch.js","../playerList.js":"/Users/hoffmeyer/development/ranky/client/playerList.js"}],"/Users/hoffmeyer/development/ranky/client/util/formUtil.js":[function(require,module,exports){
+},{"../newMatch.js":"/home/flemming/Development/ranky/client/newMatch.js","../playerList.js":"/home/flemming/Development/ranky/client/playerList.js"}],"/home/flemming/Development/ranky/client/util/formUtil.js":[function(require,module,exports){
 module.exports = {
     clearInputs: function(){
         var args = Array.prototype.slice.call(arguments);
@@ -150,7 +150,7 @@ module.exports = {
     }
 };
 
-},{}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js":[function(require,module,exports){
+},{}],"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js":[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var base = require("./handlebars/base");
@@ -186,7 +186,7 @@ Handlebars.create = create;
 Handlebars['default'] = Handlebars;
 
 exports["default"] = Handlebars;
-},{"./handlebars/base":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./handlebars/exception":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./handlebars/runtime":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js","./handlebars/safe-string":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js","./handlebars/utils":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js":[function(require,module,exports){
+},{"./handlebars/base":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./handlebars/exception":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./handlebars/runtime":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js","./handlebars/safe-string":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js","./handlebars/utils":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js":[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -418,7 +418,7 @@ var createFrame = function(object) {
   return frame;
 };
 exports.createFrame = createFrame;
-},{"./exception":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js":[function(require,module,exports){
+},{"./exception":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js":[function(require,module,exports){
 "use strict";
 
 var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
@@ -447,7 +447,7 @@ function Exception(message, node) {
 Exception.prototype = new Error();
 
 exports["default"] = Exception;
-},{}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js":[function(require,module,exports){
+},{}],"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/runtime.js":[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -641,7 +641,7 @@ exports.noop = noop;function initData(context, data) {
   }
   return data;
 }
-},{"./base":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./exception":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js":[function(require,module,exports){
+},{"./base":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/base.js","./exception":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/exception.js","./utils":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js"}],"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js":[function(require,module,exports){
 "use strict";
 // Build out our basic SafeString type
 function SafeString(string) {
@@ -653,7 +653,7 @@ SafeString.prototype.toString = function() {
 };
 
 exports["default"] = SafeString;
-},{}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js":[function(require,module,exports){
+},{}],"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/utils.js":[function(require,module,exports){
 "use strict";
 /*jshint -W004 */
 var SafeString = require("./safe-string")["default"];
@@ -742,15 +742,15 @@ exports.isEmpty = isEmpty;function appendContextPath(contextPath, id) {
 }
 
 exports.appendContextPath = appendContextPath;
-},{"./safe-string":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js"}],"/Users/hoffmeyer/development/ranky/node_modules/handlebars/runtime.js":[function(require,module,exports){
+},{"./safe-string":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars/safe-string.js"}],"/home/flemming/Development/ranky/node_modules/handlebars/runtime.js":[function(require,module,exports){
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
 module.exports = require('./dist/cjs/handlebars.runtime');
 
-},{"./dist/cjs/handlebars.runtime":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js"}],"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js":[function(require,module,exports){
+},{"./dist/cjs/handlebars.runtime":"/home/flemming/Development/ranky/node_modules/handlebars/dist/cjs/handlebars.runtime.js"}],"/home/flemming/Development/ranky/node_modules/hbsfy/runtime.js":[function(require,module,exports){
 module.exports = require("handlebars/runtime")["default"];
 
-},{"handlebars/runtime":"/Users/hoffmeyer/development/ranky/node_modules/handlebars/runtime.js"}],"/Users/hoffmeyer/development/ranky/node_modules/observe-js/src/observe.js":[function(require,module,exports){
+},{"handlebars/runtime":"/home/flemming/Development/ranky/node_modules/handlebars/runtime.js"}],"/home/flemming/Development/ranky/node_modules/observe-js/src/observe.js":[function(require,module,exports){
 (function (global){
 /*
  * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -2465,14 +2465,14 @@ module.exports = require("handlebars/runtime")["default"];
 })(typeof global !== 'undefined' && global && typeof module !== 'undefined' && module ? global : this || window);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/Users/hoffmeyer/development/ranky/tpl/newMatch.hbs":[function(require,module,exports){
+},{}],"/home/flemming/Development/ranky/tpl/newMatch.hbs":[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class='addMatch'>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team1-player1\">Team 1</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team1-player1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team1-player2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n            <div class=\"col-sm-2\">\n                <input id=\"newMatch-team1-score\" class=\"form-control\" placeholder=\"Score\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team2-player1\">Team 2</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team2-player1\" class=\"form-control\" placeholder=\"Player 1\"></input>\n            </div>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team2-player2\" class=\"form-control\" placeholder=\"Player 2\"></input>\n            </div>\n            <div class=\"col-sm-2\">\n                <input id=\"newMatch-team2-score\" class=\"form-control\" placeholder=\"Score\"></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-sm-offset-2 col-sm-10\">\n                <button id=\"newMatch-btn\" type=\"submit\" class=\"btn btn-primary pull-right\">Register match</button>\n            </div>\n        </div>\n    </form>\n</div>\n";
+  return "<div class='addMatch'>\n    <h1>Add match</h1>\n    <form class=\"form-horizontal\">\n        <h2>Team 1</h2>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team1-player1\">Player 1</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team1-player1\" class=\"form-control\" ></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team1-player1\">Player 2</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team1-player2\" class=\"form-control\" ></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team1-score\">Score</label>\n            <div class=\"col-sm-2\">\n                <input id=\"newMatch-team1-score\" class=\"form-control\" ></input>\n            </div>\n        </div>\n        <h2>Team 2</h2>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team2-player1\">Player 1</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team2-player1\" class=\"form-control\" ></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team2-player1\">Player 2</label>\n            <div class=\"col-sm-4\">\n                <input id=\"newMatch-team2-player2\" class=\"form-control\" ></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-sm-2 control-label\" for=\"newMatch-team2-score\">Score</label>\n            <div class=\"col-sm-2\">\n                <input id=\"newMatch-team2-score\" class=\"form-control\" ></input>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-sm-offset-2 col-sm-10\">\n                <button id=\"newMatch-btn\" type=\"submit\" class=\"btn btn-primary pull-right\">Register match</button>\n            </div>\n        </div>\n    </form>\n</div>\n";
   },"useData":true});
 
-},{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}],"/Users/hoffmeyer/development/ranky/tpl/playerList.hbs":[function(require,module,exports){
+},{"hbsfy/runtime":"/home/flemming/Development/ranky/node_modules/hbsfy/runtime.js"}],"/home/flemming/Development/ranky/tpl/playerList.hbs":[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(depth0,helpers,partials,data) {
@@ -2485,12 +2485,12 @@ module.exports = HandlebarsCompiler.template({"1":function(depth0,helpers,partia
     + escapeExpression(((helper = (helper = helpers.points || (depth0 != null ? depth0.points : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"points","hash":{},"data":data}) : helper)))
     + "</td>\n    </tr>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class=\"playerList\">\n  <table class=\"table\">\n    <tr class=\"PlayerList-item\">\n      <th class=\"PlayerList-item-place\">#</th>\n      <th class=\"PlayerList-item-name\">Player name</th>\n      <th class=\"PlayerList-item-points\">Points</th>\n    </tr>\n";
+  var stack1, buffer = "<div class=\"playerList\">\n  <h1>Ranking</h1>\n  <table class=\"table\">\n    <tr class=\"PlayerList-item\">\n      <th class=\"PlayerList-item-place\">#</th>\n      <th class=\"PlayerList-item-name\">Player name</th>\n      <th class=\"PlayerList-item-points\">Points</th>\n    </tr>\n";
   stack1 = helpers.each.call(depth0, depth0, {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "  </table>\n</div>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":"/Users/hoffmeyer/development/ranky/node_modules/hbsfy/runtime.js"}]},{},["./client/rankyui.js"]);
+},{"hbsfy/runtime":"/home/flemming/Development/ranky/node_modules/hbsfy/runtime.js"}]},{},["./client/rankyui.js"]);
 
 //# sourceMappingURL=bundle.js.map
