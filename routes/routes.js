@@ -31,6 +31,7 @@ router.post('/player', function(req, res) {
 });
 
 router.post('/match', function(req, res) {
+    console.log('received in post match');
     var event,
         validTeam1 = req.body.team1 && req.body.team1.players && req.body.team1.score,
         validTeam2 = req.body.team2 && req.body.team2.players && req.body.team2.score;
@@ -43,14 +44,16 @@ router.post('/match', function(req, res) {
             req.body.team2.score);
 
         if(req.ranky.validateEvent(event)) {
-            req.ranky.handleEvent(event, true).then(function(){
+            req.ranky.handleEvent(event, true).then(function(scores){
                 res.send(scores);
+            }, function(error){
+                res.send(500, error);
             });
         } else {
-            res.send(400);
+            res.send(400, 'invalid request');
         }
     } else {
-        res.send(400);
+        res.send(400, 'invalid request');
     }
 });
 

@@ -9,8 +9,8 @@ var validator = require('../logic/validator.js'),
 
 module.exports = function(io){
 'use strict';
-    var storeevent = function(event) {
-        dbevent.insert(event);
+    var storeEvent = function(event) {
+        dbEvent.insert(event);
         return true;
     };
 
