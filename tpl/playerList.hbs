@@ -1,0 +1,17 @@
+<div class="playerList">
+  <h1>Ranking</h1>
+  <table class="table">
+    <tr class="PlayerList-item">
+      <th class="PlayerList-item-place">#</th>
+      <th class="PlayerList-item-name">Player name</th>
+      <th class="PlayerList-item-points">Points</th>
+    </tr>
+  {{#each this}}
+    <tr class="PlayerList-item">
+      <td class="PlayerList-item-place">{{inc @index}}</td>
+      <td class="PlayerList-item-name">{{name}}</td>
+      <td class="PlayerList-item-points">{{points}}</td>
+    </tr>
+  {{/each}}
+  </table>
+</div>

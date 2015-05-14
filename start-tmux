@@ -15,7 +15,7 @@ if [ $? != 0 ]
     tmux new-window -n console -t $SN
     tmux send-key -t $SN:2.1 'git status' C-m
     tmux split-window -h -t $SN
-    tmux send-key -t $SN:2.2 'nodemon --debug app.js' C-m
+    tmux send-key -t $SN:2.2 'gulp' C-m
     tmux split-window -v -t $SN
     tmux select-pane -U
     tmux select-window -t $SN:1

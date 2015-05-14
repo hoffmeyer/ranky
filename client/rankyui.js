@@ -1,0 +1,29 @@
+document.addEventListener('DOMContentLoaded', function(){
+  var hbsHelpers = require('./hbsHelpers.js'),
+      model = require('./model.js'),
+      observe = require('observe-js'),
+      routes = require('./routes/routes.js');
+
+  routes(document.getElementById('appContent'));
+
+
+  // populate model
+  request = new XMLHttpRequest();
+  request.open('GET', '/list', true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400){
+      data = JSON.parse(request.responseText);
+      model.players.push.apply(model.players, data);
+      Platform.performMicrotaskCheckpoint();
+    } else {
+        console.log('An error occurred while retreiving the list');
+    }
+  };
+
+  request.onerror = function() {
+      console.log('Something went very wrong while retreiving the list');
+  };
+
+  request.send();
+});

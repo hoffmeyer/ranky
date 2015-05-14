@@ -1,31 +1,25 @@
 extends ./layout.jade
 
 block scripts
-    script(src='/ranky.js')
+    script(src='/bundle.js')
     script(src='/socket.io/socket.io.js')
-    link(rel='stylesheet', type='text/css', href='css/index.css')
+    link(rel='stylesheet', type='text/css', href='ranky.css')
     
 block content
-    h1 Ranky - Scoring the elite
+    nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#") Ranky
 
-    .newMatch
-        h2 New Match
-        table.match
-            tr
-                td: input.player1(placeholder="Player1 id")
-                td: input.score1(placeholder="Score1")
-            tr
-                td: input.player2(placeholder="Player2 id")
-                td: input.score2(placeholder="Score2")
-        button.addMatchBtn Add match
+         .collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
+           ul.nav.navbar-nav.navbar-right
+            li
+              a(href="#newMatch") +
     
-    .createPlayer
-        h2 Create player
-        input.playername(placeholder='Player name')
-        button.createPlayerBtn Create player
+    .content
+        #appContent
 
-    table.ranklist
-        tr
-            th Id
-            th Player
-            th Score
