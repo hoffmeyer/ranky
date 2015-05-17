@@ -18,6 +18,7 @@ module.exports = function() {
             _.each(listeners[eventType], function(listener) {
                 listener(event);
             });
+            event.deferred.promise.timeout(1000, 'timeout');
             return event.deferred.promise;
         },
     };
