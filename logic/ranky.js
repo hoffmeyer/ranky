@@ -7,10 +7,11 @@ var validator = require('../logic/validator.js'),
     broadcastModule = require('../modules/broadcaster.js'),
     testDataGeneratorModule = require('../modules/testDataGenerator.js');
 
+
 module.exports = function(io){
 'use strict';
-    var storeevent = function(event) {
-        dbevent.insert(event);
+    var storeEvent = function(event) {
+        dbEvent.insert(event);
         return true;
     };
 

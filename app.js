@@ -22,19 +22,6 @@ app.use(function(req, res, next){
 // set router
 app.use('/', routes);
 
-// setup jade for templating
-app.set('views', __dirname + '/tpl');
-app.set('view engine', 'jade');
-app.engine('jade', require('jade').__express);
-
-// static pages
-app.get('/', function(req, res){
-    res.render('index');
-});
-app.get('/test', function(req, res){
-    res.render('testData');
-});
-
 // serve resources from public folder eg css an client side js
 app.use(express.static(__dirname + '/public'));
 
