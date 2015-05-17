@@ -142,8 +142,8 @@ gulp.task('lint', function(){
         .pipe(jshint());
 });
 
-gulp.task('node', function(){
-   nodemon({ 
+gulp.task('nodemon', function(cb){
+   return nodemon({ 
        script: 'app.js', 
        ext: 'js', 
        ignore: ['client/**/*', 'public/**/*', 'node_modules/**/*'],
@@ -152,22 +152,26 @@ gulp.task('node', function(){
     .on('change', ['lint'])
     .on('restart', function () {
       console.log('* node server restarted!')
+    })
+    .on('start', function(){
+        cb();
     });
 });
 
 // Watch
-gulp.task('watch', ['html', 'bundle'], function () {
-/*
-    browserSync({
+gulp.task('watch', ['html', 'bundle', 'nodemon'], function () {
+
+    browserSync.init(null, {
         notify: false,
         logPrefix: 'BS',
+        proxy: 'http://localhost:3000',
+        port: 5000,
+
         // Run as an https by uncommenting 'https: true'
         // Note: this uses an unsigned certificate which on first access
         //       will present a certificate warning in the browser.
         // https: true,
-        server: ['public', 'client']
     });
-    */
 
     gulp.watch('client/scripts/**/*.js', ['scripts', reload]);
 
