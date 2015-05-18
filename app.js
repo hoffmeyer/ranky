@@ -4,13 +4,11 @@ var express = require('express'),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    dbUri = process.env.MONGOLAB_URI || 'localhost/ranky',
-    db = require('monk')(dbUri),
+    dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/ranky2',
+    mongoClient = require('mongodb').MongoClient,
     io = require('socket.io')(http),
-    dbEvent = db.get('events'),
     ranky = require('./logic/ranky.js')(io),
-    events = require('./events/events.js'),
-    databaseConnected = false;
+    events = require('./events/events.js');
 
 // to support JSON-encoded bodies
 app.use(bodyParser.json());
@@ -43,31 +41,41 @@ var startHttpServer = function(){
 
 // load data from database
 var loadEventsFromDB = function() {
-    dbEvent.find({},{sort: {id: 1}}, function(err, docs){
+    mongoClient.connect(dbUri, function(err, db){
         if(err){
+            console.error('Could not connect to database');
             console.trace(err);
         } else {
             console.log('Database connected at ' + dbUri);
-            databaseConnected = true;
-            var i = 0;
-            // function for chaining the events to roll them on synchronously
-            var loadEvent = function(event){
-                events.setNextId(event.id+1);
-                i++;
-                ranky.handleEvent(event).then(function(){
-                    if(i < docs.length){
-                        loadEvent(docs[i]);
+            var dbEvents = db.collection('events');
+            dbEvents.find().sort({id: 1}).toArray(function(err, docs){
+                if(err){
+                    console.error('No documents found in collection events');
+                    console.trace(err);
+                } else {
+                    console.log('Events queried successfully');
+                    var i = 0;
+                    // function for chaining the events to roll them on synchronously
+                    var loadEvent = function(event){
+                        events.setNextId(event.id+1);
+                        i++;
+                        ranky.handleEvent(event).then(function(){
+                            if(i < docs.length){
+                                loadEvent(docs[i]);
+                            } else {
+                                console.log('Loaded ' + i + ' events from db');
+                                startHttpServer();
+                                db.close();
+                            }
+                        });
+                    };
+                    if(docs && docs.length > 0){
+                        loadEvent(docs[0]);
                     } else {
-                        console.log('Loaded ' + i + ' events from db');
                         startHttpServer();
                     }
-                });
-            };
-            if(docs && docs.length > 0){
-                loadEvent(docs[0]);
-            } else {
-                startHttpServer();
-            }
+                }
+            });
         }
     });
 };
