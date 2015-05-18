@@ -1,16 +1,14 @@
-'use strict';
 var _ = require('underscore')._,
     models = require('../models/models.js');
 
-module.exports = (function(){
-    var players = {},
-    eventBus;
+module.exports = function(bus){
+'use strict';
+    var players = {};
 
     var newPlayer = function(event) {
         var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
         players[newPlayer.id] = newPlayer;
-        eventBus.post({
-            type: 'playerCreatedEvent',
+        bus.post('playerCreated', {
             noBroadcast: event.noBroadcast,
             player: newPlayer
         });
@@ -19,11 +17,7 @@ module.exports = (function(){
 
     var setScoresOnPlayers = function(scores) {
         _.each(scores, function(val, key) {
-            if(val < 0) {
-                players[key].subtractPoints(-val);
-            } else {
-                players[key].addPoints(val);
-            }
+            players[key].addPoints(val);
         });
     };
 
@@ -36,27 +30,24 @@ module.exports = (function(){
     var addMatch = function(event) {
         var team1Players = idsToPlayers(event.team1.players),
             team2Players = idsToPlayers(event.team2.players),
-        scoringEvent = {
-            type: 'scoreMatchEvent',
-            team1: {
-                players: team1Players,
-                score: event.team1.score
-            },
-            team2: {
-                players: team2Players,
-                score: event.team2.score
-            },
-            callback: function(scores) {
-                setScoresOnPlayers(scores);
-                eventBus.post({
-                    type: 'playersUpdatedEvent',
-                    noBroadcast: event.noBroadcast,
-                    players: _.map(scores, function(val, key){ return players[key];})
-                });
-                event.callback(scores);
-            }
-        };
-        eventBus.post(scoringEvent);
+            scoringEvent = {
+                team1: {
+                    players: team1Players,
+                    score: event.team1.score
+                },
+                team2: {
+                    players: team2Players,
+                    score: event.team2.score
+                }
+            };
+        bus.post('scoreMatch', scoringEvent).then(function(scores){
+            setScoresOnPlayers(scores);
+            bus.post('playersUpdated', {
+                noBroadcast: event.noBroadcast,
+                players: _.map(scores, function(val, key){ return players[key];})
+            });
+            event.deferred.resolve(scores);
+        });
     };
 
     var getSortedList = function() {
@@ -66,26 +57,16 @@ module.exports = (function(){
         return _.sortBy(playerArray, function(player){return -player.getPoints();});
     };
 
-    return {
-        setBus: function(bus) {
-            eventBus = bus;
-        },
-        handle: function(event) {
-            switch(event.type) {
-                case 'createPlayerEvent':
-                    event.callback(newPlayer(event));
-                break;
-                case 'registerMatchEvent':
-                    event.callback(addMatch(event));
-                break;
-                case 'getListEvent':
-                    event.callback(getSortedList());
-                break;
-                case 'getPlayerEvent':
-                    event.callback(players[event.playerId]);
-                break;
-            }
-        }
-    };
-
-})();
+    bus.listen('createPlayer', function(event){
+        event.deferred.resolve(newPlayer(event));
+    });
+    bus.listen('registerMatch', function(event) {
+        addMatch(event);
+    });
+    bus.listen('getList', function(event) {
+        event.deferred.resolve(getSortedList());
+    });
+    bus.listen('getPlayer', function(event) {
+        event.deferred.resolve(players[event.playerId]);
+    });
+};

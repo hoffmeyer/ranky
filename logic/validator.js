@@ -26,9 +26,9 @@ module.exports = (function() {
   return {
     validateEvent: function(event) {
       switch(event.type){
-        case 'createPlayerEvent':
+        case 'createPlayer':
           return validatePlayerEvent(event);
-        case 'registerMatchEvent':
+        case 'registerMatch':
           return validateMatchEvent(event);
         default:
           console.log('Unknown event received in event validator: ' + JSON.stringify(event));

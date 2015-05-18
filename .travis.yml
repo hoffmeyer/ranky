@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "0.10"
+deploy:
+    provider: heroku
+    api-key: cb779eb7a412957a56696808be47601695eb6b0e
+    app:
+        master: ranky
+        develop: ranky-dev

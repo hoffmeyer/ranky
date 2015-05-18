@@ -1,39 +1,25 @@
-'use strict';
 var _ = require('underscore')._;
 
-module.exports = (function(io){
-    var eventBus,
-        io;
+module.exports = function(bus, io){
+    'use strict';
 
     var broadcast = function(type, message) {
         io.emit(type, message);
     };
 
-    return {
-        setBus: function(bus){
-            eventBus = bus;
-        },
-        setWebsocket: function(newIo) {
-            io = newIo;
-        },
-        handle: function(event){
-            switch(event.type){
-                case 'playersUpdatedEvent':
-                    if(!event.noBroadcast) {
-                        broadcast(
-                            'playersUpdated',
-                            _.map(event.players, 
-                            function(player) { 
-                                return player.toJSON(); 
-                            }
-                        ));
-                    }
-                break;
-                case 'playerCreatedEvent':
-                    if(!event.noBroadcast) {
-                        broadcast('playerCreated', event.player.toJSON());
-                    }
-            }
+    bus.listen('playersUpdated', function(event){
+        if(!event.noBroadcast) {
+            broadcast('playersUpdated',
+                _.map(event.players, function(player) { 
+                    return player.toJSON(); 
+                })
+            );
         }
-    };
-})();
+    });
+
+    bus.listen('playerCreated', function(event){
+        if(!event.noBroadcast) {
+            broadcast('playerCreated', event.player.toJSON());
+        }
+    });
+};

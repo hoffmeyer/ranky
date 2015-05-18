@@ -1,19 +1,25 @@
-'use strict';
-var _ = require('underscore')._;
+var _ = require('underscore')._,
+    Q = require('q');
 
-module.exports = (function() {
+module.exports = function() {
+    'use strict';
 
-  var modules = [];
+    var listeners = {};
 
-  return {
-    post: function(event) {
-      _.each(modules, function(module) {
-        module.handle(event);
-      });
-    },
-    register: function(module) {
-      modules.push(module);
-      module.setBus(this);
-    }
-  };
-})();
+    return {
+        listen: function(eventType, listener){
+            if(!listeners[eventType]) {
+                listeners[eventType] = [];
+            }
+            listeners[eventType].push(listener);
+        },
+        post: function(eventType, event) {
+            event.deferred = Q.defer();
+            _.each(listeners[eventType], function(listener) {
+                listener(event);
+            });
+            event.deferred.promise.timeout(1000, 'timeout');
+            return event.deferred.promise;
+        },
+    };
+};

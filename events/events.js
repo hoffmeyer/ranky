@@ -20,13 +20,13 @@ module.exports = (function(){
     },
     createPlayer: function(name) {
       var event = createEvent();
-      event.type = 'createPlayerEvent';
+      event.type = 'createPlayer';
       event.playerName = name;
       return event;
     },
     registerMatch: function(team1ids, score1, team2ids, score2){
       var event = createEvent();
-      event.type = 'registerMatchEvent';
+      event.type = 'registerMatch';
       event.team1 = {
         players: team1ids,
         score: score1
@@ -38,5 +38,4 @@ module.exports = (function(){
       return event;
     }
   };
-
 })();
