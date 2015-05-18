@@ -33,8 +33,8 @@ router.post('/player', function(req, res) {
 router.post('/match', function(req, res) {
     console.log('received in post match');
     var event,
-        validTeam1 = req.body.team1 && req.body.team1.players && req.body.team1.score,
-        validTeam2 = req.body.team2 && req.body.team2.players && req.body.team2.score;
+        validTeam1 = req.body.team1 && req.body.team1.players && req.body.team1.score >= 0,
+        validTeam2 = req.body.team2 && req.body.team2.players && req.body.team2.score >= 0;
 
     if(validTeam1 && validTeam2) { 
         event = events.registerMatch(

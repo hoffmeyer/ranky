@@ -4,11 +4,13 @@ var express = require('express'),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    db = require('monk')(process.env.MONGOLAB_URI || 'localhost/ranky'),
+    dbUri = process.env.MONGOLAB_URI || 'localhost/ranky',
+    db = require('monk')(dbUri),
     io = require('socket.io')(http),
     dbEvent = db.get('events'),
     ranky = require('./logic/ranky.js')(io),
-    events = require('./events/events.js');
+    events = require('./events/events.js'),
+    databaseConnected = false;
 
 // to support JSON-encoded bodies
 app.use(bodyParser.json());
@@ -33,29 +35,41 @@ app.use('/', routes);
 // serve resources from public folder eg css an client side js
 app.use(express.static(__dirname + '/public'));
 
+var startHttpServer = function(){
+    var server = http.listen(process.env.PORT || 3000, function() { // process.env.PORT supplied by Heroku
+        console.log('Listening on port %d', server.address().port);
+    });
+};
+
 // load data from database
 var loadEventsFromDB = function() {
     dbEvent.find({},{sort: {id: 1}}, function(err, docs){
-        var i = 0;
-        // function for chaining the events to roll them on synchronously
-        var loadEvent = function(event){
-            events.setNextId(event.id+1);
-            i++;
-            ranky.handleEvent(event).then(function(){
-                if(i < docs.length){
-                    loadEvent(docs[i]);
-                }
-            });
-        };
-        if(docs && docs.length > 0){
-            loadEvent(docs[0]);
+        if(err){
+            console.trace(err);
+        } else {
+            console.log('Database connected at ' + dbUri);
+            databaseConnected = true;
+            var i = 0;
+            // function for chaining the events to roll them on synchronously
+            var loadEvent = function(event){
+                events.setNextId(event.id+1);
+                i++;
+                ranky.handleEvent(event).then(function(){
+                    if(i < docs.length){
+                        loadEvent(docs[i]);
+                    } else {
+                        console.log('Loaded ' + i + ' events from db');
+                        startHttpServer();
+                    }
+                });
+            };
+            if(docs && docs.length > 0){
+                loadEvent(docs[0]);
+            } else {
+                startHttpServer();
+            }
         }
     });
 };
 
 loadEventsFromDB();
-
-// start server
-var server = http.listen(process.env.PORT || 3000, function() { // process.env.PORT supplied by Heroku
-    console.log('Listening on port %d', server.address().port);
-});

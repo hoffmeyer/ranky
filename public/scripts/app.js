@@ -544,6 +544,9 @@ var Typeahead = React.createClass({displayName: "Typeahead",
             default:
         }
     },
+    suggestionClicked: function(e){
+        console.log(e);
+    },
     render: function() {
         var self = this;
         var createItem = function(item, index){
@@ -551,7 +554,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
             if(self.state.keyboardSelection === index){
                 classes += ' typeahead_list_item-selected';
             }
-            return React.createElement("div", {key: item.id, className: classes}, " ", item.name, " ");
+            return React.createElement("div", {key: item.id, onClick: self.suggestionClicked, className: classes}, " ", item.name, " ");
         };
 
         return  React.createElement("div", {className: "typeahead"}, 
