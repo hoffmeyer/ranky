@@ -47,7 +47,9 @@ var loadEventsFromDB = function() {
                 }
             });
         };
-        loadEvent(docs[0]);
+        if(docs && docs.length > 0){
+            loadEvent(docs[0]);
+        }
     });
 };
 
