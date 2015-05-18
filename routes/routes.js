@@ -50,10 +50,10 @@ router.post('/match', function(req, res) {
                 res.send(500, error);
             });
         } else {
-            res.send(400, 'invalid request');
+            res.send(400, 'could not validate event');
         }
     } else {
-        res.send(400, 'invalid request');
+        res.send(400, 'teams invalid');
     }
 });
 

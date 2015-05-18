@@ -4,7 +4,7 @@ module.exports = (function() {
 
   var validateMatchEvent = function(event) {
     var hasTeams          = event.team1 && event.team2,
-        scoresArePositive = event.team1.score > 0 && event.team2.score > 0,
+        scoresArePositive = event.team1.score >= 0 && event.team2.score >= 0,
         hasDuplicates     = (event.team1.players.length + event.team2.players.length) === _.uniq(event.team1.players.concat(event.team2.players)).length;
         // TODO also check that the players exists
 
@@ -13,6 +13,9 @@ module.exports = (function() {
        hasDuplicates) {
       return true;
     }
+    console.log('hasTeams: ' + hasTeams);
+    console.log('scoresArePositive: ' + scoresArePositive);
+    console.log('hasDuplicates: ' + hasDuplicates);
     return false;
   };
 
