@@ -4,11 +4,12 @@ var express = require('express'),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/ranky2',
+    dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/ranky',
     mongoClient = require('mongodb').MongoClient,
     io = require('socket.io')(http),
     ranky = require('./logic/ranky.js')(io),
     events = require('./events/events.js');
+
 
 // to support JSON-encoded bodies
 app.use(bodyParser.json());

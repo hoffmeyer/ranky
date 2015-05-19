@@ -1,5 +1,5 @@
 var validator = require('../logic/validator.js'),
-    dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/ranky2',
+    dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/ranky',
     mongoClient = require('mongodb').MongoClient,
     eventBus = require('../logic/eventBus.js')(),
     rankListModule = require('../modules/RankList.js'),
