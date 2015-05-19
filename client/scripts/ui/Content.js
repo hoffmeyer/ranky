@@ -3,6 +3,7 @@
 var React = require('react'),
     RankList = require('./RankList'),
     AddMatch = require('./AddMatch'),
+    Matches = require('./Matches'),
     AddPlayer = require('./AddPlayer');
 
 var Content = React.createClass({
@@ -19,6 +20,8 @@ var Content = React.createClass({
                         players={this.props.players} 
                         source={this.props.source}
                     />;
+        } else if(this.props.show === 'matches'){
+            return <Matches/>;
         }
         return <RankList players={this.props.players} />
     },

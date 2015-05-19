@@ -45,7 +45,8 @@ var RankyApp = React.createClass({displayName: "RankyApp",
   pages: function(){
       return {
           list: 'The List',
-          addScore: 'Add score',
+          matches: 'Matches',
+          addScore: 'Add match',
           addPlayer: 'Add player'
       };
   },
@@ -343,6 +344,7 @@ module.exports = AddPlayer;
 var React = require('react'),
     RankList = require('./RankList'),
     AddMatch = require('./AddMatch'),
+    Matches = require('./Matches'),
     AddPlayer = require('./AddPlayer');
 
 var Content = React.createClass({displayName: "Content",
@@ -359,6 +361,8 @@ var Content = React.createClass({displayName: "Content",
                         players: this.props.players, 
                         source: this.props.source}
                     );
+        } else if(this.props.show === 'matches'){
+            return React.createElement(Matches, null);
         }
         return React.createElement(RankList, {players: this.props.players})
     },
@@ -371,7 +375,65 @@ module.exports = Content;
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/client/scripts/ui/Content.js","/client/scripts/ui")
-},{"./AddMatch":"/home/flemming/Development/ranky/client/scripts/ui/AddMatch.js","./AddPlayer":"/home/flemming/Development/ranky/client/scripts/ui/AddPlayer.js","./RankList":"/home/flemming/Development/ranky/client/scripts/ui/RankList.js","_process":"/home/flemming/Development/ranky/node_modules/browserify/node_modules/process/browser.js","buffer":"/home/flemming/Development/ranky/node_modules/browserify/node_modules/buffer/index.js","react":"/home/flemming/Development/ranky/node_modules/react/react.js"}],"/home/flemming/Development/ranky/client/scripts/ui/Navigation.js":[function(require,module,exports){
+},{"./AddMatch":"/home/flemming/Development/ranky/client/scripts/ui/AddMatch.js","./AddPlayer":"/home/flemming/Development/ranky/client/scripts/ui/AddPlayer.js","./Matches":"/home/flemming/Development/ranky/client/scripts/ui/Matches.js","./RankList":"/home/flemming/Development/ranky/client/scripts/ui/RankList.js","_process":"/home/flemming/Development/ranky/node_modules/browserify/node_modules/process/browser.js","buffer":"/home/flemming/Development/ranky/node_modules/browserify/node_modules/buffer/index.js","react":"/home/flemming/Development/ranky/node_modules/react/react.js"}],"/home/flemming/Development/ranky/client/scripts/ui/Matches.js":[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+'use strict';
+
+var React = require('react'),
+    $ = require('jquery');
+
+var Match = React.createClass({displayName: "Match",
+    render: function(){
+        var playersToString = function(players){
+            var string = '';
+            players.forEach(function(elem){
+                string = string + elem.id + ': ' + elem.points + ' ';
+            });
+            return string;
+        };
+
+        return  React.createElement("div", null, 
+                    React.createElement("p", null, "Team1: ", this.props.match.team1.score, " "), 
+                    React.createElement("p", null, playersToString(this.props.match.team1.players)), 
+                    React.createElement("p", null, "Team2: ", this.props.match.team2.score, " "), 
+                    React.createElement("p", null, playersToString(this.props.match.team2.players))
+                );
+    }
+});
+
+var Matches = React.createClass({displayName: "Matches",
+    getInitialState: function(){
+        return {
+            matches: []
+        };
+    },
+    componentDidMount: function(){
+        $.get('/match', function(result){
+            if(this.isMounted()){
+                this.setState({
+                    matches: result
+                });
+            }
+        }.bind(this));
+    },
+    render: function(){
+        var rows = [];
+        this.state.matches.forEach(function(match, index){
+            rows.push(React.createElement("tr", null, React.createElement("td", null, React.createElement(Match, {match: match, index: index}))));
+        });
+        return  React.createElement("table", {className: "table table-striped table-hover"}, 
+                    React.createElement("tbody", null, 
+                        rows
+                    )
+                );
+    }
+});
+
+module.exports = Matches;
+
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/client/scripts/ui/Matches.js","/client/scripts/ui")
+},{"_process":"/home/flemming/Development/ranky/node_modules/browserify/node_modules/process/browser.js","buffer":"/home/flemming/Development/ranky/node_modules/browserify/node_modules/buffer/index.js","jquery":"/home/flemming/Development/ranky/node_modules/jquery/dist/jquery.js","react":"/home/flemming/Development/ranky/node_modules/react/react.js"}],"/home/flemming/Development/ranky/client/scripts/ui/Navigation.js":[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
