@@ -5,10 +5,11 @@ var React = require('react'),
 
 var Match = React.createClass({
     render: function(){
+        var self = this;
         var playersToString = function(players){
             var string = '';
             players.forEach(function(elem){
-                string = string + elem.id + ': ' + elem.points + ' ';
+                string = string + self.props.playersToString[elem.id] + ': ' + elem.points + ' ';
             });
             return string;
         };
@@ -24,8 +25,14 @@ var Match = React.createClass({
 
 var Matches = React.createClass({
     getInitialState: function(){
+        var playerIdToName = {};
+        this.props.players.forEach(function(player){
+            playerIdToName[player.id] = player.name;
+        });
+
         return {
-            matches: []
+            matches: [],
+            playerIdToName: playerIdToName,
         };
     },
     componentDidMount: function(){
@@ -38,9 +45,10 @@ var Matches = React.createClass({
         }.bind(this));
     },
     render: function(){
+        var self = this;
         var rows = [];
         this.state.matches.forEach(function(match, index){
-            rows.push(<tr><td><Match match={match} index={index} /></td></tr>);
+            rows.push(<tr key={index}><td><Match match={match} index={index} playersToString={self.state.playerIdToName} /></td></tr>);
         });
         return  <table className="table table-striped table-hover">
                     <tbody>

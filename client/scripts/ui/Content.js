@@ -21,7 +21,7 @@ var Content = React.createClass({
                         source={this.props.source}
                     />;
         } else if(this.props.show === 'matches'){
-            return <Matches/>;
+            return <Matches players={this.props.players} />;
         }
         return <RankList players={this.props.players} />
     },
