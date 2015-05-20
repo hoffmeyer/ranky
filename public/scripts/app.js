@@ -384,7 +384,7 @@ var Match = React.createClass({displayName: "Match",
             }).join( ' & ');
         };
         var options = {
-            year: "2-digit", month: "short",
+            year: "2-digit", month: "numeric",
             day: "numeric", hour: "2-digit", minute: "2-digit"
         };
 
@@ -392,8 +392,8 @@ var Match = React.createClass({displayName: "Match",
                     React.createElement("td", null, 
                         new Date(this.props.match.time).toLocaleDateString("da-DK", options)
                     ), 
-                    React.createElement("td", null, 
-                        playersToString(this.props.match.team1.players), " ", React.createElement("b", null, "vs"), " ", playersToString(this.props.match.team2.players)
+                    React.createElement("td", {className: "text-center"}, 
+                        playersToString(this.props.match.team1.players), React.createElement("br", null), React.createElement("b", null, "vs"), React.createElement("br", null), playersToString(this.props.match.team2.players)
                     ), 
                     React.createElement("td", {className: "text-center"}, 
                         this.props.match.team1.score + ' - ' + this.props.match.team2.score
@@ -436,7 +436,7 @@ var Matches = React.createClass({displayName: "Matches",
                     React.createElement("thead", null, 
                         React.createElement("tr", null, 
                             React.createElement("th", null, "Time"), 
-                            React.createElement("th", null, "Players"), 
+                            React.createElement("th", {className: "text-center"}, "Players"), 
                             React.createElement("th", {className: "text-center"}, "Match score"), 
                             React.createElement("th", {className: "text-right"}, "Points")
                         )

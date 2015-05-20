@@ -12,7 +12,7 @@ var Match = React.createClass({
             }).join( ' & ');
         };
         var options = {
-            year: "2-digit", month: "short",
+            year: "2-digit", month: "numeric",
             day: "numeric", hour: "2-digit", minute: "2-digit"
         };
 
@@ -20,8 +20,8 @@ var Match = React.createClass({
                     <td>
                         {new Date(this.props.match.time).toLocaleDateString("da-DK", options)}
                     </td>
-                    <td>
-                        {playersToString(this.props.match.team1.players)} <b>vs</b> {playersToString(this.props.match.team2.players)}
+                    <td className="text-center">
+                        {playersToString(this.props.match.team1.players)}<br/><b>vs</b><br/>{playersToString(this.props.match.team2.players)}
                     </td>
                     <td className="text-center">
                         {this.props.match.team1.score + ' - ' + this.props.match.team2.score}
@@ -64,7 +64,7 @@ var Matches = React.createClass({
                     <thead>
                         <tr>
                             <th>Time</th>
-                            <th>Players</th>
+                            <th className="text-center">Players</th>
                             <th className="text-center">Match score</th>
                             <th className="text-right">Points</th>
                         </tr>
