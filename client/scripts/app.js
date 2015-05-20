@@ -43,7 +43,8 @@ var RankyApp = React.createClass({
   pages: function(){
       return {
           list: 'The List',
-          addScore: 'Add score',
+          matches: 'Matches',
+          addScore: 'Add match',
           addPlayer: 'Add player'
       };
   },

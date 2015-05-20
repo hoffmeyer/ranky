@@ -3,7 +3,8 @@ var _ = require('underscore')._,
 
 module.exports = function(bus){
 'use strict';
-    var players = {};
+    var players = {},
+        matches = [];
 
     var newPlayer = function(event) {
         var newPlayer = models.createPlayer({name: event.playerName, initialScore: 1000});
@@ -40,13 +41,29 @@ module.exports = function(bus){
                     score: event.team2.score
                 }
             };
-        bus.post('scoreMatch', scoringEvent).then(function(scores){
-            setScoresOnPlayers(scores);
+        bus.post('scoreMatch', scoringEvent).then(function(points){
+            setScoresOnPlayers(points);
             bus.post('playersUpdated', {
                 noBroadcast: event.noBroadcast,
-                players: _.map(scores, function(val, key){ return players[key];})
+                players: _.map(points, function(val, key){ return players[key];})
             });
-            event.deferred.resolve(scores);
+            var playersAndPoints = function(elem, index){
+                return { id: elem, points: points[elem]};
+            };
+            matches.push({
+                team1: {
+                    players: event.team1.players.map(playersAndPoints),
+                    score: event.team1.score
+                },
+                team2: {
+                    players: event.team2.players.map(playersAndPoints),
+                    score: event.team2.score
+                }
+            });
+            if(matches.length > 100){
+                matches.pop();
+            }
+            event.deferred.resolve(points);
         });
     };
 
@@ -68,5 +85,8 @@ module.exports = function(bus){
     });
     bus.listen('getPlayer', function(event) {
         event.deferred.resolve(players[event.playerId]);
+    });
+    bus.listen('getMatches', function(event){
+        event.deferred.resolve(matches);
     });
 };

@@ -143,6 +143,7 @@ gulp.task('lint', function(){
 });
 
 gulp.task('nodemon', function(cb){
+    var called = false;
    return nodemon({ 
        script: 'app.js', 
        ext: 'js', 
@@ -154,7 +155,10 @@ gulp.task('nodemon', function(cb){
       console.log('* node server restarted!')
     })
     .on('start', function(){
-        cb();
+        if(!called){
+            called = true;
+            cb();
+        }
     });
 });
 
