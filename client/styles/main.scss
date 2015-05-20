@@ -2,6 +2,9 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/";
 
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 
+.nav {
+    margin-bottom: 15px;
+}
 .container {
     max-width: 730px;
 }

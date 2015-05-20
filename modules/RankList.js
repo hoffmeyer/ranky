@@ -58,7 +58,8 @@ module.exports = function(bus){
                 team2: {
                     players: event.team2.players.map(playersAndPoints),
                     score: event.team2.score
-                }
+                },
+                time: event.eventTime
             });
             if(matches.length > 100){
                 matches.pop();
@@ -87,6 +88,6 @@ module.exports = function(bus){
         event.deferred.resolve(players[event.playerId]);
     });
     bus.listen('getMatches', function(event){
-        event.deferred.resolve(matches);
+        event.deferred.resolve(matches.slice().reverse());
     });
 };

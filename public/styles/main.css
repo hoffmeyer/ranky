@@ -7069,6 +7069,10 @@ button.close {
     display: none !important;
   }
 }
+.nav {
+  margin-bottom: 15px;
+}
+
 .container {
   max-width: 730px;
 }

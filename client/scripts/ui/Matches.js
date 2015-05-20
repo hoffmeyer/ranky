@@ -7,19 +7,29 @@ var Match = React.createClass({
     render: function(){
         var self = this;
         var playersToString = function(players){
-            var string = '';
-            players.forEach(function(elem){
-                string = string + self.props.playersToString[elem.id] + ': ' + elem.points + ' ';
-            });
-            return string;
+            return players.map(function(elem){
+                return self.props.playersToString[elem.id];
+            }).join( ' & ');
+        };
+        var options = {
+            year: "2-digit", month: "short",
+            day: "numeric", hour: "2-digit", minute: "2-digit"
         };
 
-        return  <div>
-                    <p>Team1: {this.props.match.team1.score} </p>
-                    <p>{playersToString(this.props.match.team1.players)}</p>
-                    <p>Team2: {this.props.match.team2.score} </p>
-                    <p>{playersToString(this.props.match.team2.players)}</p>
-                </div>;
+        return  <tr>
+                    <td>
+                        {new Date(this.props.match.time).toLocaleDateString("da-DK", options)}
+                    </td>
+                    <td>
+                        {playersToString(this.props.match.team1.players)} <b>vs</b> {playersToString(this.props.match.team2.players)}
+                    </td>
+                    <td className="text-center">
+                        {this.props.match.team1.score + ' - ' + this.props.match.team2.score}
+                    </td>
+                    <td className="text-right">
+                        {Math.round(Math.abs(this.props.match.team1.players[0].points) * 10) / 10}
+                    </td>
+                </tr>;
     }
 });
 
@@ -48,9 +58,17 @@ var Matches = React.createClass({
         var self = this;
         var rows = [];
         this.state.matches.forEach(function(match, index){
-            rows.push(<tr key={index}><td><Match match={match} index={index} playersToString={self.state.playerIdToName} /></td></tr>);
+            rows.push(<Match key={index} match={match} index={index} playersToString={self.state.playerIdToName} />);
         });
         return  <table className="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Players</th>
+                            <th className="text-center">Match score</th>
+                            <th className="text-right">Points</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {rows}
                     </tbody>
