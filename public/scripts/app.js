@@ -533,6 +533,19 @@ module.exports = RankList;
 
 var React = require( 'react');
 
+var TypeaheadSuggestion = React.createClass({displayName: "TypeaheadSuggestion",
+    suggestionClicked: function(){
+        this.props.suggestionClicked(this.props.item.name);
+    },
+    render: function(){
+        var classes = 'typeahead_list_item';
+        if(this.props.keyboardSelection === this.props.index){
+            classes += ' typeahead_list_item-selected';
+        }
+        return React.createElement("div", {key: this.props.item.id, onClick: this.suggestionClicked, className: classes}, " ", this.props.item.name, " ");
+    }
+});
+
 var Typeahead = React.createClass({displayName: "Typeahead",
     getInitialState: function(){
         return  {    
@@ -549,9 +562,12 @@ var Typeahead = React.createClass({displayName: "Typeahead",
         this.validate(e.target.value);
     },
     blur: function(e){
-        this.setState({keyboardSelection: -1, showDropdown: false});
-        this.updateDropdown(this.state.value, false);
-        this.validate();
+        var self = this;
+        setTimeout(function(){
+            self.setState({keyboardSelection: -1, showDropdown: false});
+            self.updateDropdown(self.state.value, false);
+            self.validate();
+        }, 5);
     },
     updateDropdown: function(value, showDropdown){
         var self = this;
@@ -621,17 +637,14 @@ var Typeahead = React.createClass({displayName: "Typeahead",
             default:
         }
     },
-    suggestionClicked: function(e){
-        console.log(e);
+    suggestionClicked: function(name){
+        this.setState({ value: name});
+        this.validate(name);
     },
     render: function() {
         var self = this;
         var createItem = function(item, index){
-            var classes = 'typeahead_list_item';
-            if(self.state.keyboardSelection === index){
-                classes += ' typeahead_list_item-selected';
-            }
-            return React.createElement("div", {key: item.id, onClick: self.suggestionClicked, className: classes}, " ", item.name, " ");
+            return React.createElement(TypeaheadSuggestion, {item: item, keyboardSelection: self.state.keyboardSelection, suggestionClicked: self.suggestionClicked, index: index});
         };
 
         return  React.createElement("div", {className: "typeahead"}, 
