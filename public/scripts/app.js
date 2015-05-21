@@ -567,7 +567,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
             self.setState({keyboardSelection: -1, showDropdown: false});
             self.updateDropdown(self.state.value, false);
             self.validate();
-        }, 5);
+        }, 10);
     },
     updateDropdown: function(value, showDropdown){
         var self = this;
