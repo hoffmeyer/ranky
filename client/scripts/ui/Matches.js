@@ -1,7 +1,6 @@
 'use strict';
 
-var React = require('react'),
-    $ = require('jquery');
+var React = require('react');
 
 var Match = React.createClass({
     render: function(){
@@ -46,13 +45,18 @@ var Matches = React.createClass({
         };
     },
     componentDidMount: function(){
-        $.get('/match', function(result){
-            if(this.isMounted()){
-                this.setState({
-                    matches: result
-                });
+        var req = new XMLHttpRequest();
+        req.onreadystatechange=function() {
+            if (req.readyState==4 && req.status==200) {
+                if(this.isMounted()){
+                    this.setState({
+                        matches: JSON.parse(req.responseText)
+                    });
+                }
             }
-        }.bind(this));
+        }.bind(this);
+        req.open('GET', '/match', true );
+        req.send();
     },
     render: function(){
         var self = this;

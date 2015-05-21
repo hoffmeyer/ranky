@@ -1,7 +1,6 @@
 'use strict';
 
 var React = window.React = require('react'),
-    $ = require('jquery'),
     Navigation = require('./ui/Navigation'),
     Content = require('./ui/Content'),
     feed = require('./helpers/feed'),
@@ -32,13 +31,18 @@ var RankyApp = React.createClass({
     return {players: [], currentPage: 'list'};
   },
   componentDidMount: function() {
-      $.get(this.props.source + '/list', function(result){
-          if(this.isMounted()) {
-              this.setState({
-                  players: result
-              });
+      var req = new XMLHttpRequest();
+      req.onreadystatechange=function() {
+          if (req.readyState==4 && req.status==200) {
+              if(this.isMounted()) {
+                  this.setState({
+                      players: JSON.parse(req.responseText)
+                  });
+              }
           }
-      }.bind(this));
+      }.bind(this);
+      req.open('GET', '/list', true );
+      req.send();
   },
   pages: function(){
       return {

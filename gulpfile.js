@@ -15,6 +15,7 @@ var source = require('vinyl-source-stream'),
     sourceFile = './client/scripts/app.js',
     jshint = require('gulp-jshint'),
     nodemon = require('gulp-nodemon'),
+    sourcemaps = require('gulp-sourcemaps'),
     destFolder = './public/scripts',
     destFileName = 'app.js';
 
@@ -58,9 +59,11 @@ gulp.task('scripts', function () {
 });
 
 gulp.task('buildScripts', function() {
+    console.log('building with sourcemaps');
     return browserify(sourceFile)
             .bundle()
             .pipe(source(destFileName))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('public/scripts'));
 });
 

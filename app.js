@@ -1,5 +1,6 @@
 // initialize app
 var express = require('express'),
+    compress = require('compression'),
     app = express(),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
@@ -12,6 +13,7 @@ var express = require('express'),
 
 
 // to support JSON-encoded bodies
+app.use(compress());
 app.use(bodyParser.json());
 
 // give access to ranky in the router

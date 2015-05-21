@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react'),
-    $ = require('jquery'),
     If = require('../helpers/If');
 
 var AddPlayer = React.createClass({
@@ -32,15 +31,15 @@ var AddPlayer = React.createClass({
 
         e.preventDefault();
 
-        $.ajax({
-            type: 'POST',
-            url: this.props.source + '/player',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function(result){
+        var req = new XMLHttpRequest();
+        req.open('POST', '/player', true);
+        req.setRequestHeader('Content-Type', 'application/json');
+        req.onreadystatechange = function(){
+            if( req.readyState === 4 && req.status === 200){
                 self.props.onNavigate('list');
             }
-        });
+        };
+        req.send(JSON.stringify(data));
     },
     onChange: function(e){
         this.setState({name: e.target.value});

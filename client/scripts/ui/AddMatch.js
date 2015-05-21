@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react'),
-    $ = require('jquery'),
     Typeahead = require('./Typeahead');
 
 var AddMatch = React.createClass({
@@ -108,15 +107,15 @@ var AddMatch = React.createClass({
             data.team2.players.push(this.state.team2player2);
         }
 
-        $.ajax({
-            type: 'POST',
-            url: this.props.source + '/match',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function(result){
+        var req = new XMLHttpRequest();
+        req.open('POST', '/match', true);
+        req.setRequestHeader('Content-Type', 'application/json');
+        req.onreadystatechange = function(){
+            if( req.readyState === 4 && req.status === 200){
                 self.props.onNavigate('list');
             }
-        });
+        };
+        req.send(JSON.stringify(data));
     }
 });
 
