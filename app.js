@@ -5,7 +5,7 @@ var express = require('express'),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/ranky',
+    dbUri = process.env.MONGO_URL || 'mongodb://localhost:27017/ranky',
     mongoClient = require('mongodb').MongoClient,
     io = require('socket.io')(http),
     ranky = require('./logic/ranky.js')(io),
@@ -39,7 +39,7 @@ app.use(express.static(__dirname + '/public'));
 var startHttpServer = function(){
     var server = http.listen(process.env.PORT || 3000, function(err) { // process.env.PORT supplied by Heroku
         if(err){
-            console.log('Could not start server on port %d', server.address().port);
+            console.log('Could not start server on %d', server.address().port);
             console.trace(err);
         } else {
             console.log('Listening on port %d', server.address().port);
@@ -51,7 +51,7 @@ var startHttpServer = function(){
 var loadEventsFromDB = function() {
     mongoClient.connect(dbUri, function(err, db){
         if(err){
-            console.error('Could not connect to database');
+            console.error('Could not connect to database %s', dbUri);
             console.trace(err);
         } else {
             console.log('Database connected at ' + dbUri);
