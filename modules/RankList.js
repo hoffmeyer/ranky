@@ -62,7 +62,7 @@ module.exports = function(bus){
                 time: event.eventTime
             });
             if(matches.length > 100){
-                matches.pop();
+                matches.shift();
             }
             event.deferred.resolve(points);
         });
