@@ -54,7 +54,9 @@ module.exports = (function(){
                 lostGames: lostGames,
                 wonGames: wonGames,
                 mostWinsInRow: mostWinsInRow,
-                mostLossesInRow: mostLossesInRow
+                mostLossesInRow: mostLossesInRow,
+                currentWinsInRow: currentWinsInRow,
+                currentLossesInRow: currentLossesInRow
             };
         };
         return player;

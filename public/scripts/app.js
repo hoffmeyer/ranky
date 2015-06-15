@@ -517,9 +517,18 @@ var React = require('react');
 var RankList = React.createClass({displayName: "RankList",
   render: function() {
     var createItem = function(player, index) {
-      return React.createElement("tr", {key: player.id}, React.createElement("td", {className: "text-right"}, index + 1), React.createElement("td", null, player.name), React.createElement("td", {className: "text-right"}, player.points));
+      var winLoseStatusClass = "notPlayed";
+      if(player.currentWinsInRow !== 0 ){
+          winLoseStatusClass = "won" + player.currentWinsInRow;
+      } else if (player.currentLossesInRow !== 0 ) {
+          winLoseStatusClass = "lost" + player.currentLossesInRow;
+      }
+      return React.createElement("tr", {key: player.id, className: winLoseStatusClass}, 
+                React.createElement("td", {className: "text-right"}, index + 1), 
+                React.createElement("td", null, player.name), React.createElement("td", {className: "text-right"}, player.points)
+              );
     };
-    return  React.createElement("table", {className: "table table-striped table-hover"}, 
+    return  React.createElement("table", {className: "rankTable table "}, 
               React.createElement("thead", null, 
                 React.createElement("tr", null, React.createElement("th", {className: "text-right"}, "No"), React.createElement("th", null, "Player name"), React.createElement("th", {className: "text-right"}, "Score"))
               ), 

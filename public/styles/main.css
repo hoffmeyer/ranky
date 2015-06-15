@@ -7101,3 +7101,63 @@ button.close {
   color: green;
   font-weight: bold;
 }
+
+.won1 {
+  background-color: rgba(50, 255, 50, 0.1);
+}
+
+.won2 {
+  background-color: rgba(50, 255, 50, 0.15);
+}
+
+.won3 {
+  background-color: rgba(50, 255, 50, 0.2);
+}
+
+.won4 {
+  background-color: rgba(50, 255, 50, 0.25);
+}
+
+.won5 {
+  background-color: rgba(50, 255, 50, 0.3);
+}
+
+.won6 {
+  background-color: rgba(50, 255, 50, 0.35);
+}
+
+.won7 {
+  background-color: rgba(50, 255, 50, 0.4);
+}
+
+.lost1 {
+  background-color: rgba(255, 50, 50, 0.1);
+}
+
+.lost2 {
+  background-color: rgba(255, 50, 50, 0.15);
+}
+
+.lost3 {
+  background-color: rgba(255, 50, 50, 0.2);
+}
+
+.lost4 {
+  background-color: rgba(255, 50, 50, 0.25);
+}
+
+.lost5 {
+  background-color: rgba(255, 50, 50, 0.3);
+}
+
+.lost6 {
+  background-color: rgba(255, 50, 50, 0.35);
+}
+
+.lost7 {
+  background-color: rgba(255, 50, 50, 0.4);
+}
+
+.notPlayed {
+  opacity: 0.2;
+}
