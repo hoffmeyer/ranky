@@ -7130,6 +7130,18 @@ button.close {
   background-color: rgba(50, 255, 50, 0.4);
 }
 
+.won8 {
+  background-color: rgba(50, 255, 50, 0.45);
+}
+
+.won9 {
+  background-color: rgba(50, 255, 50, 0.5);
+}
+
+.won10 {
+  background-color: rgba(50, 255, 50, 0.55);
+}
+
 .lost1 {
   background-color: rgba(255, 50, 50, 0.1);
 }
@@ -7155,6 +7167,18 @@ button.close {
 }
 
 .lost7 {
+  background-color: rgba(255, 50, 50, 0.4);
+}
+
+.lost8 {
+  background-color: rgba(255, 50, 50, 0.4);
+}
+
+.lost9 {
+  background-color: rgba(255, 50, 50, 0.4);
+}
+
+.lost10 {
   background-color: rgba(255, 50, 50, 0.4);
 }
 
