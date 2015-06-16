@@ -59,6 +59,9 @@ module.exports = (function(){
                 currentLossesInRow: currentLossesInRow
             };
         };
+        player.isActive = function(){
+            return lostGames + wonGames > 0;
+        }
         return player;
     };
 

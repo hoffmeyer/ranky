@@ -71,8 +71,13 @@ module.exports = function(bus){
     var getSortedList = function() {
         // convert to array
         var playerArray = Object.keys(players).map(function(id){return players[id];}); 
+        // remove players who has not played
+        var activePlayers = playerArray.filter(function(elm, i){
+            return elm.isActive();
+        });
+        console.log(activePlayers.length);
         // sort descending
-        return _.sortBy(playerArray, function(player){return -player.getPoints();});
+        return _.sortBy(activePlayers, function(player){return -player.getPoints();});
     };
 
     bus.listen('createPlayer', function(event){
