@@ -54,7 +54,7 @@
   "scripts": {
     "autotest": "./node_modules/.bin/supervisor -q -n exit -x ./node_modules/.bin/mocha -- -b",
     "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec",
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "browserify": {
     "transform": [

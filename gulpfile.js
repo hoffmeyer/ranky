@@ -17,10 +17,10 @@ var source = require('vinyl-source-stream'),
     nodemon = require('gulp-nodemon'),
     sourcemaps = require('gulp-sourcemaps'),
     destFolder = './public/scripts',
-    destFileName = 'app.js';
+    destFileName = 'app.js',
+    browserSync = require('browser-sync'),
+    reload = browserSync.reload;
 
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
 
 // Styles
 gulp.task('styles', function () {
@@ -173,10 +173,6 @@ gulp.task('watch', ['html', 'bundle', 'nodemon'], function () {
         logPrefix: 'BS',
         proxy: 'http://localhost:3000',
         port: 5000,
-
-        // Run as an https by uncommenting 'https: true'
-        // Note: this uses an unsigned certificate which on first access
-        //       will present a certificate warning in the browser.
         // https: true,
     });
 
@@ -190,10 +186,8 @@ gulp.task('watch', ['html', 'bundle', 'nodemon'], function () {
 
     gulp.watch(['client/styles/**/*.scss', 'client/styles/**/*.css'], ['styles', reload]);
 
-
     // Watch .jade files
     gulp.watch('client/template/**/*.jade', ['jade', 'html', reload]);
-
 
     // Watch image files
     gulp.watch('client/images/**/*', reload);

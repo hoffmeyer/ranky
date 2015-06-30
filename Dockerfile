@@ -1,12 +1,14 @@
-FROM node:0.12.4
+FROM node:latest
+
+RUN mkdir /src
 
 RUN npm install -g gulp bower nodemon
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
 
-ONBUILD RUN npm install
+WORKDIR /src
+ADD . /src
+RUN npm install
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD npm start
 #CMD ["/bin/bash"]

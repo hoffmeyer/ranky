@@ -1,5 +1,6 @@
 var validator = require('../logic/validator.js'),
-    dbUri = process.env.MONGO_URL || 'mongodb://localhost:27017/ranky',
+    util = require('util'),
+    dbUri = util.format('mongodb://mongo:%s/ranky', process.env.MONGO_PORT),
     mongoClient = require('mongodb').MongoClient,
     eventBus = require('../logic/eventBus.js')(),
     rankListModule = require('../modules/RankList.js'),
@@ -13,7 +14,7 @@ module.exports = function(io){
 'use strict';
     mongoClient.connect(dbUri, function(err, db) {
         if(err){
-            console.log('Could not connect to database for insertion, %s', dbUri);
+            console.log('Could not connect to da database for insertion, %s', dbUri);
             console.trace(err);
         } else {
            console.log("Connected correctly to server for insertion");

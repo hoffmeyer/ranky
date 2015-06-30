@@ -1,15 +1,18 @@
 // initialize app
 var express = require('express'),
+    util = require('util'),
     compress = require('compression'),
     app = express(),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    dbUri = process.env.MONGO_URL || 'mongodb://localhost:27017/ranky',
+    dbUri = util.format('mongodb://mongo:%s/ranky', process.env.MONGO_PORT),
     mongoClient = require('mongodb').MongoClient,
     io = require('socket.io')(http),
     ranky = require('./logic/ranky.js')(io),
     events = require('./events/events.js');
+
+// wait for database
 
 
 // to support JSON-encoded bodies
@@ -51,7 +54,7 @@ var startHttpServer = function(){
 var loadEventsFromDB = function() {
     mongoClient.connect(dbUri, function(err, db){
         if(err){
-            console.error('Could not connect to database %s', dbUri);
+            console.error('Could not connect to da database %s', dbUri);
             console.trace(err);
         } else {
             console.log('Database connected at ' + dbUri);
@@ -88,4 +91,6 @@ var loadEventsFromDB = function() {
     });
 };
 
-loadEventsFromDB();
+setTimeout(function(){
+    loadEventsFromDB();
+}, 3000);
