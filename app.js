@@ -54,10 +54,10 @@ var startHttpServer = function(){
 var loadEventsFromDB = function() {
     mongoClient.connect(dbUri, function(err, db){
         if(err){
-            console.error('Could not connect to da database %s', dbUri);
+            console.error('Could not connect to database %s', dbUri);
             console.trace(err);
         } else {
-            console.log('Database connected at ' + dbUri);
+            console.log('Database connected for loading events at ' + dbUri);
             var dbEvents = db.collection('events');
             dbEvents.find().sort({id: 1}).toArray(function(err, docs){
                 if(err){

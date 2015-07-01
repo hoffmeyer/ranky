@@ -17,7 +17,7 @@ module.exports = function(io){
             console.log('Could not connect to da database for insertion, %s', dbUri);
             console.trace(err);
         } else {
-           console.log("Connected correctly to server for insertion");
+           console.log("Connected correctly to server for new events");
            dbEvent = db.collection('events');
         }
     });

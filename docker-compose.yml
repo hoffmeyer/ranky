@@ -1,15 +1,14 @@
 ranky:
     build: .
     volumes:
-        - /opt/development/ranky:/usr/src/app
+        - .:/src
     links:
         - mongo
     ports:
-        - "3000"
-#    environment: 
-#        NODE_ENV: development
-#        MONGO_URL: mongodb://mongo:%s/ranky
+        - "3000:3000"
+    environment:
+        NODE_ENV: development
 mongo:
     image: mongo
-    ports: 
+    ports:
         - "27017:27017"

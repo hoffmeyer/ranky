@@ -17,10 +17,7 @@ var source = require('vinyl-source-stream'),
     nodemon = require('gulp-nodemon'),
     sourcemaps = require('gulp-sourcemaps'),
     destFolder = './public/scripts',
-    destFileName = 'app.js',
-    browserSync = require('browser-sync'),
-    reload = browserSync.reload;
-
+    destFileName = 'app.js';
 
 // Styles
 gulp.task('styles', function () {
@@ -67,17 +64,6 @@ gulp.task('buildScripts', function() {
             .pipe(gulp.dest('public/scripts'));
 });
 
-
-
-
-gulp.task('jade', function () {
-    return gulp.src('client/template/*.jade')
-        .pipe($.jade({ pretty: true }))
-        .pipe(gulp.dest('public'));
-})
-
-
-
 // HTML
 gulp.task('html', function () {
     return gulp.src('client/*.html')
@@ -105,7 +91,7 @@ gulp.task('clean', function (cb) {
 
 
 // Bundle
-gulp.task('bundle', ['styles', 'scripts', 'bower'], function(){
+gulp.task('bundle', ['styles', 'scripts'], function(){
     return gulp.src('./client/*.html')
                .pipe($.useref.assets())
                .pipe($.useref.restore())
@@ -113,24 +99,12 @@ gulp.task('bundle', ['styles', 'scripts', 'bower'], function(){
                .pipe(gulp.dest('public'));
 });
 
-gulp.task('buildBundle', ['styles', 'buildScripts', 'bower'], function(){
+gulp.task('buildBundle', ['styles', 'buildScripts'], function(){
     return gulp.src('./client/*.html')
                .pipe($.useref.assets())
                .pipe($.useref.restore())
                .pipe($.useref())
                .pipe(gulp.dest('public'));
-});
-
-// Bower helper
-gulp.task('bower', function() {
-    gulp.src('client/bower_components/**/*.js', {base: 'client/bower_components'})
-        .pipe(gulp.dest('public/bower_components/'));
-
-});
-
-gulp.task('json', function() {
-    gulp.src('client/scripts/json/**/*.json', {base: 'client/scripts'})
-        .pipe(gulp.dest('public/scripts/'));
 });
 
 // Robots.txt and favicon.ico
@@ -146,51 +120,31 @@ gulp.task('lint', function(){
 });
 
 gulp.task('nodemon', function(cb){
-    var called = false;
-   return nodemon({ 
-       script: 'app.js', 
-       ext: 'js', 
+   return nodemon({
+       script: 'app.js',
+       ext: 'js',
        ignore: ['client/**/*', 'public/**/*', 'node_modules/**/*'],
-       nodeArgs: ['--debug'] 
+       nodeArgs: ['--debug']
    })
-    .on('change', ['lint'])
+    .on('start', ['watch'])
+    .on('change', ['watch'])
     .on('restart', function () {
       console.log('* node server restarted!')
-    })
-    .on('start', function(){
-        if(!called){
-            called = true;
-            cb();
-        }
     });
 });
 
 // Watch
-gulp.task('watch', ['html', 'bundle', 'nodemon'], function () {
+gulp.task('watch', ['html', 'bundle'], function () {
 
-    browserSync.init(null, {
-        notify: false,
-        logPrefix: 'BS',
-        proxy: 'http://localhost:3000',
-        port: 5000,
-        // https: true,
-    });
-
-    gulp.watch('client/scripts/**/*.js', ['scripts', reload]);
-
-    // Watch .json files
-    gulp.watch('client/scripts/**/*.json', ['json']);
+    gulp.watch('client/scripts/**/*.js', ['scripts']);
 
     // Watch .html files
     gulp.watch('client/*.html', ['html']);
 
-    gulp.watch(['client/styles/**/*.scss', 'client/styles/**/*.css'], ['styles', reload]);
-
-    // Watch .jade files
-    gulp.watch('client/template/**/*.jade', ['jade', 'html', reload]);
+    gulp.watch(['client/styles/**/*.scss', 'client/styles/**/*.css'], ['styles']);
 
     // Watch image files
-    gulp.watch('client/images/**/*', reload);
+    gulp.watch('client/images/**/*');
 });
 
 // Build
