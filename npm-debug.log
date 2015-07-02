@@ -2,34 +2,17 @@
 1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
 2 info using npm@2.11.3
 3 info using node@v0.12.5
-4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info prestart Ranky@0.0.5
-6 info start Ranky@0.0.5
-7 verbose unsafe-perm in lifecycle true
-8 info Ranky@0.0.5 Failed to exec start script
-9 verbose stack Error: Ranky@0.0.5 start: `gulp nodemon`
-9 verbose stack Exit status 1
-9 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
-9 verbose stack     at EventEmitter.emit (events.js:110:17)
-9 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
-9 verbose stack     at ChildProcess.emit (events.js:110:17)
-9 verbose stack     at maybeClose (child_process.js:1015:16)
-9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
-10 verbose pkgid Ranky@0.0.5
-11 verbose cwd /src
-12 error Linux 3.19.0-21-generic
-13 error argv "node" "/usr/local/bin/npm" "start"
-14 error node v0.12.5
-15 error npm  v2.11.3
-16 error code ELIFECYCLE
-17 error Ranky@0.0.5 start: `gulp nodemon`
-17 error Exit status 1
-18 error Failed at the Ranky@0.0.5 start script 'gulp nodemon'.
-18 error This is most likely a problem with the Ranky package,
-18 error not with npm itself.
-18 error Tell the author that this fails on your system:
-18 error     gulp nodemon
-18 error You can get their info via:
-18 error     npm owner ls Ranky
-18 error There is likely additional logging output above.
-19 verbose exit [ 1, true ]
+4 verbose stack Error: ENOENT, open '/src/package.json'
+4 verbose stack     at Error (native)
+5 verbose cwd /src
+6 error Linux 4.0.3-boot2docker
+7 error argv "node" "/usr/local/bin/npm" "start"
+8 error node v0.12.5
+9 error npm  v2.11.3
+10 error path /src/package.json
+11 error code ENOENT
+12 error errno -2
+13 error enoent ENOENT, open '/src/package.json'
+13 error enoent This is most likely not a problem with npm itself
+13 error enoent and is related to npm not being able to find a file.
+14 verbose exit [ -2, true ]

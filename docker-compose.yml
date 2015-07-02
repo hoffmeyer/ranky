@@ -1,7 +1,7 @@
 ranky:
     build: .
     volumes:
-        - .:/src
+        - app:/src/app
     links:
         - mongo
     ports:

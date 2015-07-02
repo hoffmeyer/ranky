@@ -1,14 +1,19 @@
 FROM node:latest
 
+RUN apt-get update -qq && apt-get install -y build-essential
+RUN apt-get install -y ruby
+RUN gem install sass
+
 RUN mkdir /src
 
-RUN npm install -g gulp bower nodemon
+RUN npm install gulp -g
 
 WORKDIR /src
-ADD . /src
+ADD app/package.json /src/package.json
 RUN npm install
 
 EXPOSE 3000
+EXPOSE 35729
 
+#CMD tail -f package.json
 CMD npm start
-#CMD ["/bin/bash"]

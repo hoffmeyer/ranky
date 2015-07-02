@@ -1,8 +1,0 @@
-{
-  "name": "rankyreact",
-  "version": "0.0.1",
-  "directory": "client/bower_components",
-  "dependencies": {
-    "bootstrap-sass-official": ">=3.3.0"
-  }
-}
