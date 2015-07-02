@@ -40,7 +40,7 @@ app.use('/', routes);
 app.use(express.static(__dirname + '/public'));
 
 var startHttpServer = function(){
-    var server = http.listen(process.env.PORT || 3000, "0.0.0.0", function(err) { // process.env.PORT supplied by Heroku
+    var server = http.listen(process.env.PORT || 3000, function(err) { // process.env.PORT supplied by Heroku
         if(err){
             console.log('Could not start server on %d', server.address().port);
             console.trace(err);
