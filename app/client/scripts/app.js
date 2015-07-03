@@ -1,5 +1,4 @@
 'use strict';
-
 var React = window.React = require('react'),
     Navigation = require('./ui/Navigation'),
     Content = require('./ui/Content'),
@@ -75,4 +74,3 @@ var RankyApp = React.createClass({
 
 
 React.render(<RankyApp source='' />, mountNode);
-

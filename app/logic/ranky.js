@@ -6,7 +6,6 @@ var validator = require('../logic/validator.js'),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
     broadcastModule = require('../modules/broadcaster.js'),
-    testDataGeneratorModule = require('../modules/testDataGenerator.js'),
     dbEvent;
 
 
@@ -36,7 +35,6 @@ module.exports = function(io){
     rankListModule(eventBus);
     scoringEngineModule(eventBus);
     broadcastModule(eventBus, io);
-    testDataGeneratorModule(eventBus);
 
     return {
         validateEvent: function(event) {

@@ -1,5 +1,3 @@
-'use strict';
-
 var gulp = require('gulp');
 var del = require('del');
 
@@ -124,12 +122,12 @@ gulp.task('nodemon', function(cb){
        script: 'app.js',
        ext: 'js',
        ignore: ['client/**/*', 'public/**/*', 'node_modules/**/*'],
-       nodeArgs: ['--debug']
+       //nodeArgs: ['--debug']
    })
     .on('start', ['watch'])
     .on('change', ['watch'])
     .on('restart', function () {
-      console.log('* node server restarted!')
+      console.log('* node server restarted!');
     });
 });
 
