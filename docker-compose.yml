@@ -11,7 +11,7 @@ ranky:
 mongo:
     image: mongo
     volumes:
-        - mongodb:/var/lib/mongodb
+        - mongodb:/data/db
     ports:
         - "27017:27017"
     command: mongod --smallfiles --quiet --logpath=/dev/null
