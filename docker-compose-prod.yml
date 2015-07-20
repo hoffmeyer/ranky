@@ -1,0 +1,18 @@
+ranky:
+    build: .
+    dockerfile: Dockerfile-prod
+    volumes:
+        - app:/src/app
+    links:
+        - mongo
+    ports:
+        - "3000:3000"
+    environment:
+        NODE_ENV: production
+mongo:
+    image: mongo
+    volumes:
+        - mongodb:/data/db
+    ports:
+        - "27017:27017"
+    command: mongod --smallfiles --quiet --logpath=/dev/null
