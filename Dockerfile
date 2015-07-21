@@ -14,7 +14,5 @@ RUN npm install
 RUN gulp buildBundle
 
 EXPOSE 3000
-EXPOSE 35729
 
-#CMD tail -f package.json
 CMD node app.js

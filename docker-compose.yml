@@ -1,5 +1,6 @@
 ranky:
     build: .
+    dockerfile: Dockerfile-dev
     volumes:
         - app:/src/app
     links:
