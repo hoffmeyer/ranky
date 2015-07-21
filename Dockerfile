@@ -9,11 +9,12 @@ RUN mkdir /src
 RUN npm install gulp -g
 
 WORKDIR /src
-ADD app/package.json /src/package.json
+ADD app /src/
 RUN npm install
+RUN gulp buildBundle
 
 EXPOSE 3000
 EXPOSE 35729
 
 #CMD tail -f package.json
-CMD npm start
+CMD node app.js
