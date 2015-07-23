@@ -1,0 +1,15 @@
+ranky:
+    build: .
+    dockerfile: Dockerfile-dev
+    volumes:
+        - app:/src/app
+    links:
+        - mongo
+    ports:
+        - "3000:3000"
+    environment:
+        NODE_ENV: development
+mongo:
+    image: mongo
+    ports:
+        - "27017:27017"

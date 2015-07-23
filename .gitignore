@@ -2,5 +2,6 @@
 *.swo
 node_modules
 coverage
+mongodb
 client/bower_components
 .sass-cache
