@@ -1,7 +1,5 @@
 var validator = require('../logic/validator.js'),
     util = require('util'),
-    dbUri = util.format('mongodb://mongo:%s/ranky', process.env.MONGO_PORT),
-    mongoClient = require('mongodb').MongoClient,
     eventBus = require('../logic/eventBus.js')(),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
@@ -9,15 +7,21 @@ var validator = require('../logic/validator.js'),
     dbEvent;
 
 
-module.exports = function(io){
+module.exports = function(io, db, connString){
 'use strict';
-    mongoClient.connect(dbUri, function(err, db) {
+    db.connect(connString, function(err, client, done){
         if(err){
-            console.log('Could not connect to da database for insertion, %s', dbUri);
-            console.trace(err);
+            console.error('Could not connect to database for insertion using connString ' + connString, err);
         } else {
-           console.log("Connected correctly to server for new events");
-           dbEvent = db.collection('events');
+            console.log("Connected correctly to server for new events");
+            client.query('SELECT * from events', function(err, result) {
+                if(err){
+                    console.error('Error when querying db', err);
+                } else {
+                    console.log('Query run successfully');
+                }
+            });
+            //dbEvent = db.collection('events');
         }
     });
     var storeEvent = function(event) {
