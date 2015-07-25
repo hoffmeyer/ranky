@@ -4,7 +4,7 @@ var validator = require('../logic/validator.js'),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
     broadcastModule = require('../modules/broadcaster.js'),
-    dbEvent;
+    dbClient;
 
 
 module.exports = function(io, db, connString){
@@ -14,6 +14,7 @@ module.exports = function(io, db, connString){
             console.error('Could not connect to database for insertion using connString ' + connString, err);
         } else {
             console.log("Connected correctly to server for new events");
+            dbClient = client;
             client.query('SELECT * from events', function(err, result) {
                 if(err){
                     console.error('Error when querying db', err);
@@ -25,14 +26,15 @@ module.exports = function(io, db, connString){
         }
     });
     var storeEvent = function(event) {
-        dbEvent.insertOne(event, function( err, doc) {
-            if (err) {
-                console.err('Insertion of event failed');
-                console.trace(err);
-            } else {
-                console.log('event saved');
-            }
-        });
+        if(dbClient) {
+            dbClient.query('INSERT INTO EVENTS (ID, DATA) VALUES (' + event.id + ', \'' + JSON.stringify(event) + '\')', function(err, result){
+                if(err){
+                    console.error('Inserting event failed', err);
+                } else {
+                    console.log('Event saved');
+                }
+            });
+        }
     };
 
     // setup modules

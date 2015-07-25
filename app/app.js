@@ -12,10 +12,6 @@ var express = require('express'),
     ranky = require('./logic/ranky.js')(io, pg, connectionString),
     events = require('./events/events.js');
 
-// wait for database
-
-
-// to support JSON-encoded bodies
 app.use(compress());
 app.use(bodyParser.json());
 
@@ -56,7 +52,7 @@ var loadEventsFromDB = function() {
         if(err){
             console.error('Error fetching client from pool using connString ' + connectionString, err);
         } else {
-            client.query('CREATE TABLE IF NOT EXISTS EVENTS( ID    INT )', function(err, result){
+            client.query('CREATE TABLE IF NOT EXISTS EVENTS( ID    INT, DATA    JSON )', function(err, result){
                 if(err) {
                     console.error('Failed to create table events');
                 }
@@ -67,23 +63,23 @@ var loadEventsFromDB = function() {
                 if(err){
                     console.error('Error running query', err);
                 }
-                console.log('Size of result: ' + result.length);
+                console.log('Queried ' + result.rows.length + ' events from database.');
                 var i = 0;
                 // function for chaining the events to roll them on synchronously
                 var loadEvent = function(event){
                     events.setNextId(event.id+1);
                     i++;
                     ranky.handleEvent(event).then(function(){
-                        if(i < docs.length){
-                            loadEvent(result[i]);
+                        if(i < result.rows.length){
+                            loadEvent(result.rows[i].data);
                         } else {
                             console.log('Loaded ' + i + ' events from db');
                             startHttpServer();
                         }
                     });
                 };
-                if(result && result.length > 0){
-                    loadEvent(result[0]);
+                if(result.rows && result.rows.length > 0){
+                    loadEvent(result.rows[0].data);
                 } else {
                     startHttpServer();
                 }
