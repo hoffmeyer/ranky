@@ -6,16 +6,12 @@ var express = require('express'),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
     routes = require('./routes/routes.js'),
-    dbUri = util.format('mongodb://mongo:%s/ranky', process.env.MONGO_PORT),
-    mongoClient = require('mongodb').MongoClient,
     io = require('socket.io')(http),
-    ranky = require('./logic/ranky.js')(io),
+    pg = require('pg'),
+    connectionString = process.env.DATABASE_URL || 'postgres://ranky:12345q@db/ranky',
+    ranky = require('./logic/ranky.js')(io, pg, connectionString),
     events = require('./events/events.js');
 
-// wait for database
-
-
-// to support JSON-encoded bodies
 app.use(compress());
 app.use(bodyParser.json());
 
@@ -52,39 +48,40 @@ var startHttpServer = function(){
 
 // load data from database
 var loadEventsFromDB = function() {
-    mongoClient.connect(dbUri, function(err, db){
+    pg.connect(connectionString, function(err, client, done) {
         if(err){
-            console.error('Could not connect to database %s', dbUri);
-            console.trace(err);
+            console.error('Error fetching client from pool using connString ' + connectionString, err);
         } else {
-            console.log('Database connected for loading events at ' + dbUri);
-            var dbEvents = db.collection('events');
-            dbEvents.find().sort({id: 1}).toArray(function(err, docs){
+            client.query('CREATE TABLE IF NOT EXISTS EVENTS( ID    INT, DATA    JSON )', function(err, result){
+                if(err) {
+                    console.error('Failed to create table events');
+                }
+                console.log('Created table events if not existing');
+            });
+            client.query('SELECT * FROM events', function(err, result){
+                done(); // release client back to conn pool
                 if(err){
-                    console.error('No documents found in collection events');
-                    console.trace(err);
+                    console.error('Error running query', err);
+                }
+                console.log('Queried ' + result.rows.length + ' events from database.');
+                var i = 0;
+                // function for chaining the events to roll them on synchronously
+                var loadEvent = function(event){
+                    events.setNextId(event.id+1);
+                    i++;
+                    ranky.handleEvent(event).then(function(){
+                        if(i < result.rows.length){
+                            loadEvent(result.rows[i].data);
+                        } else {
+                            console.log('Loaded ' + i + ' events from db');
+                            startHttpServer();
+                        }
+                    });
+                };
+                if(result.rows && result.rows.length > 0){
+                    loadEvent(result.rows[0].data);
                 } else {
-                    console.log('Events queried successfully');
-                    var i = 0;
-                    // function for chaining the events to roll them on synchronously
-                    var loadEvent = function(event){
-                        events.setNextId(event.id+1);
-                        i++;
-                        ranky.handleEvent(event).then(function(){
-                            if(i < docs.length){
-                                loadEvent(docs[i]);
-                            } else {
-                                console.log('Loaded ' + i + ' events from db');
-                                startHttpServer();
-                                db.close();
-                            }
-                        });
-                    };
-                    if(docs && docs.length > 0){
-                        loadEvent(docs[0]);
-                    } else {
-                        startHttpServer();
-                    }
+                    startHttpServer();
                 }
             });
         }

@@ -1,34 +1,40 @@
 var validator = require('../logic/validator.js'),
     util = require('util'),
-    dbUri = util.format('mongodb://mongo:%s/ranky', process.env.MONGO_PORT),
-    mongoClient = require('mongodb').MongoClient,
     eventBus = require('../logic/eventBus.js')(),
     rankListModule = require('../modules/RankList.js'),
     scoringEngineModule = require('../modules/ScoringEngine.js'),
     broadcastModule = require('../modules/broadcaster.js'),
-    dbEvent;
+    dbClient;
 
 
-module.exports = function(io){
+module.exports = function(io, db, connString){
 'use strict';
-    mongoClient.connect(dbUri, function(err, db) {
+    db.connect(connString, function(err, client, done){
         if(err){
-            console.log('Could not connect to da database for insertion, %s', dbUri);
-            console.trace(err);
+            console.error('Could not connect to database for insertion using connString ' + connString, err);
         } else {
-           console.log("Connected correctly to server for new events");
-           dbEvent = db.collection('events');
+            console.log("Connected correctly to server for new events");
+            dbClient = client;
+            client.query('SELECT * from events', function(err, result) {
+                if(err){
+                    console.error('Error when querying db', err);
+                } else {
+                    console.log('Query run successfully');
+                }
+            });
+            //dbEvent = db.collection('events');
         }
     });
     var storeEvent = function(event) {
-        dbEvent.insertOne(event, function( err, doc) {
-            if (err) {
-                console.err('Insertion of event failed');
-                console.trace(err);
-            } else {
-                console.log('event saved');
-            }
-        });
+        if(dbClient) {
+            dbClient.query('INSERT INTO EVENTS (ID, DATA) VALUES (' + event.id + ', \'' + JSON.stringify(event) + '\')', function(err, result){
+                if(err){
+                    console.error('Inserting event failed', err);
+                } else {
+                    console.log('Event saved');
+                }
+            });
+        }
     };
 
     // setup modules

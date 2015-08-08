@@ -4,12 +4,15 @@ ranky:
     volumes:
         - app:/src/app
     links:
-        - mongo
+        - db
     ports:
         - "3000:3000"
     environment:
         NODE_ENV: development
-mongo:
-    image: mongo
+db:
+    image: postgres:9.4
     ports:
-        - "27017:27017"
+        - "5432:5432"
+    environment:
+        POSTGRES_USER: ranky
+        POSTGRES_PASSWORD: 12345q
