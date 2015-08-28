@@ -1,6 +1,5 @@
 // initialize app
 var express = require('express'),
-    util = require('util'),
     compress = require('compression'),
     app = express(),
     http = require('http').Server(app),
@@ -88,6 +87,4 @@ var loadEventsFromDB = function() {
     });
 };
 
-setTimeout(function(){
-    loadEventsFromDB();
-}, 3000);
+loadEventsFromDB();

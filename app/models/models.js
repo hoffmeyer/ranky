@@ -1,3 +1,23 @@
+var events =  require('events');
+var util = require('util');
+var nextId = 1;
+
+function Model(){
+    events.EventEmitter.call(this);
+    this.id = nextId++;
+}
+util.inherits(Model, events.EventEmitter);
+
+function Player(){
+
+}
+util.inherits(Player, Model);
+
+function Match(){
+
+}
+util.inherits(Match, Model);
+
 module.exports = (function(){
     'use strict';
 
@@ -6,7 +26,7 @@ module.exports = (function(){
     var createModel = function () {
         return {
             id: ++idCounter
-        }
+        };
     };
 
     var createPlayer = function(spec){
@@ -61,7 +81,7 @@ module.exports = (function(){
         };
         player.isActive = function(){
             return lostGames + wonGames > 0;
-        }
+        };
         return player;
     };
 
