@@ -48,12 +48,12 @@ var startHttpServer = function(){
 
 // load data from database
 var loadEventsFromDB = function() {
+    console.log( 'Fetching stored evetns from db...')
     pg.connect(connectionString, function(err, client, done) {
         if(err){
             console.error('Error fetching client from pool using connString ' + connectionString, err);
         } else {
-            client.query('CREATE TABLE IF NOT EXISTS EVENTS( ID    INT, DATA    JSON )', function(err, result){
-                if(err) {
+            client.query('CREATE TABLE IF NOT EXISTS EVENTS( ID    INT NOT NULL PRIMARY KEY, DATA    JSON )', function(err, result){ if(err) {
                     console.error('Failed to create table events');
                 }
                 console.log('Created table events if not existing');
@@ -64,6 +64,7 @@ var loadEventsFromDB = function() {
                     console.error('Error running query', err);
                 }
                 console.log('Queried ' + result.rows.length + ' events from database.');
+                console.log( 'Applying events...')
                 var i = 0;
                 // function for chaining the events to roll them on synchronously
                 var loadEvent = function(event){
@@ -88,6 +89,4 @@ var loadEventsFromDB = function() {
     });
 };
 
-setTimeout(function(){
-    loadEventsFromDB();
-}, 3000);
+loadEventsFromDB();
