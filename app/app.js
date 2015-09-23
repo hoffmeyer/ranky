@@ -5,6 +5,8 @@ var express = require('express'),
     app = express(),
     http = require('http').Server(app),
     bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    morgan = require('morgan'),
     routes = require('./routes/routes.js'),
     io = require('socket.io')(http),
     pg = require('pg'),
@@ -14,6 +16,8 @@ var express = require('express'),
 
 app.use(compress());
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(require('./config/loggerConfig.js').apiLogger);
 
 // give access to ranky in the router
 app.use(function(req, res, next){
@@ -48,7 +52,7 @@ var startHttpServer = function(){
 
 // load data from database
 var loadEventsFromDB = function() {
-    console.log( 'Fetching stored evetns from db...')
+    console.log( 'Fetching stored evetns from db...');
     pg.connect(connectionString, function(err, client, done) {
         if(err){
             console.error('Error fetching client from pool using connString ' + connectionString, err);
@@ -64,7 +68,7 @@ var loadEventsFromDB = function() {
                     console.error('Error running query', err);
                 }
                 console.log('Queried ' + result.rows.length + ' events from database.');
-                console.log( 'Applying events...')
+                console.log( 'Applying events...');
                 var i = 0;
                 // function for chaining the events to roll them on synchronously
                 var loadEvent = function(event){

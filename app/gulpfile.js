@@ -121,6 +121,7 @@ gulp.task('nodemon', function(cb){
    return nodemon({
        script: 'app.js',
        ext: 'js',
+       watch: '/src/app/',
        ignore: ['client/**/*', 'public/**/*', 'node_modules/**/*'],
        //nodeArgs: ['--debug']
    })
