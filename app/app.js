@@ -9,6 +9,7 @@ var express = require('express'),
     io = require('socket.io')(http),
     pg = require('pg'),
     connectionString = process.env.DATABASE_URL || 'postgres://ranky:12345q@db/ranky',
+    eventLoader = require('./logic/eventLoader')(connectionString),
     ranky = require('./logic/ranky.js')(io, pg, connectionString),
     eventLoader = require('./logic/eventLoader')(connectionString, ranky);
 

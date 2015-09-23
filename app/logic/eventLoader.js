@@ -1,8 +1,14 @@
 var pg = require('pg'),
+<<<<<<< HEAD
     Q = require('q'),
     events = require('../events/events.js');
 
 module.exports = function(conString, ranky){
+=======
+    Q = require('q');
+
+module.exports = function(conString){
+>>>>>>> f99e9307aecb405dc8fee525e524ef4f1770f218
 
   var initialize = function(){
     var deferred = Q.defer();
@@ -50,7 +56,11 @@ module.exports = function(conString, ranky){
                       loadEvent(result.rows[i].data);
                   } else {
                       console.log('Loaded ' + i + ' events from db');
+<<<<<<< HEAD
                       deferred.resolve();
+=======
+                      startHttpServer();
+>>>>>>> f99e9307aecb405dc8fee525e524ef4f1770f218
                   }
               });
           };
