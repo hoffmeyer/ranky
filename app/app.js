@@ -11,13 +11,33 @@ var express = require('express'),
     connectionString = process.env.DATABASE_URL || 'postgres://ranky:12345q@db/ranky',
     eventLoader = require('./logic/eventLoader')(connectionString),
     ranky = require('./logic/ranky.js')(io, pg, connectionString),
-    eventLoader = require('./logic/eventLoader')(connectionString, ranky);
+    eventLoader = require('./logic/eventLoader')(connectionString, ranky),
+    passport = require('passport'),
+    Strategy = require('passport-local').Strategy;
+
+// http://scottksmith.com/blog/2014/05/29/beer-locker-building-a-restful-api-with-node-passport/
+passport.use(new Strategy(
+  function(username, password, cb) {
+    if(username === 'ranky' && password === 'rules'){
+      return cb( null,  {id: 1, username: 'ranky', name: 'The real Ranky'});
+    } else {
+      return cb(null, false);
+    }
+}));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  cb(null, {id: id, username: 'ranky', name: 'The real Ranky'});
+});
 
 app.use(compress());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(require('./config/loggerConfig.js').apiLogger);
-
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 // give access to ranky in the router
 app.use(function(req, res, next){
     req.ranky = ranky;
