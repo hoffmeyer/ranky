@@ -38,7 +38,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(require('./config/loggerConfig.js').apiLogger);
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-// give access to ranky in the router
+app.use('/', routes);
+app.use(express.static(__dirname + '/public'));
+
 app.use(function(req, res, next){
     req.ranky = ranky;
     next();
@@ -52,13 +54,9 @@ app.use(function (req, res, next) {
     next();
 });
 
-// set router
-app.use('/', routes);
-
-// serve resources from public folder eg css and client side js
-app.use(express.static(__dirname + '/public'));
-
-var startHttpServer = function(){
+eventLoader.initialize()
+.then(eventLoader.loadEvents)
+.then(function(){
     var server = http.listen(process.env.PORT || 3000, function(err) {
         if(err){
             console.log('Could not start server on %d', server.address().port);
@@ -67,11 +65,7 @@ var startHttpServer = function(){
             console.log('Listening on port %d', server.address().port);
         }
     });
-};
-
-eventLoader.initialize()
-.then(eventLoader.loadEvents)
-.then(startHttpServer)
+})
 .catch(function(error){
   console.error(error);
 });
