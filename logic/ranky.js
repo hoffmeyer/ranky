@@ -13,7 +13,7 @@ module.exports = function(io){
 'use strict';
     mongoClient.connect(dbUri, function(err, db) {
         if(err){
-            console.err('Could not connect to database for insertion');
+            console.error('Could not connect to database for insertion');
             console.trace(err);
         } else {
            console.log("Connected correctly to server for insertion");
@@ -23,7 +23,7 @@ module.exports = function(io){
     var storeEvent = function(event) {
         dbEvent.insertOne(event, function( err, doc) {
             if (err) {
-                console.err('Insertion of event failed');
+                console.error('Insertion of event failed');
                 console.trace(err);
             } else {
                 console.log('event saved');
